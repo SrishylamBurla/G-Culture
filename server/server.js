@@ -16,7 +16,8 @@ const app = express();
 app.use(
   cors({
     origin: [
-      "https://g-culture-4lzn.vercel.app",
+      "https://gculture.in",
+    "https://www.gculture.in",
       "http://localhost:5173",             
     ],
     credentials: true,
