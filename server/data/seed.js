@@ -1,0 +1,376 @@
+import dotenv from "dotenv";
+import Product from "../models/Product.js";
+import connectDB from "../config/db.js";
+
+dotenv.config();
+
+// 🧩 Connect to Database
+try {
+  await connectDB();
+  console.log("✅ Connected to MongoDB");
+} catch (err) {
+  console.error("❌ Database connection failed:", err);
+  process.exit(1);
+}
+
+// 🛍️ Product Data
+export const products = [
+  // 👕 STREETWEAR (formerly Men)
+  {
+    name: "Men's Casual Shirt",
+    slug: "mens-casual-shirt",
+    price: 1299,
+    offerPrice: 1099,
+    offerPercentage: Math.round(((1299 - 1099) / 1299) * 100),
+    category: "streetwear",
+    subcategory: "shirts",
+    description: "Comfortable cotton shirt perfect for daily wear.",
+    sizes: ["S", "M", "L", "XL"],
+    colors: ["blue", "black", "white"],
+    images: [
+      "https://cdn.shopify.com/s/files/1/0752/6435/files/HALLBLACK_1_-HM_900x.webp?v=1755669006",
+    ],
+    countInStock: 20,
+  },
+  {
+    name: "Men's Slim Fit Jeans",
+    slug: "mens-slim-fit-jeans",
+    price: 1999,
+    offerPrice: 1799,
+    offerPercentage: Math.round(((1999 - 1799) / 1999) * 100),
+    category: "streetwear",
+    subcategory: "bottoms",
+    description: "Stretchable slim fit jeans with modern styling.",
+    sizes: ["30", "32", "34", "36"],
+    colors: ["black", "blue", "gray"],
+    images: [
+      "https://cdn.shopify.com/s/files/1/0752/6435/files/emildarkblue-HM_900x.webp?v=1754041789",
+    ],
+    countInStock: 15,
+  },
+  {
+    name: "Men's Cotton T-Shirt",
+    slug: "mens-cotton-tshirt",
+    price: 799,
+    offerPrice: 699,
+    offerPercentage: Math.round(((799 - 699) / 799) * 100),
+    category: "streetwear",
+    subcategory: "tops",
+    description: "Soft cotton T-shirt with classic fit.",
+    sizes: ["S", "M", "L"],
+    colors: ["white"],
+    images: [
+      "https://cdn.shopify.com/s/files/1/0752/6435/files/LEXLIGHTGREY__LEXLIGHTGREY09418_f95ecc0b-331e-4194-a279-d624dc7742f3_900x.webp?v=1739451141",
+    ],
+    countInStock: 30,
+  },
+  {
+    name: "Men's Hooded Jacket",
+    slug: "mens-hooded-jacket",
+    price: 2499,
+    offerPrice: 2199,
+    offerPercentage: Math.round(((2499 - 2199) / 2499) * 100),
+    category: "streetwear",
+    subcategory: "outerwear",
+    description: "Warm and lightweight hooded jacket for winter.",
+    sizes: ["M", "L", "XL"],
+    colors: ["gray"],
+    images: [
+      "https://cdn.shopify.com/s/files/1/0752/6435/files/OLVAMAROON_1_900x.webp?v=1758629221",
+    ],
+    countInStock: 12,
+  },
+  {
+    name: "Men's Formal Pants",
+    slug: "mens-formal-pants",
+    price: 1699,
+    offerPrice: 1499,
+    offerPercentage: Math.round(((1699 - 1499) / 1699) * 100),
+    category: "streetwear",
+    subcategory: "trousers",
+    description: "Tailored formal pants for office wear.",
+    sizes: ["32", "34", "36"],
+    colors: ["navy"],
+    images: [
+      "https://cdn.shopify.com/s/files/1/0752/6435/files/WINDSORNAVY_1_-hm_900x.webp?v=1756120336",
+    ],
+    countInStock: 18,
+  },
+  {
+    name: "Men's Polo T-Shirt",
+    slug: "mens-polo-tshirt",
+    price: 999,
+    offerPrice: 849,
+    offerPercentage: Math.round(((999 - 849) / 999) * 100),
+    category: "streetwear",
+    subcategory: "tops",
+    description: "Premium polo T-shirt with breathable fabric.",
+    sizes: ["S", "M", "L"],
+    colors: ["red"],
+    images: [
+      "https://cdn.shopify.com/s/files/1/0752/6435/files/pyerrust_1_-hm_900x.jpg?v=1754049516",
+    ],
+    countInStock: 25,
+  },
+
+  // 👗 CASUALWEAR (formerly Women)
+  {
+    name: "Women's Floral Dress",
+    slug: "womens-floral-dress",
+    price: 1899,
+    offerPrice: 1599,
+    offerPercentage: Math.round(((1899 - 1599) / 1899) * 100),
+    category: "casualwear",
+    subcategory: "dresses",
+    description: "Elegant floral print dress for casual outings.",
+    sizes: ["S", "M", "L"],
+    colors: ["pink"],
+    images: [
+      "https://cdn.shopify.com/s/files/1/0752/6435/files/PRENOK-MULTI_900x.webp?v=1748499758",
+    ],
+    countInStock: 22,
+  },
+  {
+    name: "Women's High Waist Jeans",
+    slug: "womens-highwaist-jeans",
+    price: 2199,
+    offerPrice: 1999,
+    offerPercentage: Math.round(((2199 - 1999) / 2199) * 100),
+    category: "casualwear",
+    subcategory: "bottoms",
+    description: "Trendy high-waist jeans with perfect fit.",
+    sizes: ["26", "28", "30"],
+    colors: ["light blue"],
+    images: [
+      "https://cdn.shopify.com/s/files/1/0752/6435/files/epukeblack_1_-hm_900x.webp?v=1749117608",
+    ],
+    countInStock: 16,
+  },
+  {
+    name: "Women's Crop Top",
+    slug: "womens-crop-top",
+    price: 799,
+    offerPrice: 699,
+    offerPercentage: Math.round(((799 - 699) / 799) * 100),
+    category: "casualwear",
+    subcategory: "tops",
+    description: "Soft cotton crop top for everyday wear.",
+    sizes: ["S", "M"],
+    colors: ["black"],
+    images: [
+      "https://cdn.shopify.com/s/files/1/0752/6435/files/ESME-BLACK0825_900x.jpg?v=1743501176",
+    ],
+    countInStock: 20,
+  },
+  {
+    name: "Women's Long Skirt",
+    slug: "womens-long-skirt",
+    price: 1599,
+    offerPrice: 1399,
+    offerPercentage: Math.round(((1599 - 1399) / 1599) * 100),
+    category: "casualwear",
+    subcategory: "bottoms",
+    description: "Flowy long skirt with elegant design.",
+    sizes: ["S", "M", "L"],
+    colors: ["green"],
+    images: [
+      "https://cdn.shopify.com/s/files/1/0752/6435/files/preliooffwhite-06846_900x.webp?v=1753880126",
+    ],
+    countInStock: 14,
+  },
+  {
+    name: "Women's Denim Jacket",
+    slug: "womens-denim-jacket",
+    price: 2299,
+    offerPrice: 1999,
+    offerPercentage: Math.round(((2299 - 1999) / 2299) * 100),
+    category: "casualwear",
+    subcategory: "outerwear",
+    description: "Classic denim jacket that goes with everything.",
+    sizes: ["M", "L"],
+    colors: ["blue"],
+    images: [
+      "https://cdn.shopify.com/s/files/1/0752/6435/files/JENSHINAVYhm_900x.webp?v=1750314978",
+    ],
+    countInStock: 10,
+  },
+  {
+    name: "Women's Kurti Set",
+    slug: "womens-kurti-set",
+    price: 1799,
+    offerPrice: 1499,
+    offerPercentage: Math.round(((1799 - 1499) / 1799) * 100),
+    category: "casualwear",
+    subcategory: "ethnic",
+    description: "Stylish kurti set for traditional occasions.",
+    sizes: ["S", "M", "L"],
+    colors: ["yellow"],
+    images: [
+      "https://cdn.shopify.com/s/files/1/0752/6435/files/JANUDYAMULTI_4_900x.webp?v=1756812552",
+    ],
+    countInStock: 18,
+  },
+
+  // 🧢 CAPS (formerly Kids)
+  {
+    name: "Kids Printed T-Shirt",
+    slug: "kids-printed-tshirt",
+    price: 599,
+    offerPrice: 499,
+    offerPercentage: Math.round(((599 - 499) / 599) * 100),
+    category: "caps",
+    subcategory: "tops",
+    description: "Colorful printed T-shirt for kids.",
+    sizes: ["S", "M"],
+    colors: ["yellow"],
+    images: [
+      "https://cdn.shopify.com/s/files/1/0752/6435/files/REVAKLTBEIGE_6_900x.webp?v=1754399947",
+    ],
+    countInStock: 20,
+  },
+  {
+    name: "Kids Denim Shorts",
+    slug: "kids-denim-shorts",
+    price: 699,
+    offerPrice: 599,
+    offerPercentage: Math.round(((699 - 599) / 699) * 100),
+    category: "caps",
+    subcategory: "bottoms",
+    description: "Comfortable denim shorts for playtime.",
+    sizes: ["S", "M"],
+    colors: ["blue"],
+    images: [
+      "https://cdn.shopify.com/s/files/1/0752/6435/files/DANNIBEIGE03202_0a08dadb-9bfe-470f-97aa-2bc9b3c2c3a4_900x.webp?v=1754459671",
+    ],
+    countInStock: 18,
+  },
+  {
+    name: "Kids Cotton Frock",
+    slug: "kids-cotton-frock",
+    price: 999,
+    offerPrice: 849,
+    offerPercentage: Math.round(((999 - 849) / 999) * 100),
+    category: "caps",
+    subcategory: "dresses",
+    description: "Soft cotton frock for girls.",
+    sizes: ["S", "M"],
+    colors: ["pink"],
+    images: [
+      "https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcQA_yxCJe_EZjCCgdvtZQIF06fH5augOjGoGQGsfMdwFkh0dvd5qnP2zST_6yQN_pVhPwxlAOB3oNAfNm0HFO8LbXuMgB5gX9iKKhmU5Fg",
+    ],
+    countInStock: 12,
+  },
+  {
+    name: "Kids Hoodie",
+    slug: "kids-hoodie",
+    price: 1299,
+    offerPrice: 1149,
+    offerPercentage: Math.round(((1299 - 1149) / 1299) * 100),
+    category: "caps",
+    subcategory: "outerwear",
+    description: "Warm hoodie for winter comfort.",
+    sizes: ["M", "L"],
+    colors: ["green"],
+    images: [
+      "https://cdn.shopify.com/s/files/1/0752/6435/files/ellisgreen_1_1_900x.webp?v=1758785646",
+    ],
+    countInStock: 14,
+  },
+  {
+    name: "Kids Joggers",
+    slug: "kids-joggers",
+    price: 899,
+    offerPrice: 749,
+    offerPercentage: Math.round(((899 - 749) / 899) * 100),
+    category: "caps",
+    subcategory: "bottoms",
+    description: "Stretchable joggers for kids' activewear.",
+    sizes: ["S", "M"],
+    colors: ["gray"],
+    images: [
+      "https://cdn.shopify.com/s/files/1/0752/6435/files/ZETOLIGHTPURPLE_2-vmake_900x.webp?v=1750143450",
+    ],
+    countInStock: 10,
+  },
+
+  // 🎒 CHESTBAGS (formerly Footwear)
+  {
+    name: "Men's Running Shoes",
+    slug: "mens-running-shoes",
+    price: 2599,
+    offerPrice: 2299,
+    offerPercentage: Math.round(((2599 - 2299) / 2599) * 100),
+    category: "chestbags",
+    subcategory: "sports",
+    description: "Lightweight running shoes with soft cushioning.",
+    sizes: ["8", "9", "10"],
+    colors: ["black"],
+    images: [
+      "https://cdn.shopify.com/s/files/1/0752/6435/files/NORMABLACK_7_900x.webp?v=1755783038",
+    ],
+    countInStock: 14,
+  },
+  {
+    name: "Women's Sneakers",
+    slug: "womens-sneakers",
+    price: 2399,
+    offerPrice: 2099,
+    offerPercentage: Math.round(((2399 - 2099) / 2399) * 100),
+    category: "chestbags",
+    subcategory: "casual",
+    description: "Trendy white sneakers for everyday use.",
+    sizes: ["5", "6", "7"],
+    colors: ["white"],
+    images: [
+      "https://cdn.shopify.com/s/files/1/0752/6435/files/TEMOOLIVE_2_900x.jpg?v=1755783059",
+    ],
+    countInStock: 15,
+  },
+  {
+    name: "Kids Sports Shoes",
+    slug: "kids-sports-shoes",
+    price: 1799,
+    offerPrice: 1599,
+    offerPercentage: Math.round(((1799 - 1599) / 1799) * 100),
+    category: "chestbags",
+    subcategory: "kids",
+    description: "Comfortable sports shoes for kids.",
+    sizes: ["3", "4", "5"],
+    colors: ["blue"],
+    images: [
+      "https://cdn.shopify.com/s/files/1/0752/6435/files/SOHOCOFFEE_5_900x.webp?v=1746796410",
+    ],
+    countInStock: 10,
+  },
+  {
+    name: "Men's Leather Loafers",
+    slug: "mens-leather-loafers",
+    price: 2899,
+    offerPrice: 2499,
+    offerPercentage: Math.round(((2899 - 2499) / 2899) * 100),
+    category: "chestbags",
+    subcategory: "formal",
+    description: "Elegant leather loafers for formal wear.",
+    sizes: ["8", "9", "10"],
+    colors: ["brown"],
+    images: [
+      "https://cdn.shopify.com/s/files/1/0752/6435/files/0001_9.8.24ShoesCatalogue01769_900x.webp?v=1743763771",
+    ],
+    countInStock: 12,
+  },
+];
+
+// 🚀 Seed Function
+const seed = async () => {
+  try {
+    await Product.deleteMany();
+    const inserted = await Product.insertMany(products);
+    console.log(`✅ Seeded ${inserted.length} products successfully!`);
+  } catch (err) {
+    console.error("❌ Seeding failed:", err);
+  } finally {
+    setTimeout(() => process.exit(), 500);
+  }
+};
+
+seed();

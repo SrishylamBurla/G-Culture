@@ -1,0 +1,167 @@
+@import "tailwindcss";
+/* @tailwind base;
+@tailwind components;
+@tailwind utilities; */
+
+* {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* Hide scrollbar for ProductGrid */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-slideUp {
+  animation: slideUp 0.3s ease-out;
+}
+
+
+.category {
+  font-family: proxima-nova, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 800;
+  letter-spacing: -2.5px;
+  font-size: 30px;
+}
+
+/* Floating Profile Button Animation */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+/* .profile-float {
+  animation: float 3s ease-in-out infinite;
+} */
+
+.profile-btn {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background: linear-gradient(#1C1F26, #1E3A5F);
+  border-radius: 50%;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.9);
+  border: 1px solid white;
+  width: 46px;
+  height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  transition: all 0.3s ease;
+}
+
+.profile-btn:hover {
+  transform: rotate(360deg) scale(1.1);
+}
+
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-slideDown {
+  animation: slideDown 0.3s ease-out;
+}
+
+
+.scrollbar-hide {
+  -ms-overflow-style: none !important; 
+  scrollbar-width: none !important; 
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  width: 1px !important;
+  height: 1px !important;
+}
+
+/* /* html, body {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+} */
+
+html::-webkit-scrollbar, 
+body::-webkit-scrollbar {
+  display: none !important;
+  height: 100%;
+  overflow: hidden;
+} 
+
+/* ✅ Fully Hidden Scrollbar Until Hover */
+.scrollbar-hover {
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+  transition: all 0.3s ease;
+}
+
+/* Firefox hover effect */
+.scrollbar-hover:hover {
+  scrollbar-color: rgba(155, 135, 245, 0.5) transparent;
+}
+
+/* Chrome / Safari / Edge scrollbar setup */
+.scrollbar-hover::-webkit-scrollbar {
+  width: 8px;
+  background: transparent;
+}
+
+.scrollbar-hover::-webkit-scrollbar-thumb {
+  background: transparent;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.scrollbar-hover:hover::-webkit-scrollbar-thumb {
+  background: rgba(155, 135, 245, 0.5); /* visible purple thumb */
+}
+
+.scrollbar-hover::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scrollbar-hover::-webkit-scrollbar-thumb {
+  background-color: transparent;
+}
+
+.scrollbar-hover:hover::-webkit-scrollbar-thumb {
+  background-color: rgba(177, 156, 250, 0.8);
+}
+
+.shop-quote {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 800;
+}
+
+.page-tags {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+}
