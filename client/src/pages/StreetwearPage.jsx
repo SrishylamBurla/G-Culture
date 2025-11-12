@@ -96,7 +96,7 @@ export default function StreetwearPage() {
 
   return (
     <section
-      className="flex flex-col md:flex-row min-h-screen
+      className="flex flex-col md:flex-row min-h-screen w-full overflow-x-hidden
                  bg-[#001424] bg-[url('https://www.transparenttextures.com/patterns/snow.png')] 
                  pt-[5rem] -mt-[5rem]"
     >
@@ -185,7 +185,7 @@ export default function StreetwearPage() {
         transition={{ duration: 0.6, ease: "easeOut" }}
         className="flex-1 md:px-2 overflow-y-auto scrollbar-hover min-h-screen pb-24"
       >
-        <h1 className="text-gray-400 text-2xl px-2 py-4 page-tags">#StreetWear</h1>
+        <h1 className="text-gray-400 text-3xl px-2 py-4 page-tags">#StreetWear</h1>
 
         <div
           className="pt-4 py-8 px-2"

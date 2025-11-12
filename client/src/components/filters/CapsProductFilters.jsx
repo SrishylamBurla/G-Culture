@@ -42,9 +42,9 @@ export default function CapsProductFilters({ filters, setFilters }) {
                  h-[calc(100vh-64px)] overflow-y-scroll scrollbar-hover
                  px-4 py-2 transition-all duration-300"
     >
-      <h3 className="text-lg font-semibold mb-6 uppercase border-b border-white/10 pb-3 tracking-wide">
+      {/* <h3 className="text-lg font-semibold mb-6 uppercase border-b border-white/10 pb-3 tracking-wide">
         Filters
-      </h3>
+      </h3> */}
 
       {/* 🧷 Subcategory */}
       <div className="mb-3">

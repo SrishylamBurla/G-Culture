@@ -39,16 +39,16 @@ export default function ChestbagsProductFilters({ filters, setFilters }) {
       className="w-full md:w-64 flex flex-col bg-[#001424]
                  bg-[url('https://www.transparenttextures.com/patterns/snow.png')]
                  border-r border-white/10 text-gray-100 sticky top-[64px]
-                 h-[calc(100vh-64px)] overflow-y-scroll scrollbar-hover
+                 min-h-screen overflow-y-scroll scrollbar-hover
                  px-4 py-2 transition-all duration-300"
     >
       <style>
         {`aside::-webkit-scrollbar { display: none; }`}
       </style>
 
-      <h3 className="text-lg font-semibold mb-6 uppercase border-b border-white/10 pb-3 tracking-wide">
+      {/* <h3 className="text-lg font-semibold mb-6 uppercase border-b border-white/10 pb-3 tracking-wide">
         Filters
-      </h3>
+      </h3> */}
 
       {/* 🧷 Type */}
       <div className="mb-3">
