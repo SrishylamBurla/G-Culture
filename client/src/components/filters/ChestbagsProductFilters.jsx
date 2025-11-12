@@ -36,7 +36,7 @@ export default function ChestbagsProductFilters({ filters, setFilters }) {
 
   return (
     <aside
-      className="w-64 hidden md:flex flex-col bg-[#001424]
+      className="w-full md:w-64 flex flex-col bg-[#001424]
                  bg-[url('https://www.transparenttextures.com/patterns/snow.png')]
                  border-r border-white/10 text-gray-100 sticky top-[64px]
                  h-[calc(100vh-64px)] overflow-y-scroll scrollbar-hover

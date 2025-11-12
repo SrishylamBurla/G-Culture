@@ -4,8 +4,13 @@ import CapsProductFilters from "../components/filters/CapsProductFilters";
 import ProductGrid from "../components/ProductGrid";
 import { Filter } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
+import { useNavigate, useLocation } from "react-router-dom";
+import toast from "react-hot-toast";
 
 export default function CapsPage() {
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const [filters, setFilters] = useState({
     category: "caps",
     subcategory: "",
@@ -17,6 +22,28 @@ export default function CapsPage() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+
+  // ✅ Prevent background scroll when mobile filter is open
+  useEffect(() => {
+    document.body.style.overflow = isFilterOpen ? "hidden" : "auto";
+  }, [isFilterOpen]);
+
+  // ✅ Load filters from URL
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const subcategory = params.get("subcategory") || "";
+    const size = params.get("size") || "";
+    const color = params.get("color") || "";
+    const price = params.get("price") ? Number(params.get("price")) : 5000;
+
+    setFilters({
+      category: "caps",
+      subcategory,
+      size,
+      color,
+      price,
+    });
+  }, [location.search]);
 
   // ✅ Fetch products (always filtered by caps)
   useEffect(() => {
@@ -30,6 +57,9 @@ export default function CapsPage() {
         if (filters.color) params.append("color", filters.color);
         if (filters.price) params.append("price", filters.price);
 
+        // 🧭 Update URL query for shareable filters
+        navigate(`?${params.toString()}`, { replace: true });
+
         const { data } = await axios.get(
           `${import.meta.env.VITE_API_URL}/api/products?${params.toString()}`
         );
@@ -37,6 +67,7 @@ export default function CapsPage() {
         setProducts(Array.isArray(data) ? data : []);
       } catch (err) {
         console.error("❌ Error fetching caps products:", err);
+        toast.error("Failed to load products. Please try again later.");
         setProducts([]);
       } finally {
         setLoading(false);
@@ -44,9 +75,9 @@ export default function CapsPage() {
     };
 
     fetchProducts();
-  }, [filters]);
+  }, [filters, navigate]);
 
-  // ✅ Clear filters but keep caps category enforced
+  // ✅ Reset filters
   const handleClearFilters = () => {
     setFilters({
       category: "caps",
@@ -64,7 +95,7 @@ export default function CapsPage() {
 
   return (
     <section
-      className="flex flex-col md:flex-row h-screen overflow-hidden
+      className="flex flex-col md:flex-row min-h-screen
                  bg-[#001424] bg-[url('https://www.transparenttextures.com/patterns/snow.png')] 
                  pt-[5rem] -mt-[5rem]"
     >
@@ -77,7 +108,7 @@ export default function CapsPage() {
         Filters
       </button>
 
-      {/* Mobile Sidebar (Framer Motion AnimatePresence) */}
+      {/* Mobile Sidebar (Animated) */}
       <AnimatePresence>
         {isFilterOpen && (
           <>
@@ -99,29 +130,46 @@ export default function CapsPage() {
               animate={{ x: 0 }}
               exit={{ x: "-100%" }}
               transition={{ duration: 0.4, ease: "easeOut" }}
-              className="fixed md:hidden top-0 left-0 h-full w-64 bg-[#001424] z-50 
-                         border-r border-white/10 overflow-y-scroll scrollbar-hover shadow-lg"
+              className="fixed md:hidden top-0 left-0 h-[100dvh] w-[80%] max-w-[257px] bg-[#001424]/95 z-50 
+                         border-r border-white/10 shadow-xl backdrop-blur-md"
             >
-              <div className="flex justify-end p-3">
+              {/* Sidebar Header */}
+              <div className="flex items-center justify-between px-4 py-3 border-b border-white/10 bg-[#001830]/95 backdrop-blur-sm">
+                <h2 className="text-gray-200 text-base font-semibold tracking-wide uppercase">
+                  Filters
+                </h2>
                 <button
                   onClick={() => setIsFilterOpen(false)}
-                  className="text-gray-300 hover:text-white text-xl"
+                  className="text-gray-300 hover:text-white text-xl leading-none"
                 >
                   ✕
                 </button>
               </div>
-              <CapsProductFilters filters={filters} setFilters={setFilters} />
+
+              {/* Filters Section */}
+              <div className="overflow-y-auto max-h-[calc(100dvh-60px)]">
+                <CapsProductFilters filters={filters} setFilters={setFilters} />
+              </div>
             </motion.div>
           </>
         )}
       </AnimatePresence>
 
-      {/* Desktop Sidebar — with visible scrollbar thumb */}
+      {/* Desktop Sidebar */}
       <aside
         className="hidden md:flex flex-col w-64 bg-[#001424] border-r border-white/10
-                   h-[calc(100vh-64px)] overflow-y-scroll scrollbar-hide"
+                   sticky h-[calc(100vh-64px)] overflow-y-auto scrollbar-hover"
       >
-        <CapsProductFilters filters={filters} setFilters={setFilters} />
+        {/* Header */}
+        <div className="flex items-center justify-between px-4 py-3 border-b border-white/10 bg-[#001830]/95 backdrop-blur-sm">
+          <h2 className="text-gray-200 text-base font-semibold tracking-wide uppercase">
+            Filters
+          </h2>
+        </div>
+
+        <div className="overflow-y-auto">
+          <CapsProductFilters filters={filters} setFilters={setFilters} />
+        </div>
       </aside>
 
       {/* Product Grid */}
@@ -130,37 +178,47 @@ export default function CapsPage() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.6, ease: "easeOut" }}
-        className="flex-1 px-2 pb-6 md:px-4 overflow-y-scroll scrollbar-hover h-[calc(100vh-64px)]"
+        className="flex-1 md:px-2 overflow-y-auto scrollbar-hover min-h-screen pb-24"
       >
+        <h1 className="text-gray-400 text-2xl px-2 py-4 page-tags">#Caps</h1>
 
-        <h1 className="text-gray-400 text-2xl py-4 page-tags">#Caps</h1>
         <div
-          className="pt-4 py-8"
-          style={{
-            animation: "fadeInLeft 1s ease-out forwards",
-          }}
+          className="pt-4 py-8 px-2"
+          style={{ animation: "fadeInLeft 1s ease-out forwards" }}
         >
           <h1 className="inline text-4xl shop-quote bg-clip-text text-transparent bg-gradient-to-r from-[#907b02] via-[#bfa9c8] to-[#b27006]">
             Men Never Rest Mentally...
           </h1>
 
           <style>{`
-    @keyframes fadeInLeft {
-      0% {
-        opacity: 0;
-        transform: translateX(-120px);
-      }
-      100% {
-        opacity: 1;
-        transform: translateX(0);
-      }
-    }
-  `}</style>
+            @keyframes fadeInLeft {
+              0% {
+                opacity: 0;
+                transform: translateX(-120px);
+              }
+              100% {
+                opacity: 1;
+                transform: translateX(0);
+              }
+            }
+          `}</style>
         </div>
 
         {loading ? (
-          <div className="flex justify-center items-center h-64 text-gray-500 text-sm">
-            Loading products...
+          // ✅ Skeleton Loader
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 px-2">
+            {[...Array(8)].map((_, i) => (
+              <div
+                key={i}
+                className="h-84 bg-gray-800/30 animate-pulse border border-gray-700"
+              >
+                <div className="h-2/3 bg-gray-700/40 rounded-t-lg"></div>
+                <div className="p-3 space-y-2">
+                  <div className="h-3 bg-gray-700/40 rounded w-3/4"></div>
+                  <div className="h-3 bg-gray-700/40 rounded w-1/2"></div>
+                </div>
+              </div>
+            ))}
           </div>
         ) : (
           <ProductGrid products={products} filters={filters} />

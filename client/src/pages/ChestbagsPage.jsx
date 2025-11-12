@@ -1,12 +1,192 @@
 
+// import { useState, useEffect } from "react";
+// import axios from "axios";
+// import ChestbagsProductFilters from "../components/filters/ChestbagsProductFilters";
+// import ProductGrid from "../components/ProductGrid";
+// import { Filter } from "lucide-react";
+// import { AnimatePresence, motion } from "framer-motion";
+
+// export default function ChestbagsPage() {
+//   const [filters, setFilters] = useState({
+//     category: "chestbags",
+//     subcategory: "",
+//     price: 5000,
+//     size: "",
+//     color: "",
+//   });
+
+//   const [products, setProducts] = useState([]);
+//   const [loading, setLoading] = useState(true);
+//   const [isFilterOpen, setIsFilterOpen] = useState(false);
+
+//   // ✅ Fetch products (always filtered by chestbags)
+//   useEffect(() => {
+//     const fetchProducts = async () => {
+//       setLoading(true);
+//       try {
+//         const params = new URLSearchParams();
+//         params.append("category", "chestbags");
+//         if (filters.subcategory) params.append("subcategory", filters.subcategory);
+//         if (filters.size) params.append("size", filters.size);
+//         if (filters.color) params.append("color", filters.color);
+//         if (filters.price) params.append("price", filters.price);
+
+//         const { data } = await axios.get(
+//           `${import.meta.env.VITE_API_URL}/api/products?${params.toString()}`
+//         );
+
+//         setProducts(Array.isArray(data) ? data : []);
+//       } catch (err) {
+//         console.error("❌ Error fetching chestbags products:", err);
+//         setProducts([]);
+//       } finally {
+//         setLoading(false);
+//       }
+//     };
+
+//     fetchProducts();
+//   }, [filters]);
+
+//   // ✅ Clear filters but keep chestbags category enforced
+//   const handleClearFilters = () => {
+//     setFilters({
+//       category: "chestbags",
+//       subcategory: "",
+//       price: 5000,
+//       size: "",
+//       color: "",
+//     });
+//   };
+
+//   const handleFilterChange = (newFilters) => {
+//     setFilters({ ...newFilters, category: "chestbags" });
+//     setIsFilterOpen(false);
+//   };
+
+//   return (
+//     <section
+//       className="flex flex-col md:flex-row h-screen overflow-hidden
+//                  bg-[#001424] bg-[url('https://www.transparenttextures.com/patterns/snow.png')] 
+//                  pt-[5rem] -mt-[5rem]"
+//     >
+//       {/* Mobile Filter Button */}
+//       <button
+//         className="md:hidden flex items-center gap-2 p-2 bg-[#001424] text-gray-200 border-b border-white/10"
+//         onClick={() => setIsFilterOpen(true)}
+//       >
+//         <Filter size={18} />
+//         Filters
+//       </button>
+
+//       {/* Mobile Sidebar (Framer Motion AnimatePresence) */}
+//       <AnimatePresence>
+//         {isFilterOpen && (
+//           <>
+//             {/* Overlay */}
+//             <motion.div
+//               key="overlay"
+//               initial={{ opacity: 0 }}
+//               animate={{ opacity: 0.4 }}
+//               exit={{ opacity: 0 }}
+//               transition={{ duration: 0.3 }}
+//               className="fixed inset-0 bg-black z-40 md:hidden"
+//               onClick={() => setIsFilterOpen(false)}
+//             />
+
+//             {/* Sliding Sidebar */}
+//             <motion.div
+//               key="sidebar"
+//               initial={{ x: "-100%" }}
+//               animate={{ x: 0 }}
+//               exit={{ x: "-100%" }}
+//               transition={{ duration: 0.4, ease: "easeOut" }}
+//               className="fixed md:hidden top-0 left-0 h-full w-64 bg-[#001424] z-50 
+//                          border-r border-white/10 overflow-y-scroll scrollbar-hover shadow-lg"
+//             >
+//               <div className="flex justify-end p-3">
+//                 <button
+//                   onClick={() => setIsFilterOpen(false)}
+//                   className="text-gray-300 hover:text-white text-xl"
+//                 >
+//                   ✕
+//                 </button>
+//               </div>
+//               <ChestbagsProductFilters filters={filters} setFilters={setFilters} />
+//             </motion.div>
+//           </>
+//         )}
+//       </AnimatePresence>
+
+//       {/* Desktop Sidebar — with visible scrollbar thumb */}
+//       <aside
+//         className="hidden md:flex flex-col w-64 bg-[#001424] border-r border-white/10
+//                    h-[calc(100vh-64px)] overflow-y-scroll scrollbar-hide"
+//       >
+//         <ChestbagsProductFilters filters={filters} setFilters={setFilters} />
+//       </aside>
+
+//       {/* Product Grid */}
+//       <motion.div
+//         key={JSON.stringify(filters)}
+//         initial={{ opacity: 0 }}
+//         animate={{ opacity: 1 }}
+//         transition={{ duration: 0.6, ease: "easeOut" }}
+//         className="flex-1 px-2 md:px-4 overflow-y-scroll scrollbar-hover h-[calc(100vh-64px)]"
+//       >
+
+//         <h1 className="text-gray-400 text-2xl py-4 page-tags">#ChestBags</h1>
+
+//         <div
+//           className="pt-4 py-8"
+//           style={{
+//             animation: "fadeInLeft 1s ease-out forwards",
+//           }}
+//         >
+//           <h1 className="inline text-4xl shop-quote bg-clip-text text-transparent bg-gradient-to-r from-[#907b02] via-[#bfa9c8] to-[#b27006]">
+//             From Silent Struggle to Street Strength...
+//           </h1>
+
+//           <style>{`
+//     @keyframes fadeInLeft {
+//       0% {
+//         opacity: 0;
+//         transform: translateX(-120px);
+//       }
+//       100% {
+//         opacity: 1;
+//         transform: translateX(0);
+//       }
+//     }
+//   `}</style>
+//         </div>
+
+
+//         {loading ? (
+//           <div className="flex justify-center items-center h-64 text-gray-500 text-sm">
+//             Loading products...
+//           </div>
+//         ) : (
+//           <ProductGrid products={products} filters={filters} />
+//         )}
+//       </motion.div>
+//     </section>
+//   );
+// }
+
+
 import { useState, useEffect } from "react";
 import axios from "axios";
 import ChestbagsProductFilters from "../components/filters/ChestbagsProductFilters";
 import ProductGrid from "../components/ProductGrid";
 import { Filter } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
+import { useNavigate, useLocation } from "react-router-dom";
+import toast from "react-hot-toast";
 
 export default function ChestbagsPage() {
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const [filters, setFilters] = useState({
     category: "chestbags",
     subcategory: "",
@@ -18,6 +198,28 @@ export default function ChestbagsPage() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+
+  // ✅ Prevent body scroll on mobile when filter is open
+  useEffect(() => {
+    document.body.style.overflow = isFilterOpen ? "hidden" : "auto";
+  }, [isFilterOpen]);
+
+  // ✅ Load filters from URL if present
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const subcategory = params.get("subcategory") || "";
+    const size = params.get("size") || "";
+    const color = params.get("color") || "";
+    const price = params.get("price") ? Number(params.get("price")) : 5000;
+
+    setFilters({
+      category: "chestbags",
+      subcategory,
+      size,
+      color,
+      price,
+    });
+  }, [location.search]);
 
   // ✅ Fetch products (always filtered by chestbags)
   useEffect(() => {
@@ -31,6 +233,9 @@ export default function ChestbagsPage() {
         if (filters.color) params.append("color", filters.color);
         if (filters.price) params.append("price", filters.price);
 
+        // 🧭 Update URL query for shareable filters
+        navigate(`?${params.toString()}`, { replace: true });
+
         const { data } = await axios.get(
           `${import.meta.env.VITE_API_URL}/api/products?${params.toString()}`
         );
@@ -38,6 +243,7 @@ export default function ChestbagsPage() {
         setProducts(Array.isArray(data) ? data : []);
       } catch (err) {
         console.error("❌ Error fetching chestbags products:", err);
+        toast.error("Failed to load products. Please try again later.");
         setProducts([]);
       } finally {
         setLoading(false);
@@ -45,9 +251,9 @@ export default function ChestbagsPage() {
     };
 
     fetchProducts();
-  }, [filters]);
+  }, [filters, navigate]);
 
-  // ✅ Clear filters but keep chestbags category enforced
+  // ✅ Reset filters
   const handleClearFilters = () => {
     setFilters({
       category: "chestbags",
@@ -65,8 +271,8 @@ export default function ChestbagsPage() {
 
   return (
     <section
-      className="flex flex-col md:flex-row h-screen overflow-hidden
-                 bg-[#001424] bg-[url('https://www.transparenttextures.com/patterns/snow.png')] 
+      className="flex flex-col md:flex-row min-h-screen
+                 bg-[#001424] bg-[url('https://www.transparenttextures.com/patterns/snow.png')]
                  pt-[5rem] -mt-[5rem]"
     >
       {/* Mobile Filter Button */}
@@ -78,7 +284,7 @@ export default function ChestbagsPage() {
         Filters
       </button>
 
-      {/* Mobile Sidebar (Framer Motion AnimatePresence) */}
+      {/* Mobile Sidebar */}
       <AnimatePresence>
         {isFilterOpen && (
           <>
@@ -100,29 +306,46 @@ export default function ChestbagsPage() {
               animate={{ x: 0 }}
               exit={{ x: "-100%" }}
               transition={{ duration: 0.4, ease: "easeOut" }}
-              className="fixed md:hidden top-0 left-0 h-full w-64 bg-[#001424] z-50 
-                         border-r border-white/10 overflow-y-scroll scrollbar-hover shadow-lg"
+              className="fixed md:hidden top-0 left-0 h-[100dvh] w-[80%] max-w-[257px] bg-[#001424]/95 z-50 
+                         border-r border-white/10 shadow-xl backdrop-blur-md"
             >
-              <div className="flex justify-end p-3">
+              {/* Sidebar Header */}
+              <div className="flex items-center justify-between px-4 py-3 border-b border-white/10 bg-[#001830]/95 backdrop-blur-sm">
+                <h2 className="text-gray-200 text-base font-semibold tracking-wide uppercase">
+                  Filters
+                </h2>
                 <button
                   onClick={() => setIsFilterOpen(false)}
-                  className="text-gray-300 hover:text-white text-xl"
+                  className="text-gray-300 hover:text-white text-xl leading-none"
                 >
                   ✕
                 </button>
               </div>
-              <ChestbagsProductFilters filters={filters} setFilters={setFilters} />
+
+              {/* Filters Section */}
+              <div className="overflow-y-auto max-h-[calc(100dvh-60px)]">
+                <ChestbagsProductFilters filters={filters} setFilters={setFilters} />
+              </div>
             </motion.div>
           </>
         )}
       </AnimatePresence>
 
-      {/* Desktop Sidebar — with visible scrollbar thumb */}
+      {/* Desktop Sidebar */}
       <aside
         className="hidden md:flex flex-col w-64 bg-[#001424] border-r border-white/10
-                   h-[calc(100vh-64px)] overflow-y-scroll scrollbar-hide"
+                   sticky h-[calc(100vh-64px)] overflow-y-auto scrollbar-hover"
       >
-        <ChestbagsProductFilters filters={filters} setFilters={setFilters} />
+        {/* Sidebar Header */}
+        <div className="flex items-center justify-between px-4 py-3 border-b border-white/10 bg-[#001830]/95 backdrop-blur-sm">
+          <h2 className="text-gray-200 text-base font-semibold tracking-wide uppercase">
+            Filters
+          </h2>
+        </div>
+
+        <div className="overflow-y-auto">
+          <ChestbagsProductFilters filters={filters} setFilters={setFilters} />
+        </div>
       </aside>
 
       {/* Product Grid */}
@@ -131,39 +354,47 @@ export default function ChestbagsPage() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.6, ease: "easeOut" }}
-        className="flex-1 px-2 md:px-4 overflow-y-scroll scrollbar-hover h-[calc(100vh-64px)]"
+        className="flex-1 md:px-2 overflow-y-auto scrollbar-hover min-h-screen pb-24"
       >
-
-        <h1 className="text-gray-400 text-2xl py-4 page-tags">#ChestBags</h1>
+        <h1 className="text-gray-400 text-2xl px-2 py-4 page-tags">#ChestBags</h1>
 
         <div
-          className="pt-4 py-8"
-          style={{
-            animation: "fadeInLeft 1s ease-out forwards",
-          }}
+          className="pt-4 py-8 px-2"
+          style={{ animation: "fadeInLeft 1s ease-out forwards" }}
         >
           <h1 className="inline text-4xl shop-quote bg-clip-text text-transparent bg-gradient-to-r from-[#907b02] via-[#bfa9c8] to-[#b27006]">
             From Silent Struggle to Street Strength...
           </h1>
 
           <style>{`
-    @keyframes fadeInLeft {
-      0% {
-        opacity: 0;
-        transform: translateX(-120px);
-      }
-      100% {
-        opacity: 1;
-        transform: translateX(0);
-      }
-    }
-  `}</style>
+            @keyframes fadeInLeft {
+              0% {
+                opacity: 0;
+                transform: translateX(-120px);
+              }
+              100% {
+                opacity: 1;
+                transform: translateX(0);
+              }
+            }
+          `}</style>
         </div>
 
-
         {loading ? (
-          <div className="flex justify-center items-center h-64 text-gray-500 text-sm">
-            Loading products...
+          // ✅ Skeleton Loader
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 px-2">
+            {[...Array(8)].map((_, i) => (
+              <div
+                key={i}
+                className="h-84 bg-gray-800/30 animate-pulse border border-gray-700"
+              >
+                <div className="h-2/3 bg-gray-700/40 rounded-t-lg"></div>
+                <div className="p-3 space-y-2">
+                  <div className="h-3 bg-gray-700/40 rounded w-3/4"></div>
+                  <div className="h-3 bg-gray-700/40 rounded w-1/2"></div>
+                </div>
+              </div>
+            ))}
           </div>
         ) : (
           <ProductGrid products={products} filters={filters} />

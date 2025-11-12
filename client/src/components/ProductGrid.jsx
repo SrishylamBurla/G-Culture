@@ -68,7 +68,7 @@ export default function ProductGrid({ products = [], filters = {} }) {
 
   return (
     <motion.div
-      className="w-full grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 my-2 gap-2 md:gap-3"
+      className="w-full grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-1 md:gap-3"
       variants={containerVariants}
       initial="hidden"
       animate="show"

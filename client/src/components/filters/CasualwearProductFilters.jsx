@@ -35,7 +35,7 @@ export default function CasualwearProductFilters({ filters, setFilters }) {
     <aside
       className="w-64 flex flex-col bg-[#001424]
                  bg-[url('https://www.transparenttextures.com/patterns/snow.png')]
-                 border-r border-white/10 text-gray-100 sticky top-[64px]
+                 border-r border-white/10 text-gray-100 sticky
                  h-[calc(100vh-64px)] overflow-y-scroll scrollbar-hover
                  px-4 py-2 transition-all duration-300"
     >
@@ -43,9 +43,9 @@ export default function CasualwearProductFilters({ filters, setFilters }) {
         {`aside::-webkit-scrollbar { display: none; }`}
       </style>
 
-      <h3 className="text-lg font-semibold mb-6 uppercase border-b border-white/10 pb-3 tracking-wide">
+      {/* <h3 className="text-lg font-semibold mb-6 uppercase border-b border-white/10 pb-3 tracking-wide">
         Filters
-      </h3>
+      </h3> */}
 
       {/* Subcategory */}
       <div className="mb-3">

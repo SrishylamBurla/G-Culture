@@ -26,7 +26,7 @@ function App() {
     <BrowserRouter>
       <div className="flex flex-col min-h-screen">
         <Header />
-
+    <Toaster position="top-right" reverseOrder={false} />
         {/* Main Content */}
         <main className="flex-grow">
           <Routes>
@@ -73,7 +73,6 @@ function App() {
         {/* Floating & Footer */}
         <FloatingProfileButton />
         <Footer />
-        <Toaster position="bottom-center" reverseOrder={false} />
       </div>
     </BrowserRouter>
   );
