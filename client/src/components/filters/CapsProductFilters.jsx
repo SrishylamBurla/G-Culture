@@ -2,7 +2,12 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 
-export default function CapsProductFilters({ filters, setFilters }) {
+export default function CapsProductFilters({
+  filters,
+  setFilters,
+  isMobile,
+  closeDrawer,
+}) {
   const [openSections, setOpenSections] = useState({
     subcategory: true,
     price: true,
@@ -42,12 +47,24 @@ export default function CapsProductFilters({ filters, setFilters }) {
                  h-[calc(100vh-64px)] overflow-y-scroll scrollbar-hover
                  px-4 py-2 transition-all duration-300"
     >
-      {/* <h3 className="text-lg font-semibold mb-6 uppercase border-b border-white/10 pb-3 tracking-wide">
-        Filters
-      </h3> */}
+      {/* HEADER */}
+      <div className="relative">
+        <h3 className="text-lg font-semibold mb-6 uppercase border-b border-white/10 pb-3 tracking-wide">
+          Filters
+        </h3>
 
-      {/* 🧷 Subcategory */}
-      <div className="mb-3">
+        {isMobile && (
+          <button
+            onClick={closeDrawer}
+            className="text-gray-300 hover:text-white text-xl absolute top-1 right-1"
+          >
+            ✕
+          </button>
+        )}
+      </div>
+
+      {/* SUBCATEGORY */}
+      <div className="mb-4">
         <button
           onClick={() => toggleSection("subcategory")}
           className="flex justify-between w-full font-medium text-gray-200 hover:text-white"
@@ -83,8 +100,8 @@ export default function CapsProductFilters({ filters, setFilters }) {
         </motion.div>
       </div>
 
-      {/* 💰 Price */}
-      <div className="mb-3">
+      {/* PRICE */}
+      <div className="mb-4">
         <button
           onClick={() => toggleSection("price")}
           className="flex justify-between w-full font-medium text-gray-200 hover:text-white"
@@ -96,6 +113,7 @@ export default function CapsProductFilters({ filters, setFilters }) {
             }`}
           />
         </button>
+
         <motion.div
           initial={false}
           animate={{
@@ -117,8 +135,8 @@ export default function CapsProductFilters({ filters, setFilters }) {
         </motion.div>
       </div>
 
-      {/* 📏 Size */}
-      <div className="mb-3">
+      {/* SIZE */}
+      <div className="mb-4">
         <button
           onClick={() => toggleSection("size")}
           className="flex justify-between w-full font-medium text-gray-200 hover:text-white"
@@ -130,6 +148,7 @@ export default function CapsProductFilters({ filters, setFilters }) {
             }`}
           />
         </button>
+
         <motion.div
           initial={false}
           animate={{
@@ -145,7 +164,7 @@ export default function CapsProductFilters({ filters, setFilters }) {
               className={`px-3 py-1 border rounded-md text-sm transition-all duration-200 ${
                 filters.size === size
                   ? "border-purple-400 bg-purple-400/10 text-white"
-                  : "border-gray-500 text-gray-300 hover:bg-white/10"
+                  : "border-gray-600 text-gray-300 hover:bg-white/10"
               }`}
             >
               {size}
@@ -154,8 +173,8 @@ export default function CapsProductFilters({ filters, setFilters }) {
         </motion.div>
       </div>
 
-      {/* 🎨 Color */}
-      <div className="mb-3">
+      {/* COLOR */}
+      <div className="mb-6">
         <button
           onClick={() => toggleSection("color")}
           className="flex justify-between w-full font-medium text-gray-200 hover:text-white"
@@ -167,6 +186,7 @@ export default function CapsProductFilters({ filters, setFilters }) {
             }`}
           />
         </button>
+
         <motion.div
           initial={false}
           animate={{
@@ -190,10 +210,10 @@ export default function CapsProductFilters({ filters, setFilters }) {
         </motion.div>
       </div>
 
-      {/* ❌ Clear */}
+      {/* CLEAR */}
       <button
         onClick={clearFilters}
-        className="text-sm mt-6 underline text-gray-400 hover:text-purple-300"
+        className="text-sm underline text-gray-400 hover:text-purple-300 mb-6"
       >
         Clear Filters
       </button>

@@ -91,7 +91,7 @@ export default function WishlistPage() {
 
   if (wishlist.length === 0) {
     return (
-      <div className="text-center mt-20 bg-[#001424] bg-[url('https://www.transparenttextures.com/patterns/football-no-lines.png)] -mt-[5rem]">
+      <div className="text-center bg-[#001424] bg-[url('https://www.transparenttextures.com/patterns/football-no-lines.png)] pt-[7rem] -mt-[5rem] min-h-screen flex flex-col items-center justify-center px-4">
         <h2 className="text-xl font-semibold text-gray-600 mb-4">
           Your wishlist is empty 💔
         </h2>
@@ -107,7 +107,7 @@ export default function WishlistPage() {
 
   return (
     <motion.div
-      className="px-2 md:px-3 lg:px-4 py-12 bg-[#001424] bg-[url('https://www.transparenttextures.com/patterns/flowers.png')] -mt-[5rem]"
+      className="px-2 md:px-3 lg:px-4 py-12 bg-[#001424] bg-[url('https://www.transparenttextures.com/patterns/flowers.png')] pt-[7rem] -mt-[5rem]"
       variants={container}
       initial="hidden"
       animate="show"

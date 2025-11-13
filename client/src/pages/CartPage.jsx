@@ -21,7 +21,7 @@ export default function CartPage() {
   };
 
   return (
-    <div className="p-2 md:p-10 min-h-screen bg-[#001424] bg-[url('https://www.transparenttextures.com/patterns/gplay.png')] pt-[5rem] -mt-[5rem]">
+    <div className="p-2 md:p-10 min-h-screen bg-[#001424] bg-[url('https://www.transparenttextures.com/patterns/gplay.png')] pt-[5rem] -mt-[5rem] ">
       <h2 className="text-2xl font-bold text-center text-gray-200 py-4 md:py-6 md:mt-8 tracking-wide drop-shadow-sm">
         🛒 My Shopping Cart
       </h2>

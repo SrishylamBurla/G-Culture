@@ -1,14 +1,20 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
+import { useEffect } from "react";
 
-export default function StreetwearProductFilters({ filters, setFilters }) {
+export default function StreetwearProductFilters({ filters, setFilters, isMobile, closeDrawer }) {
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [openSections, setOpenSections] = useState({
     subcategory: true,
     price: true,
     size: true,
     color: true,
   });
+
+  useEffect(() => {
+    document.body.style.overflow = isFilterOpen ? "hidden" : "auto";
+  }, [isFilterOpen]);
 
   const toggleSection = (key) =>
     setOpenSections((prev) => ({ ...prev, [key]: !prev[key] }));
@@ -43,9 +49,21 @@ export default function StreetwearProductFilters({ filters, setFilters }) {
                  px-4 py-2 transition-all duration-300"
     >
       {/* 🧩 Header */}
-      {/* <h3 className="text-lg font-semibold mb-6 uppercase border-b border-white/10 pb-3 tracking-wide">
-        Filters
-      </h3> */}
+
+      <div className="relative">
+        <h3 className="text-lg font-semibold mb-6 uppercase border-b border-white/10 pb-3 tracking-wide">
+          Filters
+        </h3>
+
+        {isMobile && (
+          <button
+            onClick={closeDrawer}
+            className="text-gray-300 hover:text-white text-xl absolute top-1 right-1"
+          >
+            ✕
+          </button>
+        )}
+      </div>
 
       {/* 🧷 Type (Subcategory) */}
       <div className="mb-4">

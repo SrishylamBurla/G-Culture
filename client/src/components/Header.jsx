@@ -58,7 +58,7 @@ export default function Header({ menuOpen, setMenuOpen }) {
   return (
     <header
       className="
-        sticky top-0 z-[99999]
+        fixed w-full top-0 z-[99999]
         bg-[rgba(0,0,0,0.1)]
         backdrop-blur-md
         border-b border-white/10
