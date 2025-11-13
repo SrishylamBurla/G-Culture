@@ -139,16 +139,80 @@ export default function CasualwearPage() {
         {/* ---------- PRODUCT GRID AREA ---------- */}
         <div className="flex-1 md:px-3 pb-24 pt-4">
 
-          <h1 className="inline text-gray-900 text-3xl py-1 px-2 page-tags bg-[#159181] mx-3">
+          <div
+    className="flex justify-end"
+    style={{
+      animation: "fadeInRight 0.9s ease-out forwards",
+    }}
+  >
+    <h1 className="inline text-gray-900 text-3xl py-1 px-2 page-tags bg-[#159181]">
+      #CasualWear
+    </h1>
+  </div>
+
+  {/* Main heading fade-in-from-left */}
+  <div
+    className="py-6 mx-3 md:px-0"
+    style={{
+      animation: "fadeInLeft 1s ease-out forwards",
+    }}
+  >
+    <h1 className="inline text-4xl shop-quote bg-clip-text text-transparent bg-gradient-to-r from-[#907b02] via-[#bfa9c8] to-[#b27006]">
+      Not Imported, Just Ignited...
+    </h1>
+  </div>
+
+  <style>{`
+    @keyframes fadeInLeft {
+      0% {
+        opacity: 0;
+        transform: translateX(-40px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes fadeInRight {
+      0% {
+        opacity: 0;
+        transform: translateX(40px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+  `}</style>
+          {/* <h1 className="inline text-gray-900 text-3xl py-1 px-2 page-tags bg-[#159181] mx-3">
             #CasualWear
           </h1>
 
-          <div className="py-6 mx-3 md:px-0">
+          <div
+            className="py-6 mx-3 md:px-0"
+            style={{
+              animation: "fadeInLeft 1s ease-out forwards",
+            }}
+          >
             <h1 className="inline text-4xl shop-quote bg-clip-text text-transparent
                            bg-gradient-to-r from-[#907b02] via-[#bfa9c8] to-[#b27006]">
               Not Imported, Just Ignited...
             </h1>
-          </div>
+
+            <style>{`
+    @keyframes fadeInLeft {
+      0% {
+        opacity: 0;
+        transform: translateX(-40px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+  `}</style>
+          </div> */}
 
           {/* ---------- PRODUCT GRID OR LOADER ---------- */}
           {loading ? (

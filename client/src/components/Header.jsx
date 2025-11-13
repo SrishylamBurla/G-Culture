@@ -76,25 +76,35 @@ export default function Header({ menuOpen, setMenuOpen }) {
       <div ref={searchRef}>
         <div className="flex items-center justify-between px-3 py-2 relative">
           {/* LEFT: Desktop Nav */}
-          <nav className="hidden md:flex items-center space-x-6 font-medium text-md text-gray-200">
+          <nav className="hidden md:flex items-center space-x-8 font-medium text-md">
+          <Link to="/">
+              <img
+                src="/images/G-Logo.png"
+                alt="Logo"
+                className="w-8 h-8"
+              />
+            </Link>
             {[
-              { name: "Streetwear", path: "/men/streetwear" },
-              { name: "Casualwear", path: "/men/casualwear" },
+              { name: "Street wear", path: "/men/streetwear" },
+              { name: "Casual wear", path: "/men/casualwear" },
               { name: "Caps", path: "/men/caps" },
-              { name: "Chestbags", path: "/men/chestbags" },
+              { name: "Chest bags", path: "/men/chestbags" },
             ].map((cat) => (
               <Link
                 key={cat.name}
                 to={cat.path}
-                className="relative hover:text-yellow-400 transition-colors duration-300"
+                className="relative group text-md hover:text-yellow-400 tracking-wide bg-clip-text text-transparent bg-gradient-to-r from-[#e19b04] via-[#ac8e04] to-[#eb7a08] transition-colors duration-300"
+                style={{ WebkitTextStroke: "0.4px" }}
               >
                 {cat.name}
-                <span className="absolute left-0 bottom-[-4px] w-0 h-[2px] bg-gradient-to-r from-amber-400 to-yellow-300 transition-all duration-300 hover:w-full"></span>
+                <span className="absolute left-0 bottom-[-4px] w-0 h-[2px] bg-gradient-to-r from-[#0f6ed4] via-[#a01cb2] to-[#de8328] transition-all duration-300 group-hover:w-full"></span>
               </Link>
             ))}
           </nav>
 
           {/* 🍔 BURGER MENU (Mobile) */}
+            <div className="flex justify-center items-center gap-2">
+          
           <button
             className="burger-btn md:hidden flex flex-col space-y-[5px] focus:outline-none z-[10001]"
             onClick={() => setMenuOpen(!menuOpen)}
@@ -115,6 +125,14 @@ export default function Header({ menuOpen, setMenuOpen }) {
               }`}
             ></span>
           </button>
+          <Link to="/">
+              <img
+                src="/images/G-Logo.png"
+                alt="Logo"
+                className="w-5 h-5 md:hidden"
+              />
+            </Link>
+          </div>
 
           {/* RIGHT: Search + Icons */}
           <div className="flex items-center space-x-5 text-xl relative pr-2">

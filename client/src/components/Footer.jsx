@@ -11,12 +11,12 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
           {/* Brand Section */}
           <div>
-          <Link to="/">
-            <img
-              src="/images/G-Logo.png"
-              alt="Logo"
-              className="w-10 md:w-16 mb-4"
-            />
+            <Link to="/">
+              <img
+                src="/images/G-Logo.png"
+                alt="Logo"
+                className="w-10 md:w-16 mb-4"
+              />
             </Link>
             <p className="text-sm leading-relaxed text-gray-400">
               A pioneering force in Indian fashion since 2015, celebrating
@@ -150,7 +150,7 @@ export default function Footer() {
         </div>
 
         {/* Divider */}
-        <div className="border-t border-gray-500 my-10"></div>
+        <div className="border-t border-gray-500 my-5"></div>
 
         {/* Bottom Note */}
         <div className="text-center text-xs text-gray-300">
