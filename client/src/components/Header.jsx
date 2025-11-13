@@ -7,6 +7,7 @@ import axios from "axios";
 export default function Header({ menuOpen, setMenuOpen }) {
   const { cartItems } = useSelector((state) => state.cart);
   const { wishlist } = useSelector((state) => state.wishlist);
+  const { userInfo } = useSelector((state) => state.user);
   const navigate = useNavigate();
 
   const [showSearch, setShowSearch] = useState(false);

@@ -1,12 +1,22 @@
 import { Link } from 'react-router-dom';
 
-export default function HomePage(){
+export default function HomePage() {
   return (
-    <div className="mt-20">
-      <section className="text-center py-16">
-        <h1 className="text-4xl font-bold mb-4">ClothStore — Premium Clothing</h1>
-        <p className="text-gray-600 mb-6">A starter MERN fashion store inspired by thehouseofrare.com</p>
-        <Link to="/shop" className="px-6 py-3 bg-black text-white rounded">Shop Now</Link>
+    <div className="">
+      <section
+        className="
+          relative min-h-[80vh] flex flex-col items-center justify-center text-center
+          bg-[url('/images/homeImages/home1.png')]
+          bg-cover bg-center bg-no-repeat
+          px-4
+        "
+      >
+        <Link
+          to="/shop"
+          className="absolute bottom-20 px-8 py-3 bg-black/80 text-white rounded hover:bg-black transition"
+        >
+          Shop Now
+        </Link>
       </section>
     </div>
   );
