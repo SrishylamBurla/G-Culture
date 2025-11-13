@@ -5,10 +5,11 @@ export default function HomePage() {
     <div className="">
       <section
         className="
-          relative min-h-[80vh] flex flex-col items-center justify-center text-center
-          bg-[url('/images/homeImages/home1.png')]
-          bg-cover bg-center bg-no-repeat
-          px-4
+          relative aspect-[9/16] md:aspect-[16/9]
+    bg-[url('/images/homeImages/home1.png')]
+    bg-cover bg-center bg-no-repeat
+    flex flex-col items-center justify-center
+    px-4
         "
       >
         <Link
