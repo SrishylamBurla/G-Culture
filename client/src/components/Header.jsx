@@ -91,6 +91,7 @@ export default function Header({ menuOpen, setMenuOpen }) {
               { name: "Chest bags", path: "/men/chestbags" },
             ].map((cat) => (
               <Link
+                rel="prefetch"
                 key={cat.name}
                 to={cat.path}
                 className="relative group text-md hover:text-yellow-400 tracking-wide bg-clip-text text-transparent bg-gradient-to-r from-[#e19b04] via-[#ac8e04] to-[#eb7a08] transition-colors duration-300"

@@ -1,12 +1,15 @@
-
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 
-export default function ShopProductFilters({ filters, setFilters }) {
+export default function ShopProductFilters({
+  filters,
+  setFilters,
+  isMobile,
+  closeDrawer,
+}) {
   const [openSections, setOpenSections] = useState({
-    category: true,
-    subcategory: false,
+    subcategory: true,
     price: true,
     size: true,
     color: true,
@@ -15,7 +18,7 @@ export default function ShopProductFilters({ filters, setFilters }) {
   const toggleSection = (key) =>
     setOpenSections((prev) => ({ ...prev, [key]: !prev[key] }));
 
-  // 🧩 Category + Filter Data
+  // 🔥 Combined category rule (Shop has multiple categories)
   const FILTER_OPTIONS = {
     categories: ["streetwear", "casualwear", "caps", "chestbags"],
 
@@ -38,10 +41,11 @@ export default function ShopProductFilters({ filters, setFilters }) {
       "brown",
       "navy",
     ],
+
     sizes: [
-      "S", "M", "L", "XL",
-      "26", "28", "30", "32", "34", "36",
-      "5", "6", "7", "8", "9", "10",
+      "S","M","L","XL",
+      "26","28","30","32","34","36",
+      "5","6","7","8","9","10",
     ],
   };
 
@@ -61,16 +65,31 @@ export default function ShopProductFilters({ filters, setFilters }) {
 
   return (
     <aside
-      className="w-64 hidden md:flex flex-col bg-[#001424] 
-                 bg-[url('https://www.transparenttextures.com/patterns/snow.png')] 
-                 border-r border-white/10 text-gray-100 sticky top-[64px] 
-                 h-[calc(100vh-64px)] overflow-y-scroll scrollbar-hover px-4 py-2 transition-all duration-300"
+      className={`w-full md:w-64 flex flex-col bg-[#001424]
+          bg-[url('https://www.transparenttextures.com/patterns/snow.png')]
+          border-r border-white/10 text-gray-100 sticky top-[64px]
+          h-[calc(100vh-64px)] overflow-y-scroll scrollbar-hover
+          px-4 py-2 transition-all duration-300`}
     >
-      <h3 className="text-lg font-semibold mb-6 uppercase border-b border-white/10 pb-3 tracking-wide">
-        Filters
-      </h3>
 
-      {/* 🏷 Category
+      {/* FILTER HEADER */}
+      <div className="relative mb-6">
+        <h3 className="text-lg font-semibold uppercase border-b border-white/10 pb-3 tracking-wide">
+          Filters
+        </h3>
+
+        {/* Close Button for Mobile */}
+        {isMobile && (
+          <button
+            onClick={closeDrawer}
+            className="text-gray-300 hover:text-white text-xl absolute top-1 right-1"
+          >
+            ✕
+          </button>
+        )}
+      </div>
+
+      {/* CATEGORY */}
       <div className="mb-4">
         <button
           onClick={() => toggleSection("category")}
@@ -106,9 +125,9 @@ export default function ShopProductFilters({ filters, setFilters }) {
             </label>
           ))}
         </motion.div>
-      </div> */}
+      </div>
 
-      {/* 🧩 Subcategory */}
+      {/* SUBCATEGORY */}
       <div className="mb-4">
         <button
           onClick={() => toggleSection("subcategory")}
@@ -132,38 +151,24 @@ export default function ShopProductFilters({ filters, setFilters }) {
         >
           {(filters.category
             ? FILTER_OPTIONS.subcategories[filters.category]
-            : Object.entries(FILTER_OPTIONS.subcategories)
-                .flatMap(([cat, subs]) =>
-                  subs.map((s) => `${cat}:${s}`)
-                )
-          ).map((entry) => {
-            const [cat, sub] = entry.includes(":")
-              ? entry.split(":")
-              : [filters.category, entry];
-
-            return (
-              <label
-                key={`${cat}-${sub}`}
-                className="flex items-center gap-2 cursor-pointer"
-              >
-                <input
-                  type="radio"
-                  name="subcategory"
-                  value={sub}
-                  checked={filters.subcategory === sub}
-                  onChange={(e) =>
-                    handleChange("subcategory", e.target.value)
-                  }
-                  className="accent-purple-500"
-                />
-                <span className="capitalize">{sub}</span>
-              </label>
-            );
-          })}
+            : []
+          ).map((sub) => (
+            <label key={sub} className="flex items-center gap-2 cursor-pointer">
+              <input
+                type="radio"
+                name="subcategory"
+                value={sub}
+                checked={filters.subcategory === sub}
+                onChange={(e) => handleChange("subcategory", e.target.value)}
+                className="accent-purple-500"
+              />
+              <span className="capitalize">{sub}</span>
+            </label>
+          ))}
         </motion.div>
       </div>
 
-      {/* 💰 Price */}
+      {/* PRICE */}
       <div className="mb-4">
         <button
           onClick={() => toggleSection("price")}
@@ -194,13 +199,14 @@ export default function ShopProductFilters({ filters, setFilters }) {
             onChange={(e) => handleChange("price", e.target.value)}
             className="w-full accent-purple-500"
           />
+
           <p className="text-xs mt-1 text-gray-300">
             Up to ₹{filters.price}
           </p>
         </motion.div>
       </div>
 
-      {/* 📏 Size */}
+      {/* SIZE */}
       <div className="mb-4">
         <button
           onClick={() => toggleSection("size")}
@@ -229,7 +235,7 @@ export default function ShopProductFilters({ filters, setFilters }) {
               className={`px-3 py-1 border rounded-md text-sm transition-all duration-200 ${
                 filters.size === size
                   ? "border-purple-400 bg-purple-400/10 text-white"
-                  : "border-gray-500 text-gray-300 hover:bg-white/10"
+                  : "border-gray-600 text-gray-300 hover:bg-white/10"
               }`}
             >
               {size}
@@ -238,7 +244,7 @@ export default function ShopProductFilters({ filters, setFilters }) {
         </motion.div>
       </div>
 
-      {/* 🎨 Color */}
+      {/* COLOR */}
       <div className="mb-4">
         <button
           onClick={() => toggleSection("color")}
@@ -275,14 +281,13 @@ export default function ShopProductFilters({ filters, setFilters }) {
         </motion.div>
       </div>
 
-      {/* ❌ Clear */}
+      {/* CLEAR BUTTON */}
       <button
         onClick={clearFilters}
-        className="text-sm mt-6 underline text-gray-400 hover:text-purple-300"
+        className="text-sm mt-6 pb-3 underline text-gray-400 hover:text-purple-300"
       >
         Clear Filters
       </button>
     </aside>
   );
 }
-

@@ -176,7 +176,7 @@ export default function StreetwearPage() {
       animation: "fadeInRight 0.9s ease-out forwards",
     }}
   >
-    <h1 className="inline text-gray-900 text-3xl py-1 px-2 page-tags bg-[#159181]">
+    <h1 className="inline text-gray-900 text-lg py-1 px-2 page-tags bg-[#159181]">
       #StreetWear
     </h1>
   </div>
