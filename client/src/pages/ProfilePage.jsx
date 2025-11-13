@@ -1,17 +1,28 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { logout, updateAvatar } from "../features/user/userSlice";
+import { logout, updateAvatar, updateName, updatePassword } from "../features/user/userSlice";
+import { motion, AnimatePresence } from "framer-motion";
+import toast from "react-hot-toast";
+import { TextField } from "@mui/material";
 
 export default function ProfilePage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { userInfo } = useSelector((state) => state.user);
 
-  // Safe default avatar
   const [preview, setPreview] = useState(userInfo?.avatar || "/images/avatar2.png");
   const [selectedFile, setSelectedFile] = useState(null);
   const [loading, setLoading] = useState(false);
+
+  // modals
+  const [openNameModal, setOpenNameModal] = useState(false);
+  const [openPasswordModal, setOpenPasswordModal] = useState(false);
+
+  // form fields
+  const [newName, setNewName] = useState(userInfo?.name || "");
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPass, setNewPass] = useState("");
 
   const handleLogout = () => {
     dispatch(logout());
@@ -32,29 +43,66 @@ export default function ProfilePage() {
     const formData = new FormData();
     formData.append("avatar", selectedFile);
 
+    const toastId = toast.loading("Uploading avatar...");
+
     try {
       setLoading(true);
+
       await dispatch(updateAvatar(formData)).unwrap();
-      alert("Avatar updated successfully!");
+
+      toast.success("Avatar updated 🎉", { id: toastId });
+
+      // animation
+      const img = document.getElementById("avatar-img");
+      img.classList.add("animate-ping-once");
+      setTimeout(() => img.classList.remove("animate-ping-once"), 600);
+
       setSelectedFile(null);
     } catch (err) {
-      console.error(err);
-      alert("Failed to update avatar.");
+      toast.error("Failed to update avatar 😢", { id: toastId });
     } finally {
       setLoading(false);
     }
   };
 
+  // 🔵 UPDATE NAME HANDLER
+  const saveName = async () => {
+    if (!newName.trim()) return toast.error("Name cannot be empty.");
+
+    const toastId = toast.loading("Updating name...");
+    try {
+      await dispatch(updateName(newName)).unwrap();
+      toast.success("Name updated successfully 🎉", { id: toastId });
+      setOpenNameModal(false);
+    } catch (err) {
+      toast.error(err || "Failed to update name", { id: toastId });
+    }
+  };
+
+  // 🔐 UPDATE PASSWORD HANDLER
+  const savePassword = async () => {
+    if (!currentPassword || !newPass)
+      return toast.error("All fields are required.");
+
+    const toastId = toast.loading("Updating password...");
+    try {
+      await dispatch(updatePassword({ currentPassword, newPassword: newPass })).unwrap();
+      toast.success("Password updated successfully 🔐", { id: toastId });
+      setOpenPasswordModal(false);
+      setCurrentPassword("");
+      setNewPass("");
+    } catch (err) {
+      toast.error(err || "Password update failed", { id: toastId });
+    }
+  };
+
   if (!userInfo) {
     return (
-      <div className="text-center mt-20 bg-[#001424] bg-[url('https://www.transparenttextures.com/patterns/green-gobbler.png')]">
-        <h2 className="text-xl font-semibold text-gray-600 mb-4">
+      <div className="text-center mt-20 bg-[#001424]">
+        <h2 className="text-xl font-semibold text-gray-400 mb-4">
           Please log in to access your account 👤
         </h2>
-        <Link
-          to="/login"
-          className="px-4 py-2 bg-black text-white rounded hover:bg-gray-800"
-        >
+        <Link to="/login" className="px-4 py-2 bg-black text-white rounded hover:bg-gray-800">
           Go to Login
         </Link>
       </div>
@@ -62,37 +110,41 @@ export default function ProfilePage() {
   }
 
   return (
-    <div className="px-4 py-10 bg-[#001424] bg-[url('https://www.transparenttextures.com/patterns/dark-exa.png')] pt-[5rem] -mt-[5rem]">
+    <div className="px-4 py-10 bg-[#001424] pt-[9rem] -mt-[5rem]">
       <h2 className="text-3xl font-bold text-center text-gray-100 pt-16 uppercase mb-8">
         My Account
       </h2>
 
-      <div className="max-w-3xl mx-auto shadow-md rounded-lg p-6 bg-[#001424] bg-[url('https://www.transparenttextures.com/patterns/football-no-lines.png')]">
+      <div className="max-w-3xl mx-auto shadow-md rounded-lg p-6 bg-[#001424]">
         <div className="flex flex-col md:flex-row items-center gap-6">
-          <div className="relative">
-            <img
-              src={preview || "/images/user-avatar.svg"}
+
+          {/* AVATAR */}
+          <motion.div
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 0.5 }}
+            className="relative"
+          >
+            <motion.img
+              id="avatar-img"
+              src={preview}
               alt="User avatar"
-              className="w-28 h-28 rounded-full object-cover border border-gray-300"
+              className="w-28 h-28 rounded-full object-cover border border-gray-300 shadow-lg"
+              whileHover={{ scale: 1.05 }}
             />
+
             <label className="absolute bottom-0 right-0 bg-black text-white text-xs px-2 py-1 rounded cursor-pointer hover:bg-gray-800">
               Edit
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleFileChange}
-                className="hidden"
-              />
+              <input type="file" accept="image/*" onChange={handleFileChange} className="hidden" />
             </label>
-          </div>
+          </motion.div>
 
+          {/* USER DETAILS */}
           <div className="flex-1 text-center md:text-left">
-            <h3 className="text-xl text-gray-400 font-semibold">{userInfo.name}</h3>
+            <h3 className="text-xl text-gray-200 font-semibold">{userInfo.name}</h3>
             <p className="text-gray-400">{userInfo.email}</p>
-            <button
-              onClick={handleLogout}
-              className="mt-4 px-2 py-1 bg-black border border-1px-solid text-white rounded hover:bg-gray-800"
-            >
+
+            <button onClick={handleLogout} className="mt-4 px-3 py-1 bg-black text-white rounded hover:bg-gray-800">
               Logout
             </button>
 
@@ -101,48 +153,162 @@ export default function ProfilePage() {
                 onClick={handleUpload}
                 disabled={loading}
                 className={`mt-4 ml-3 px-4 py-2 rounded text-white ${
-                  loading ? "bg-gray-400 cursor-not-allowed" : "bg-green-600 hover:bg-green-700"
+                  loading ? "bg-gray-400 cursor-not-allowed" : "bg-green-500 hover:bg-green-600"
                 }`}
               >
                 {loading ? "Uploading..." : "Upload Avatar"}
               </button>
             )}
+
+            {/* EDIT BUTTONS */}
+            <div className="flex gap-3 mt-6 justify-center md:justify-start">
+              <button
+                onClick={() => setOpenNameModal(true)}
+                className="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700"
+              >
+                Edit Username
+              </button>
+
+              <button
+                onClick={() => setOpenPasswordModal(true)}
+                className="px-3 py-1 bg-purple-600 text-white rounded hover:bg-purple-700"
+              >
+                Change Password
+              </button>
+            </div>
           </div>
         </div>
 
-        <hr className="my-6 border-gray-200" />
+        <hr className="my-6 border-gray-700" />
 
-        <div className="grid sm:grid-cols-2 gap-4 text-center md:text-left">
-          <Link
-            to="/orders"
-            className="block p-4 border border-gray-200 rounded-lg hover:shadow"
-          >
-            <h4 className="font-medium mb-1 text-gray-200">My Orders</h4>
-            <p className="text-sm text-gray-400">Track and view your orders.</p>
+        {/* LINKS */}
+        <div className="grid sm:grid-cols-2 gap-4">
+          <Link to="/orders" className="p-4 border border-gray-700 rounded-lg hover:shadow">
+            <h4 className="font-medium text-gray-200">My Orders</h4>
+            <p className="text-sm text-gray-400">Track your orders.</p>
           </Link>
-          <Link
-            to="/wishlist"
-            className="block p-4 border border-gray-200 rounded-lg hover:shadow"
-          >
-            <h4 className="font-medium mb-1 text-gray-200">My Wishlist</h4>
-            <p className="text-sm text-gray-400">See saved products you love.</p>
-          </Link>
-          <Link
-            to="/settings"
-            className="block p-4 border border-gray-200 rounded-lg hover:shadow"
-          >
-            <h4 className="font-medium mb-1 text-gray-200">Account Settings</h4>
-            <p className="text-sm text-gray-400">Update name, email, password.</p>
-          </Link>
-          <Link
-            to="/addresses"
-            className="block p-4 border border-gray-200 rounded-lg hover:shadow"
-          >
-            <h4 className="font-medium mb-1 text-gray-200">Saved Addresses</h4>
-            <p className="text-sm text-gray-400">Manage delivery addresses.</p>
+
+          <Link to="/wishlist" className="p-4 border border-gray-700 rounded-lg hover:shadow">
+            <h4 className="font-medium text-gray-200">Wishlist</h4>
+            <p className="text-sm text-gray-400">Saved items.</p>
           </Link>
         </div>
       </div>
+
+      {/* NAME MODAL */}
+      <AnimatePresence>
+        {openNameModal && (
+          <motion.div
+            className="fixed inset-0 bg-black/50 backdrop-blur-sm flex justify-center items-center z-[99999]"
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+          >
+            <motion.div
+              initial={{ scale: 0.7 }} animate={{ scale: 1 }} exit={{ scale: 0.7 }}
+              className="bg-[#0a1523] p-6 rounded-lg shadow-xl w-[90%] max-w-md border border-white/10"
+            >
+              <h3 className="text-xl text-gray-100 mb-4">Update Username</h3>
+
+              <TextField
+                fullWidth
+                label="New Username"
+                value={newName}
+                onChange={(e) => setNewName(e.target.value)}
+                InputLabelProps={{ style: { color: "#ccc" } }}
+                InputProps={{ style: { color: "white" } }}
+                sx={{
+                  "& .MuiOutlinedInput-root": {
+                    "& fieldset": { borderColor: "#666" },
+                    "&:hover fieldset": { borderColor: "#facc15" },
+                    "&.Mui-focused fieldset": { borderColor: "#facc15" },
+                  },
+                }}
+              />
+
+              <div className="flex gap-3 justify-end mt-6">
+                <button onClick={() => setOpenNameModal(false)} className="px-3 py-1 bg-gray-600 text-white rounded">
+                  Cancel
+                </button>
+                <button onClick={saveName} className="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700">
+                  Save
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* PASSWORD MODAL */}
+      <AnimatePresence>
+        {openPasswordModal && (
+          <motion.div
+            className="fixed inset-0 bg-black/50 backdrop-blur-sm flex justify-center items-center z-[99999]"
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+          >
+            <motion.div
+              initial={{ scale: 0.7 }} animate={{ scale: 1 }} exit={{ scale: 0.7 }}
+              className="bg-[#0a1523] p-6 rounded-lg shadow-xl w-[90%] max-w-md border border-white/10"
+            >
+              <h3 className="text-xl text-gray-100 mb-4">Change Password</h3>
+
+              <TextField
+                fullWidth
+                type="password"
+                label="Current Password"
+                value={currentPassword}
+                onChange={(e) => setCurrentPassword(e.target.value)}
+                InputLabelProps={{ style: { color: "#ccc" } }}
+                InputProps={{ style: { color: "white" } }}
+                sx={{
+                  "& .MuiOutlinedInput-root": {
+                    "& fieldset": { borderColor: "#666" },
+                    "&:hover fieldset": { borderColor: "#facc15" },
+                    "&.Mui-focused fieldset": { borderColor: "#facc15" },
+                  },
+                }}
+              />
+
+              <TextField
+                fullWidth
+                type="password"
+                label="New Password"
+                className="mt-4"
+                value={newPass}
+                onChange={(e) => setNewPass(e.target.value)}
+                InputLabelProps={{ style: { color: "#ccc" } }}
+                InputProps={{ style: { color: "white" } }}
+                sx={{
+                  "& .MuiOutlinedInput-root": {
+                    "& fieldset": { borderColor: "#666" },
+                    "&:hover fieldset": { borderColor: "#facc15" },
+                    "&.Mui-focused fieldset": { borderColor: "#facc15" },
+                  },
+                }}
+              />
+
+              <div className="flex gap-3 justify-end mt-6">
+                <button onClick={() => setOpenPasswordModal(false)} className="px-3 py-1 bg-gray-600 text-white rounded">
+                  Cancel
+                </button>
+                <button onClick={savePassword} className="px-3 py-1 bg-purple-600 text-white rounded hover:bg-purple-700">
+                  Update
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* ANIMATION CSS */}
+      <style>{`
+        .animate-ping-once {
+          animation: pingOnce 0.6s ease-out forwards;
+        }
+        @keyframes pingOnce {
+          0% { transform: scale(1); }
+          50% { transform: scale(1.15); }
+          100% { transform: scale(1); }
+        }
+      `}</style>
     </div>
   );
 }

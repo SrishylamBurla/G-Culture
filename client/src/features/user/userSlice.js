@@ -11,14 +11,17 @@ try {
   storedUser = null;
 }
 
-// ✅ Login thunk
+// ---------------------------------------------
+// LOGIN THUNK
+// ---------------------------------------------
 export const loginUser = createAsyncThunk(
   "user/login",
   async ({ email, password }, { rejectWithValue }) => {
     try {
       const config = { headers: { "Content-Type": "application/json" } };
+
       const { data } = await axios.post(
-        "http://localhost:5000/api/auth/login",
+        `${import.meta.env.VITE_API_URL}/api/auth/login`,
         { email, password },
         config
       );
@@ -31,35 +34,91 @@ export const loginUser = createAsyncThunk(
   }
 );
 
-// ✅ Avatar update thunk
+// ---------------------------------------------
+// AVATAR UPDATE THUNK (FIXED URL)
+// ---------------------------------------------
 export const updateAvatar = createAsyncThunk(
   "user/updateAvatar",
   async (formData, { getState, rejectWithValue }) => {
     try {
       const { userInfo } = getState().user;
-      if (!userInfo?.token) throw new Error("Not authorized");
 
-      const config = {
-        headers: {
-          Authorization: `Bearer ${userInfo.token}`,
-          "Content-Type": "multipart/form-data",
-        },
-      };
+      if (!userInfo?.token) return rejectWithValue("Unauthorized");
 
       const { data } = await axios.put(
-        "http://localhost:5000/api/auth/avatar",
+        `${import.meta.env.VITE_API_URL}/api/auth/update-avatar`,   
         formData,
-        config
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${userInfo.token}`,
+          },
+        }
       );
 
       localStorage.setItem("userInfo", JSON.stringify(data));
       return data;
     } catch (error) {
-      return rejectWithValue(error.response?.data?.message || "Avatar update failed");
+      return rejectWithValue(
+        error.response?.data?.message || "Avatar update failed"
+      );
     }
   }
 );
 
+export const updateName = createAsyncThunk(
+  "user/updateName",
+  async (name, { getState, rejectWithValue }) => {
+    try {
+      const { userInfo } = getState().user;
+
+      const { data } = await axios.put(
+        `${import.meta.env.VITE_API_URL}/api/auth/update-name`,
+        { name },
+        {
+          headers: {
+            Authorization: `Bearer ${userInfo.token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      localStorage.setItem("userInfo", JSON.stringify(data));
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.message || "Name update failed");
+    }
+  }
+);
+
+export const updatePassword = createAsyncThunk(
+  "user/updatePassword",
+  async ({ currentPassword, newPassword }, { getState, rejectWithValue }) => {
+    try {
+      const { userInfo } = getState().user;
+
+      const { data } = await axios.put(
+        `${import.meta.env.VITE_API_URL}/api/auth/update-password`,
+        { currentPassword, newPassword },
+        {
+          headers: {
+            Authorization: `Bearer ${userInfo.token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.message || "Password update failed");
+    }
+  }
+);
+
+
+// ---------------------------------------------
+// SLICE
+// ---------------------------------------------
 const userSlice = createSlice({
   name: "user",
   initialState: { userInfo: storedUser },
@@ -82,7 +141,21 @@ const userSlice = createSlice({
       })
       .addCase(loginUser.rejected, (state, action) => {
         console.error("Login failed:", action.payload);
-      });
+      })
+      .addCase(updateName.fulfilled, (state, action) => {
+  state.userInfo = action.payload;
+})
+.addCase(updateName.rejected, (state, action) => {
+  console.error(action.payload);
+})
+
+.addCase(updatePassword.fulfilled, () => {
+  console.log("Password updated successfully");
+})
+.addCase(updatePassword.rejected, (state, action) => {
+  console.error(action.payload);
+});
+
   },
 });
 

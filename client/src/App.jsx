@@ -20,7 +20,7 @@ import StreetwearPage from "./pages/StreetwearPage";
 import CasualwearPage from "./pages/CasualwearPage";
 import CapsPage from "./pages/CapsPage";
 import ChestbagsPage from "./pages/ChestbagsPage";
-import MobileMenu from "./components/MobileMenu"; 
+import MobileMenu from "./components/MobileMenu";
 
 function App() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -36,11 +36,35 @@ function App() {
         {/* Header always visible */}
         <Header menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
 
-        {/* Fullscreen Mobile Menu */}
         {menuOpen && <MobileMenu setMenuOpen={setMenuOpen} />}
 
-        {/* Toast Notifications */}
-        <Toaster position="top-right" reverseOrder={false} />
+        <Toaster
+          position="top-right"
+          reverseOrder={false}
+          containerStyle={{ zIndex: 999999 }}
+          toastOptions={{
+            duration: 2200,
+            style: {
+              background: "rgba(0,0,0,0.85)",
+              color: "#fff",
+              borderRadius: "6px",
+              border: "1px solid rgba(255,255,255,0.15)",
+              backdropFilter: "blur(6px)",
+            },
+            success: {
+              iconTheme: {
+                primary: "#22c55e",
+                secondary: "#fff",
+              },
+            },
+            error: {
+              iconTheme: {
+                primary: "#ef4444",
+                secondary: "#fff",
+              },
+            },
+          }}
+        />
 
         {/* Main Content */}
         <main className="flex-grow">

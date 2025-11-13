@@ -5,6 +5,7 @@ import ProductCard from "../components/ProductCard";
 import ShopProductFilters from "../components/filters/ShopProductFilters";
 import { motion, AnimatePresence } from "framer-motion";
 import { Filter } from "lucide-react";
+import SkeletonProducts from "../components/SkeletonProducts";
 
 export default function ShopPage() {
   const dispatch = useDispatch();
@@ -126,18 +127,11 @@ export default function ShopPage() {
 
           {/* Product Grid */}
           <AnimatePresence mode="wait">
-            {loading ? (
+            {loading || items.length === 0 ? (
+              <SkeletonProducts />
+            ) : filteredProducts.length > 0 ? (
               <motion.div
-                key="loading"
-                className="text-center text-gray-400 py-20 text-lg"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-              >
-                Loading products...
-              </motion.div>
-            ) : filteredProducts.length ? (
-              <motion.div
+                rel="prefetch"
                 key="grid"
                 className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 pt-6"
               >
