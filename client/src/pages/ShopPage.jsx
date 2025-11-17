@@ -269,6 +269,16 @@ export default function ShopPage() {
         >
           {/* Section Title */}
           <div
+            className="flex justify-end"
+            style={{
+              animation: "fadeInRight 0.9s ease-out forwards",
+            }}
+          >
+            <h1 className="inline text-gray-900 text-lg py-1 px-2 page-tags bg-[#159181]">
+              #ShopAll
+            </h1>
+          </div>
+          <div
             className="pt-4 pb-8 mx-3"
             style={{ animation: "fadeInLeft 1s ease-out forwards" }}
           >
