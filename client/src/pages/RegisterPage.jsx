@@ -220,6 +220,30 @@ export default function RegisterPage() {
               Continue with Google
             </Button>
           </motion.div>
+          <motion.div
+            variants={googleAnimation}
+            whileTap="tap"
+            whileHover="hover"
+          >
+          <Link to={'/phone-login'}>
+            <Button
+              fullWidth
+              variant="outlined"
+              sx={{
+                py: 1.2,
+                borderColor: "yellow",
+                color: "yellow",
+                gap: 1.5,
+                "&:hover": {
+                  borderColor: "#facc15",
+                  bgcolor: "rgba(255,255,255,0.05)",
+                },
+              }}
+            >
+              <Google sx={{ color: "#facc15" }} />
+              Continue with Phone
+            </Button></Link>
+          </motion.div>
         </form>
 
         {/* FOOTER */}

@@ -14,7 +14,7 @@ export default function HomePage() {
       >
         <Link
           to="/shop"
-          className="absolute bottom-20 px-8 py-3 bg-black/80 text-white rounded hover:bg-black transition"
+          className="absolute bottom-60 px-8 py-3 bg-black/80 text-white rounded hover:bg-black transition"
         >
           Shop Now
         </Link>

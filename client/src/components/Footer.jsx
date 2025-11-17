@@ -13,9 +13,9 @@ export default function Footer() {
           <div>
             <Link to="/">
               <img
-                src="/images/G-Logo.png"
+                src="/images/G-CULTure1.png"
                 alt="Logo"
-                className="w-10 md:w-16 mb-4"
+                className="w-20 md:w-25 mb-4"
               />
             </Link>
             <p className="text-sm leading-relaxed text-gray-400">

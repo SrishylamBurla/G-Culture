@@ -21,7 +21,7 @@ export default function CartPage() {
   };
 
   return (
-    <div className="p-2 md:p-10 min-h-screen bg-[#001424] bg-[url('https://www.transparenttextures.com/patterns/gplay.png')] pt-[5rem] -mt-[5rem] ">
+    <div className="p-2 md:p-10 min-h-screen bg-[#001424] bg-[url('https://www.transparenttextures.com/patterns/gplay.png')] pt-[4.5rem] md:pt-[5rem]">
       <h2 className="text-2xl font-bold text-center text-gray-200 py-4 md:py-6 md:mt-8 tracking-wide drop-shadow-sm">
         🛒 My Shopping Cart
       </h2>
@@ -37,7 +37,7 @@ export default function CartPage() {
           </button>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 ">
           {/* 🛍️ Cart Items */}
           <div className="md:col-span-2 space-y-2">
             <AnimatePresence>
@@ -148,16 +148,16 @@ export default function CartPage() {
               Order Summary
             </h3>
             <div className="flex justify-between text-sm mb-2">
-              <span>Subtotal</span>
-              <span>₹ {subtotal.toLocaleString("en-IN")}</span>
+              <span className="text-gray-800">Subtotal</span>
+              <span className="text-gray-800">₹ {subtotal.toLocaleString("en-IN")}</span>
             </div>
             <div className="flex justify-between text-sm mb-2">
-              <span>Shipping</span>
+              <span className="text-gray-800">Shipping</span>
               <span className="text-green-600 font-medium">Free</span>
             </div>
             <hr className="my-2" />
             <div className="flex justify-between font-semibold text-md mb-4">
-              <span>Total</span>
+              <span className="text-gray-800">Total</span>
               <span className="text-amber-600">
                 ₹ {subtotal.toLocaleString("en-IN")}
               </span>

@@ -21,6 +21,7 @@ import CasualwearPage from "./pages/CasualwearPage";
 import CapsPage from "./pages/CapsPage";
 import ChestbagsPage from "./pages/ChestbagsPage";
 import MobileMenu from "./components/MobileMenu";
+import { PhoneSignIn } from "./pages/PhoneSignIn";
 
 function App() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -79,6 +80,7 @@ function App() {
             {/* Auth Routes */}
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
+            <Route path="phone-login" element={<PhoneSignIn />} />
 
             {/* Protected Routes */}
             <Route

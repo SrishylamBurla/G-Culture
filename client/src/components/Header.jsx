@@ -80,9 +80,9 @@ export default function Header({ menuOpen, setMenuOpen }) {
           <nav className="hidden md:flex items-center space-x-8 font-medium text-md">
           <Link to="/">
               <img
-                src="/images/G-Logo.png"
+                src="/images/G-CULTure1.png"
                 alt="Logo"
-                className="w-8 h-8"
+                className="w-12 h-12"
               />
             </Link>
             {[
@@ -95,8 +95,9 @@ export default function Header({ menuOpen, setMenuOpen }) {
                 rel="prefetch"
                 key={cat.name}
                 to={cat.path}
-                className="relative group text-md hover:text-yellow-400 tracking-wide bg-clip-text text-transparent bg-gradient-to-r from-[#e19b04] via-[#ac8e04] to-[#eb7a08] transition-colors duration-300"
-                style={{ WebkitTextStroke: "0.4px" }}
+                className="relative group text-md hover:text-yellow-400 tracking-normal bg-clip-text transition-colors duration-300 text-gray-200"
+                //text-transparent bg-gradient-to-r from-[#43034a] via-[#41033b] to-[#38021f] 
+                // style={{ WebkitTextStroke: "0.4px" }}
               >
                 {cat.name}
                 <span className="absolute left-0 bottom-[-4px] w-0 h-[2px] bg-gradient-to-r from-[#0f6ed4] via-[#a01cb2] to-[#de8328] transition-all duration-300 group-hover:w-full"></span>
@@ -129,9 +130,9 @@ export default function Header({ menuOpen, setMenuOpen }) {
           </button>
           <Link to="/">
               <img
-                src="/images/G-Logo.png"
+                src="/images/G-Culture.png"
                 alt="Logo"
-                className="w-5 h-5 md:hidden"
+                className="w-7 h-7 md:hidden"
               />
             </Link>
           </div>

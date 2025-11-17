@@ -10,6 +10,7 @@ export default function WishlistPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { wishlist } = useSelector((state) => state.wishlist);
+  const { userInfo } = useSelector((state) => state.user)
   const [showSizePopup, setShowSizePopup] = useState(null);
   const [selectedColor, setSelectedColor] = useState("");
   const [selectedSize, setSelectedSize] = useState("");
@@ -89,9 +90,45 @@ export default function WishlistPage() {
     setShowSizePopup(null);
   };
 
+if (!userInfo) {
+  return (
+    <div className="bg-[#001424] bg-[url('https://www.transparenttextures.com/patterns/gplay.png')] min-h-screen flex flex-col items-center justify-center px-6 pt-[5rem] text-center">
+      
+      {/* <img
+        src={"/images/wishlistImage.png"}
+        alt="login-required"
+        className="w-40 opacity-90 mb-4"
+      /> */}
+
+      <h2 className="text-xl font-semibold text-white mb-2">
+        Login to view your Wishlist
+      </h2>
+
+      <p className="text-gray-400 mb-6 text-sm">
+        Your saved items will appear here once you log in.
+      </p>
+
+      <Link
+        to="/login"
+        className="bg-black text-white px-6 py-2 rounded-md text-md font-medium hover:bg-gray-800 hover:border-1 transition"
+      >
+        Login
+      </Link>
+
+      <Link
+        to="/shop"
+        className="mt-4 text-[#fff] border-1 rounded-sm px-6 py-2 hover:bg-black text-md"
+      >
+        Continue Shopping
+      </Link>
+    </div>
+  );
+}
+
+
   if (wishlist.length === 0) {
     return (
-      <div className="text-center bg-[#001424] bg-[url('https://www.transparenttextures.com/patterns/football-no-lines.png)] pt-[7rem] -mt-[5rem] min-h-screen flex flex-col items-center justify-center px-4">
+      <div className="text-center bg-[#001424] bg-[url('https://www.transparenttextures.com/patterns/gplay.png')] min-h-screen flex flex-col items-center justify-center px-4 pt-[4.5rem]">
         <h2 className="text-xl font-semibold text-gray-600 mb-4">
           Your wishlist is empty 💔
         </h2>
@@ -107,13 +144,13 @@ export default function WishlistPage() {
 
   return (
     <motion.div
-      className="px-2 md:px-3 lg:px-4 py-12 bg-[#001424] bg-[url('https://www.transparenttextures.com/patterns/flowers.png')] pt-[7rem] -mt-[5rem]"
+      className="px-2 md:px-3 lg:px-4 py-12 bg-[#001424] bg-[url('https://www.transparenttextures.com/patterns/gplay.png')] pt-[4.5rem] md:pt-[5rem]"
       variants={container}
       initial="hidden"
       animate="show"
       exit="exit"
     >
-      <h2 className="text-3xl font-bold mb-8 text-center text-white pt-14 tracking-wide">
+      <h2 className="text-2xl font-bold text-center text-gray-200 py-4 md:py-6 md:mt-8 tracking-wide drop-shadow-sm">
         My Wishlist
       </h2>
 

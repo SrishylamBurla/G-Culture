@@ -100,7 +100,7 @@ export default function StreetwearPage() {
     <section
       className="w-full min-h-screen bg-[#001424] 
                bg-[url('https://www.transparenttextures.com/patterns/snow.png')]
-               pt-[4rem] md:pt-[4.5rem]"
+               pt-[4.5rem] md:pt-[5.8rem]"
     >
       <div className="flex flex-col md:flex-row w-full">
         {/* ---------- MOBILE FILTER BUTTON ---------- */}

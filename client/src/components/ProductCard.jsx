@@ -83,7 +83,7 @@ export default function ProductCard({ product }) {
         ? `🛍️ "${product.name}" added — redirecting to checkout...`
         : `🛒 "${product.name}" added to cart successfully!`,
       {
-        duration: 2500,
+        duration: 1500,
         style: {
           borderRadius: "10px",
           background: "#333",
