@@ -13,7 +13,7 @@ export default function Footer() {
           <div>
             <Link to="/">
               <img
-                src="/images/G-CULTure1.png"
+                src="/images/gculture.png"
                 alt="Logo"
                 className="w-20 md:w-25 mb-4"
               />

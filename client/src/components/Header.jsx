@@ -80,9 +80,9 @@ export default function Header({ menuOpen, setMenuOpen }) {
           <nav className="hidden md:flex items-center space-x-8 font-medium text-md">
           <Link to="/">
               <img
-                src="/images/G-CULTure1.png"
+                src="/images/gculture.png"
                 alt="Logo"
-                className="w-12 h-12"
+                className="w-12 h-12 mix-blend-multiply"
               />
             </Link>
             {[
@@ -130,7 +130,7 @@ export default function Header({ menuOpen, setMenuOpen }) {
           </button>
           <Link to="/">
               <img
-                src="/images/G-Culture.png"
+                src="/images/gculture.png"
                 alt="Logo"
                 className="w-7 h-7 md:hidden"
               />
