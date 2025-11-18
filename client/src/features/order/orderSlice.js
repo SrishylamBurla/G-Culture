@@ -1,97 +1,237 @@
-// import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-// import API from '../../api/axios';
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import API from "../../api/axios";
 
-// export const createOrder = createAsyncThunk(
-//   'order/create',
-//   async (orderData, { getState }) => {
-//     const {
-//       user: { userInfo },
-//     } = getState();
+// Load user token from Redux or localStorage
+const getToken = (state) => {
+  const userInfo =
+    state.user?.userInfo ||
+    JSON.parse(localStorage.getItem("userInfo") || "null");
 
-//     if (!userInfo || !userInfo.token) {
-//       throw new Error('Not logged in');
-//     }
+  return userInfo?.token || null;
+};
 
-    
-
-//     const config = {
-//       headers: {
-//         'Content-Type': 'application/json',
-//         Authorization: `Bearer ${userInfo.token}`, // <-- pass token
-//       },
-//     };
-
-//     const { data } = await API.post('/orders', orderData, config);
-//     return data;
-//   }
-// );
-
-
-// const orderSlice = createSlice({
-//   name: 'order',
-//   initialState: { currentOrder: null, status: 'idle' },
-//   reducers: {},
-//   extraReducers: (builder) => {
-//     builder
-//       .addCase(createOrder.pending, (state) => { state.status = 'loading'; })
-//       .addCase(createOrder.fulfilled, (state, action) => { state.status = 'succeeded'; state.currentOrder = action.payload; })
-//       .addCase(createOrder.rejected, (state) => { state.status = 'failed'; });
-//   }
-// });
-
-// export default orderSlice.reducer;
-
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import API from '../../api/axios';
-
-// Persisted user info from localStorage (in case of page refresh)
-const userInfoFromStorage = localStorage.getItem('userInfo')
-  ? JSON.parse(localStorage.getItem('userInfo'))
-  : null;
-
-// Thunk to create an order
+//=====================================================
+// 1️⃣ Create New Order
+//=====================================================
 export const createOrder = createAsyncThunk(
-  'order/create',
-  async (orderData, { getState }) => {
-    // Get userInfo from Redux state or fallback to localStorage
-    const state = getState();
-    const userInfo =
-      state.user?.userInfo || userInfoFromStorage;
+  "order/create",
+  async (orderData, { getState, rejectWithValue }) => {
+    try {
+      const token = getToken(getState());
+      if (!token) throw new Error("Not logged in");
 
-    if (!userInfo || !userInfo.token) {
-      throw new Error('Not logged in');
+      const { data } = await API.post("/orders", orderData, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      return data;
+    } catch (err) {
+      return rejectWithValue(err.response?.data?.message || err.message);
     }
-
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${userInfo.token}`, // pass token
-      },
-    };
-
-    const { data } = await API.post('/orders', orderData, config);
-    return data;
   }
 );
 
+//=====================================================
+// 2️⃣ Fetch Order By ID
+//=====================================================
+export const fetchOrderById = createAsyncThunk(
+  "order/fetchOne",
+  async (id, { getState, rejectWithValue }) => {
+    try {
+      const token = getToken(getState());
+      const { data } = await API.get(`/orders/${id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      return data;
+    } catch (err) {
+      return rejectWithValue(err.response?.data?.message || err.message);
+    }
+  }
+);
+
+//=====================================================
+// 3️⃣ Fetch My Orders
+//=====================================================
+export const fetchMyOrders = createAsyncThunk(
+  "order/fetchMyOrders",
+  async (_, { getState, rejectWithValue }) => {
+    try {
+      const token = getToken(getState());
+
+      const { data } = await API.get("/orders/myorders", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      return data;
+    } catch (err) {
+      return rejectWithValue(err.response?.data?.message || err.message);
+    }
+  }
+);
+
+//=====================================================
+// 4️⃣ Fetch All Orders (Admin)
+//=====================================================
+export const fetchAllOrders = createAsyncThunk(
+  "order/fetchAll",
+  async (_, { getState, rejectWithValue }) => {
+    try {
+      const token = getToken(getState());
+
+      const { data } = await API.get("/orders", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      return data;
+    } catch (err) {
+      return rejectWithValue(err.response?.data?.message || err.message);
+    }
+  }
+);
+
+//=====================================================
+// 5️⃣ Mark Order as Paid
+//=====================================================
+export const updateOrderToPaid = createAsyncThunk(
+  "order/updatePaid",
+  async ({ id, payment }, { getState, rejectWithValue }) => {
+    try {
+      const token = getToken(getState());
+
+      const { data } = await API.put(
+        `/orders/${id}/pay`,
+        payment,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+
+      return data;
+    } catch (err) {
+      return rejectWithValue(err.response?.data?.message || err.message);
+    }
+  }
+);
+
+//=====================================================
+// 6️⃣ Mark Order as Delivered (Admin)
+//=====================================================
+export const updateOrderToDelivered = createAsyncThunk(
+  "order/updateDelivered",
+  async (id, { getState, rejectWithValue }) => {
+    try {
+      const token = getToken(getState());
+
+      const { data } = await API.put(
+        `/orders/${id}/deliver`,
+        {},
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      return data;
+    } catch (err) {
+      return rejectWithValue(err.response?.data?.message || err.message);
+    }
+  }
+);
+
+//=====================================================
+// 7️⃣ Cancel Order
+//=====================================================
+export const cancelOrder = createAsyncThunk(
+  "order/cancel",
+  async (id, { getState, rejectWithValue }) => {
+    try {
+      const token = getToken(getState());
+
+      const { data } = await API.put(
+        `/orders/${id}/cancel`,
+        {},
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      return data;
+    } catch (err) {
+      return rejectWithValue(err.response?.data?.message || err.message);
+    }
+  }
+);
+
+
+
+//=====================================================
+// Slice
+//=====================================================
 const orderSlice = createSlice({
-  name: 'order',
-  initialState: { currentOrder: null, status: 'idle', error: null },
+  name: "order",
+  initialState: {
+    currentOrder: null,
+    myOrders: [],
+    allOrders: [],
+    selectedOrder: null,
+
+    status: "idle",
+    myOrderStatus: "idle",
+    adminStatus: "idle",
+    payStatus: "idle",
+    deliverStatus: "idle",
+    cancelStatus: "idle",
+
+    error: null,
+  },
+
   reducers: {},
+
   extraReducers: (builder) => {
     builder
+
+      // Create Order
       .addCase(createOrder.pending, (state) => {
-        state.status = 'loading';
-        state.error = null;
+        state.status = "loading";
       })
       .addCase(createOrder.fulfilled, (state, action) => {
-        state.status = 'succeeded';
+        state.status = "succeeded";
         state.currentOrder = action.payload;
       })
       .addCase(createOrder.rejected, (state, action) => {
-        state.status = 'failed';
-        state.error = action.error.message; // store error message
-      });
+        state.status = "failed";
+        state.error = action.payload;
+      })
+
+      // Fetch Order by ID
+      .addCase(fetchOrderById.fulfilled, (state, action) => {
+        state.selectedOrder = action.payload;
+      })
+
+      // Fetch My Orders
+      .addCase(fetchMyOrders.fulfilled, (state, action) => {
+        state.myOrders = action.payload;
+      })
+
+      // Fetch All Orders (Admin)
+      .addCase(fetchAllOrders.fulfilled, (state, action) => {
+        state.allOrders = action.payload;
+      })
+
+      // Pay Order
+      .addCase(updateOrderToPaid.fulfilled, (state, action) => {
+        state.payStatus = "succeeded";
+        state.selectedOrder = action.payload;
+      })
+
+      // Deliver Order
+      .addCase(updateOrderToDelivered.fulfilled, (state, action) => {
+        state.deliverStatus = "succeeded";
+        state.selectedOrder = action.payload;
+      })
+
+      // Cancel Order
+      .addCase(cancelOrder.fulfilled, (state, action) => {
+        state.cancelStatus = "succeeded";
+        state.selectedOrder = action.payload;
+      })
+
   },
 });
 

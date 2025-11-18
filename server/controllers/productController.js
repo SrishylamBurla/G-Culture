@@ -78,29 +78,110 @@ export const deleteProduct = async (req, res) => {
     res.json({ message: "Product removed" });
   } else res.status(404).json({ message: "Product not found" });
 };
-
 export const searchProducts = async (req, res) => {
   try {
-    const { query } = req.query;
-    if (!query) return res.json([]);
+    
+    const queryRaw = req.query.query || req.query.q;
+if (!queryRaw) return res.json([]);
 
-    const regex = new RegExp(query, "i");
+const query = queryRaw.toLowerCase().trim().replace(/-/g, " ").replace(/_/g, " ");
+const words = query.split(/\s+/);
 
-    let filters = {
-      $or: [
-        { name: regex },
-        { subcategory: regex },
-        { colors: { $in: [regex] } }
-      ],
+
+    let filter = { $and: [] };
+
+    // -----------------------------------------
+    // Synonyms
+    // -----------------------------------------
+    const synonyms = {
+      shirt: ["shirt", "shirts", "formal shirt", "casual shirt"],
+      tshirt: ["tshirt", "t-shirt", "tees", "tee", "tshirts"],
+      jeans: ["jeans", "denim", "denim jeans"],
+      jacket: ["jacket", "hoodie", "outerwear"],
+      dress: ["dress", "dresses", "frock"],
+      skirt: ["skirt", "long skirt"],
+      shoes: ["shoes", "sneakers", "sports shoes"],
+      caps: ["cap", "caps", "hats"],
+      kids: ["kids", "kid", "child", "children"],
     };
 
-    if (query.toLowerCase().includes("streetwear")) filters = { category: "streetwear" };
-    if (query.toLowerCase().includes("casualwear")) filters = { category: "casualwear" };
-    if (query.toLowerCase().includes("caps")) filters = { category: "caps" };
-    if (query.toLowerCase().includes("chestbags")) filters = { category: "chestbags" };
+    // -----------------------------------------
+    // Reverse search synonyms
+    // -----------------------------------------
+    const matchSynonyms = (word) => {
+      for (const key in synonyms) {
+        if (synonyms[key].includes(word)) return key;
+      }
+      return null;
+    };
 
-    const results = await Product.find(filters).limit(30);
-    res.json(results);
+    // -----------------------------------------
+    // Map synonyms → categories + subcategories
+    // -----------------------------------------
+    const categoryMap = {
+      shirt: { subcategory: "shirts" },
+      tshirt: { subcategory: "tops" },
+      jeans: { subcategory: "bottoms" },
+      jacket: { subcategory: "outerwear" },
+      dress: { subcategory: "dresses" },
+      skirt: { subcategory: "bottoms" },
+      shoes: { subcategory: "casual" },
+      caps: { category: "caps" },  
+      kids: { category: "caps" },
+    };
+
+    // -----------------------------------------
+    // Build filter
+    // -----------------------------------------
+    for (const word of words) {
+      const synonymKey = matchSynonyms(word);
+
+      // 🔥 Word matches synonym → apply mapped category filter
+      if (synonymKey && categoryMap[synonymKey]) {
+        filter.$and.push(categoryMap[synonymKey]);
+        continue;
+      }
+
+      // 🔢 If keyword is numeric → maybe searching size
+      if (!isNaN(word)) {
+        filter.$and.push({ sizes: word });
+        continue;
+      }
+
+      // 🔍 General text search
+      filter.$and.push({
+        $or: [
+          { name: { $regex: word, $options: "i" } },
+          { slug: { $regex: word, $options: "i" } },
+          { description: { $regex: word, $options: "i" } },
+          { colors: { $elemMatch: { $regex: word, $options: "i" } } },
+          { subcategory: { $regex: word, $options: "i" } },
+        ],
+      });
+    }
+
+    // If no conditions → return empty
+    if (filter.$and.length === 0) filter = {};
+
+    // -----------------------------------------
+    // Execute search
+    // -----------------------------------------
+    let results = await Product.find(filter).lean();
+
+    // -----------------------------------------
+    // Sort by relevance score
+    // -----------------------------------------
+    results = results.sort((a, b) => {
+      const scoreA = words.filter((w) =>
+        a.name.toLowerCase().includes(w)
+      ).length;
+      const scoreB = words.filter((w) =>
+        b.name.toLowerCase().includes(w)
+      ).length;
+      return scoreB - scoreA;
+    });
+
+    res.json(results.slice(0, 40));
   } catch (err) {
     res.status(500).json({ message: "Search failed" });
   }

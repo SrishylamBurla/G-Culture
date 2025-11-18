@@ -50,7 +50,7 @@ export default function Header({ menuOpen, setMenuOpen }) {
 
   const handleSearch = () => {
     if (searchTerm.trim()) {
-      navigate(`/search?q=${encodeURIComponent(searchTerm.trim())}`);
+      navigate(`/search?query=${encodeURIComponent(searchTerm.trim())}`);
       setSearchTerm("");
       setShowSearch(false);
     }
