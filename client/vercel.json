@@ -3,6 +3,10 @@
     {
       "source": "/api/(.*)",
       "destination": "https://api.gculture.in/api/$1"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
   ]
 }
