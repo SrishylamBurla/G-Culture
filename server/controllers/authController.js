@@ -17,6 +17,7 @@ export const register = async (req, res) => {
         name: user.name,
         email: user.email,
         isAdmin: user.isAdmin,
+        password: user.password,
         avatar: user.avatar || null,
         token: generateToken(user._id),
       });
@@ -32,6 +33,7 @@ export const login = async (req, res) => {
       name: user.name,
       email: user.email,
       isAdmin: user.isAdmin,
+      password: user.password,
       avatar: user.avatar || null,
       token: generateToken(user._id),
     });
