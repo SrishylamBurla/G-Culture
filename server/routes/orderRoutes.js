@@ -1,10 +1,35 @@
-import express from 'express';
-import { createOrder, getOrderById } from '../controllers/orderController.js';
-import { protect } from '../middleware/authMiddleware.js';
+import express from "express";
+import {
+  createOrder,
+  getOrderById,
+  getMyOrders,
+  getAllOrders,
+  updateOrderToPaid,
+  updateOrderToDelivered,
+  cancelOrder,
+} from "../controllers/orderController.js";
+
+import { protect, admin } from "../middleware/authMiddleware.js";
+
 const router = express.Router();
 
-router.post('/', protect, createOrder);
-router.get('/:id', protect, getOrderById);
-router.post('/razorpay', protect);
+router.route("/")
+  .post(protect, createOrder)
+  .get(protect, admin, getAllOrders);
+
+router.route("/myorders")
+  .get(protect, getMyOrders);
+
+router.route("/:id")
+  .get(protect, getOrderById);
+
+router.route("/:id/pay")
+  .put(protect, updateOrderToPaid);
+
+router.route("/:id/deliver")
+  .put(protect, admin, updateOrderToDelivered);
+
+router.route("/:id/cancel")
+  .put(protect, cancelOrder);
 
 export default router;
