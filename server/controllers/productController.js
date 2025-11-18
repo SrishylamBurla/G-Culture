@@ -78,111 +78,189 @@ export const deleteProduct = async (req, res) => {
     res.json({ message: "Product removed" });
   } else res.status(404).json({ message: "Product not found" });
 };
+
+
+// export const searchProducts = async (req, res) => {
+//   try {
+//     const { query } = req.query;
+//     if (!query) return res.json([]);
+
+//     const q = query.toLowerCase().trim();
+//     const words = q.split(" ");
+
+//     // ❌ Block matches like: "women" -> "men"
+//     const exactWord = (productField) =>
+//       productField.toLowerCase().split(/[\s-]/).includes(q);
+
+//     // Synonyms
+//     const synonyms = {
+//       men: ["men", "male", "gents"],
+//       women: ["women", "female", "ladies"],
+//       shirt: ["shirt", "shirts", "casual shirt", "formal shirt"],
+//       tshirt: ["tshirt", "t-shirt", "tee", "tees"],
+//     };
+
+//     const matchSynonym = (word) => {
+//       for (const key in synonyms) {
+//         if (synonyms[key].includes(word)) return key;
+//       }
+//       return null;
+//     };
+
+//     let filter = { $and: [] };
+
+//     for (const word of words) {
+//       const syn = matchSynonym(word);
+
+//       if (syn === "men") {
+//         filter.$and.push({ category: "streetwear" });
+//         continue;
+//       }
+
+//       if (syn === "women") {
+//         filter.$and.push({ category: "casualwear" });
+//         continue;
+//       }
+
+//       // Block incorrect substring matches
+//       filter.$and.push({
+//         $or: [
+//           { name: { $regex: `\\b${word}\\b`, $options: "i" } }, // whole word only
+//           { subcategory: { $regex: `\\b${word}\\b`, $options: "i" } },
+//           { colors: { $elemMatch: { $regex: `\\b${word}\\b`, $options: "i" } } },
+//         ],
+//       });
+//     }
+
+//     if (filter.$and.length === 0) filter = {};
+
+//     let results = await Product.find(filter);
+
+//     // Ranking by exact inclusion
+//     results = results.sort((a, b) => {
+//       const scoreA = words.filter((w) =>
+//         exactWord(a.name) || a.name.toLowerCase().includes(w)
+//       ).length;
+
+//       const scoreB = words.filter((w) =>
+//         exactWord(b.name) || b.name.toLowerCase().includes(w)
+//       ).length;
+
+//       return scoreB - scoreA;
+//     });
+
+//     res.json(results.slice(0, 40));
+//   } catch (err) {
+//     res.status(500).json({ message: "Search failed" });
+//   }
+// };
+
+
 export const searchProducts = async (req, res) => {
   try {
-    
-    const queryRaw = req.query.query || req.query.q;
-if (!queryRaw) return res.json([]);
+    // Disable caching (VERY IMPORTANT)
+    res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate");
+    res.setHeader("Pragma", "no-cache");
+    res.setHeader("Expires", "0");
+    res.setHeader("Surrogate-Control", "no-store");
 
-const query = queryRaw.toLowerCase().trim().replace(/-/g, " ").replace(/_/g, " ");
-const words = query.split(/\s+/);
+    const { query } = req.query;
+    if (!query) return res.json([]);
 
+    const q = query.toLowerCase().trim();
+    const words = q.split(/\s+/);
 
-    let filter = { $and: [] };
-
-    // -----------------------------------------
-    // Synonyms
-    // -----------------------------------------
+    // 🚀 AMAZON-LIKE synonym dictionary (UPGRADED)
     const synonyms = {
+      men: ["men", "male", "man", "mens"],
+      women: ["women", "woman", "female", "ladies", "lady"],
       shirt: ["shirt", "shirts", "formal shirt", "casual shirt"],
-      tshirt: ["tshirt", "t-shirt", "tees", "tee", "tshirts"],
-      jeans: ["jeans", "denim", "denim jeans"],
-      jacket: ["jacket", "hoodie", "outerwear"],
+      tshirt: ["tshirt", "t-shirt", "tee", "tees", "tshirts"],
+      jeans: ["jeans", "denim", "denims", "jean"],
+      jacket: ["jacket", "hoodie", "outerwear", "sweatshirt"],
       dress: ["dress", "dresses", "frock"],
       skirt: ["skirt", "long skirt"],
-      shoes: ["shoes", "sneakers", "sports shoes"],
-      caps: ["cap", "caps", "hats"],
-      kids: ["kids", "kid", "child", "children"],
+      shoes: ["shoes", "sneakers", "sports shoes", "footwear"],
+      kids: ["kids", "child", "children", "kid"]
     };
 
-    // -----------------------------------------
-    // Reverse search synonyms
-    // -----------------------------------------
-    const matchSynonyms = (word) => {
+    const matchSynonym = (word) => {
+      word = word.toLowerCase();
       for (const key in synonyms) {
         if (synonyms[key].includes(word)) return key;
       }
       return null;
     };
 
-    // -----------------------------------------
-    // Map synonyms → categories + subcategories
-    // -----------------------------------------
+    // 🚀 MAP synonyms → exact category/subcategory in DB
     const categoryMap = {
+      men: { category: "streetwear" },
+      women: { category: "casualwear" },
+      kids: { category: "caps" },
       shirt: { subcategory: "shirts" },
       tshirt: { subcategory: "tops" },
       jeans: { subcategory: "bottoms" },
       jacket: { subcategory: "outerwear" },
       dress: { subcategory: "dresses" },
       skirt: { subcategory: "bottoms" },
-      shoes: { subcategory: "casual" },
-      caps: { category: "caps" },  
-      kids: { category: "caps" },
+      shoes: { subcategory: "casual" }
     };
 
-    // -----------------------------------------
-    // Build filter
-    // -----------------------------------------
-    for (const word of words) {
-      const synonymKey = matchSynonyms(word);
+    // 🚀 QUERY BUILDER
+    let filter = { $and: [] };
 
-      // 🔥 Word matches synonym → apply mapped category filter
-      if (synonymKey && categoryMap[synonymKey]) {
-        filter.$and.push(categoryMap[synonymKey]);
+    for (let word of words) {
+      const syn = matchSynonym(word);
+
+      // Use synonym mapped category if exists
+      if (syn && categoryMap[syn]) {
+        filter.$and.push(categoryMap[syn]);
         continue;
       }
 
-      // 🔢 If keyword is numeric → maybe searching size
-      if (!isNaN(word)) {
-        filter.$and.push({ sizes: word });
-        continue;
-      }
+      // Try fuzzy/typo-tolerant regex for fallback
+      const fuzzy = new RegExp(word.split("").join(".*"), "i");
 
-      // 🔍 General text search
       filter.$and.push({
         $or: [
-          { name: { $regex: word, $options: "i" } },
-          { slug: { $regex: word, $options: "i" } },
-          { description: { $regex: word, $options: "i" } },
-          { colors: { $elemMatch: { $regex: word, $options: "i" } } },
-          { subcategory: { $regex: word, $options: "i" } },
-        ],
+          { name: { $regex: fuzzy } },
+          { subcategory: { $regex: fuzzy } },
+          { colors: { $elemMatch: { $regex: fuzzy } } }
+        ]
       });
     }
 
-    // If no conditions → return empty
     if (filter.$and.length === 0) filter = {};
 
-    // -----------------------------------------
-    // Execute search
-    // -----------------------------------------
-    let results = await Product.find(filter).lean();
+    // 🚀 Fetch from DB
+    let results = await Product.find(filter);
 
-    // -----------------------------------------
-    // Sort by relevance score
-    // -----------------------------------------
-    results = results.sort((a, b) => {
-      const scoreA = words.filter((w) =>
-        a.name.toLowerCase().includes(w)
-      ).length;
-      const scoreB = words.filter((w) =>
-        b.name.toLowerCase().includes(w)
-      ).length;
-      return scoreB - scoreA;
-    });
+    // 🚀 INTELLIGENT SCORING & SORTING (like Amazon relevance)
+    results = results
+      .map((p) => {
+        let score = 0;
 
-    res.json(results.slice(0, 40));
+        words.forEach((w) => {
+          const lw = w.toLowerCase();
+          if (p.name.toLowerCase().includes(lw)) score += 5;
+          if (p.subcategory?.toLowerCase().includes(lw)) score += 3;
+          if (p.category?.toLowerCase().includes(lw)) score += 2;
+
+          // Boost exact synonym matches
+          const syn = matchSynonym(w);
+          if (syn && categoryMap[syn]?.subcategory === p.subcategory) {
+            score += 10;
+          }
+        });
+
+        return { product: p, score };
+      })
+      .sort((a, b) => b.score - a.score)
+      .map((x) => x.product);
+
+    return res.json(results.slice(0, 40));
   } catch (err) {
+    console.error("Search failed:", err);
     res.status(500).json({ message: "Search failed" });
   }
 };
