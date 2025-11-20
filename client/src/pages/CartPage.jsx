@@ -21,14 +21,14 @@ export default function CartPage() {
   };
 
   return (
-    <div className="p-2 md:p-10 min-h-screen bg-[#001424] bg-[url('https://www.transparenttextures.com/patterns/gplay.png')] pt-[4.5rem] md:pt-[5rem]">
-      <h2 className="text-2xl font-bold text-center text-gray-200 py-4 md:py-6 md:mt-8 tracking-wide drop-shadow-sm">
-        🛒 My Shopping Cart
+    <div className="p-2 md:p-10 min-h-screen pt-[4.5rem] md:pt-[5rem]">
+      <h2 className="text-2xl font-bold text-center text-gray-800 py-4 md:py-6 md:mt-8 tracking-wide">
+        My Shopping Cart
       </h2>
 
       {cartItems.length === 0 ? (
-        <div className="text-center mt-20">
-          <h3 className="text-lg text-gray-600 mb-4">Your cart is empty 🛍️</h3>
+        <div className="text-center mt-40">
+          <h2 className="text-xl font-semibold text-gray-600 mb-4">Your cart is empty 🛍️</h2>
           <button
             onClick={() => navigate("/shop")}
             className="px-6 py-2 bg-gradient-to-r from-yellow-400 to-amber-500 text-black font-semibold rounded-lg shadow-md hover:scale-105 transition-transform"

@@ -18,11 +18,11 @@ export default function CapsProductFilters({
   const toggleSection = (key) =>
     setOpenSections((prev) => ({ ...prev, [key]: !prev[key] }));
 
-  // 🧢 Caps-specific filters
+  // 🎩 Caps-specific filters
   const FILTER_OPTIONS = {
-    subcategories: ["tops", "bottoms", "dresses", "outerwear"],
-    colors: ["blue", "gray", "green", "pink", "yellow"],
-    sizes: ["S", "M", "L"],
+    subcategories: ["sports", "casual", "snapback", "bucket", "trucker"],
+    colors: ["black", "white", "blue", "red", "brown"],
+    sizes: ["Free Size"],
   };
 
   const handleChange = (key, value) => {
@@ -41,22 +41,21 @@ export default function CapsProductFilters({
 
   return (
     <aside
-      className="w-full md:w-64 flex flex-col bg-[#001424]
-                 bg-[url('https://www.transparenttextures.com/patterns/snow.png')]
-                 border-r border-white/10 text-gray-100 sticky top-[64px]
+      className="w-50 flex flex-col bg-gray-200
+                 border-r border-white/10 text-gray-800 sticky
                  h-[calc(100vh-64px)] overflow-y-scroll scrollbar-hover
                  px-4 py-2 transition-all duration-300"
     >
       {/* HEADER */}
       <div className="relative">
-        <h3 className="text-lg font-semibold mb-6 uppercase border-b border-white/10 pb-3 tracking-wide">
+        <h3 className="text-lg font-semibold mb-6 uppercase border-b border-white/90 pb-3 tracking-wide">
           Filters
         </h3>
 
         {isMobile && (
           <button
             onClick={closeDrawer}
-            className="text-gray-300 hover:text-white text-xl absolute top-1 right-1"
+            className="text-gray-800 hover:text-gray-600 text-xl absolute top-1 right-1"
           >
             ✕
           </button>
@@ -67,7 +66,7 @@ export default function CapsProductFilters({
       <div className="mb-4">
         <button
           onClick={() => toggleSection("subcategory")}
-          className="flex justify-between w-full font-medium text-gray-200 hover:text-white"
+          className="flex justify-between w-full font-medium text-gray-800 hover:text-gray-600"
         >
           Type
           <ChevronDown
@@ -76,6 +75,7 @@ export default function CapsProductFilters({
             }`}
           />
         </button>
+
         <motion.div
           initial={false}
           animate={{
@@ -104,7 +104,7 @@ export default function CapsProductFilters({
       <div className="mb-4">
         <button
           onClick={() => toggleSection("price")}
-          className="flex justify-between w-full font-medium text-gray-200 hover:text-white"
+          className="flex justify-between w-full font-medium text-gray-800 hover:text-gray-600"
         >
           Price Range
           <ChevronDown
@@ -124,14 +124,14 @@ export default function CapsProductFilters({
         >
           <input
             type="range"
-            min={500}
+            min={200}
             max={2000}
-            step="100"
+            step="50"
             value={filters.price}
             onChange={(e) => handleChange("price", e.target.value)}
             className="w-full accent-purple-500"
           />
-          <p className="text-xs mt-1 text-gray-300">Up to ₹{filters.price}</p>
+          <p className="text-xs mt-1 text-gray-800">Up to ₹{filters.price}</p>
         </motion.div>
       </div>
 
@@ -139,7 +139,7 @@ export default function CapsProductFilters({
       <div className="mb-4">
         <button
           onClick={() => toggleSection("size")}
-          className="flex justify-between w-full font-medium text-gray-200 hover:text-white"
+          className="flex justify-between w-full font-medium text-gray-800 hover:text-gray-600"
         >
           Size
           <ChevronDown
@@ -163,8 +163,8 @@ export default function CapsProductFilters({
               onClick={() => handleChange("size", size)}
               className={`px-3 py-1 border rounded-md text-sm transition-all duration-200 ${
                 filters.size === size
-                  ? "border-purple-400 bg-purple-400/10 text-white"
-                  : "border-gray-600 text-gray-300 hover:bg-white/10"
+                  ? "border-purple-400 bg-purple-400/10 text-gray-800"
+                  : "border-gray-600 text-gray-800 hover:bg-white/10"
               }`}
             >
               {size}
@@ -177,7 +177,7 @@ export default function CapsProductFilters({
       <div className="mb-6">
         <button
           onClick={() => toggleSection("color")}
-          className="flex justify-between w-full font-medium text-gray-200 hover:text-white"
+          className="flex justify-between w-full font-medium text-gray-800 hover:text-gray-600"
         >
           Color
           <ChevronDown
@@ -210,10 +210,10 @@ export default function CapsProductFilters({
         </motion.div>
       </div>
 
-      {/* CLEAR */}
+      {/* CLEAR FILTERS */}
       <button
         onClick={clearFilters}
-        className="text-sm underline text-gray-400 hover:text-purple-300 mb-6"
+        className="text-sm underline text-gray-800 hover:text-purple-300 mb-6"
       >
         Clear Filters
       </button>

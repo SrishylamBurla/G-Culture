@@ -9,7 +9,8 @@ import {
 } from "@mui/material";
 import { Visibility, VisibilityOff, Google } from "@mui/icons-material";
 import { useDispatch } from "react-redux";
-import { loginUser } from "../features/user/userSlice";
+import { setCredentials } from "../features/user/userSlice";
+import { useLoginMutation } from "../features/user/userApi";
 import { useNavigate, Link } from "react-router-dom";
 import toast from "react-hot-toast";
 
@@ -17,29 +18,30 @@ export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPass, setShowPass] = useState(false);
-  const [btnLoading, setBtnLoading] = useState(false);
 
+  const [login, { isLoading }] = useLoginMutation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setBtnLoading(true);
 
     const toastId = toast.loading("Logging in...");
 
     try {
-      await dispatch(loginUser({ email, password })).unwrap();
+      const data = await login({ email, password }).unwrap();
+
+      dispatch(setCredentials(data)); // FIXED
+
       toast.success("Welcome back! 🎉", { id: toastId });
-      setTimeout(() => navigate("/"), 800);
-    } catch {
-      toast.error("Invalid email or password", { id: toastId });
-    } finally {
-      setBtnLoading(false);
+      setTimeout(() => navigate("/"), 600);
+    } catch (err) {
+      toast.error(err?.data?.message || "Invalid email or password", {
+        id: toastId,
+      });
     }
   };
 
-  /** Google Login Micro-animation */
   const googleAnimation = {
     tap: { scale: 0.95 },
     hover: { scale: 1.05 },
@@ -54,8 +56,7 @@ export default function LoginPage() {
         px-4 pt-[5rem]
       "
     >
-      {/* DARK OVERLAY WHEN LOADING */}
-      {btnLoading && (
+      {isLoading && (
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 0.4 }}
@@ -63,7 +64,6 @@ export default function LoginPage() {
         />
       )}
 
-      {/* LOGIN CARD */}
       <motion.div
         initial={{ opacity: 0, y: 45 }}
         animate={{ opacity: 1, y: 0 }}
@@ -78,9 +78,7 @@ export default function LoginPage() {
           Welcome Back
         </h2>
 
-        {/* FORM */}
         <form onSubmit={handleSubmit} className="space-y-5">
-
           {/* EMAIL FIELD */}
           <TextField
             label="Email"
@@ -107,7 +105,7 @@ export default function LoginPage() {
             }}
           />
 
-          {/* PASSWORD FIELD WITH TOGGLE */}
+          {/* PASSWORD FIELD */}
           <TextField
             label="Password"
             type={showPass ? "text" : "password"}
@@ -145,12 +143,12 @@ export default function LoginPage() {
           />
 
           {/* LOGIN BUTTON */}
-          <motion.div whileHover={{ scale: !btnLoading ? 1.03 : 1 }}>
+          <motion.div whileHover={{ scale: !isLoading ? 1.03 : 1 }}>
             <Button
               type="submit"
               fullWidth
               variant="contained"
-              disabled={btnLoading}
+              disabled={isLoading}
               sx={{
                 py: 1.5,
                 fontWeight: "600",
@@ -163,7 +161,7 @@ export default function LoginPage() {
                 },
               }}
             >
-              {btnLoading ? (
+              {isLoading ? (
                 <div className="flex items-center justify-center gap-2">
                   <CircularProgress size={20} sx={{ color: "black" }} />
                   Logging in...
@@ -174,12 +172,8 @@ export default function LoginPage() {
             </Button>
           </motion.div>
 
-          {/* GOOGLE LOGIN BUTTON */}
-          <motion.div
-            variants={googleAnimation}
-            whileTap="tap"
-            whileHover="hover"
-          >
+          {/* GOOGLE LOGIN */}
+          <motion.div variants={googleAnimation} whileTap="tap" whileHover="hover">
             <Button
               fullWidth
               variant="outlined"
@@ -197,36 +191,32 @@ export default function LoginPage() {
               <Google sx={{ color: "#facc15" }} />
               Continue with Google
             </Button>
+          </motion.div>
 
+          {/* PHONE LOGIN */}
+          <motion.div variants={googleAnimation} whileTap="tap" whileHover="hover">
+            <Link to={"/phone-login"}>
+              <Button
+                fullWidth
+                variant="outlined"
+                sx={{
+                  py: 1.2,
+                  borderColor: "yellow",
+                  color: "yellow",
+                  gap: 1.5,
+                  "&:hover": {
+                    borderColor: "#facc15",
+                    bgcolor: "rgba(255,255,255,0.05)",
+                  },
+                }}
+              >
+                <Google sx={{ color: "#facc15" }} />
+                Continue with Phone
+              </Button>
+            </Link>
           </motion.div>
-          <motion.div
-            variants={googleAnimation}
-            whileTap="tap"
-            whileHover="hover"
-          >
-          <Link to={'/phone-login'}>
-            <Button
-              fullWidth
-              variant="outlined"
-              sx={{
-                py: 1.2,
-                borderColor: "yellow",
-                color: "yellow",
-                gap: 1.5,
-                "&:hover": {
-                  borderColor: "#facc15",
-                  bgcolor: "rgba(255,255,255,0.05)",
-                },
-              }}
-            >
-              <Google sx={{ color: "#facc15" }} />
-              Continue with Phone
-            </Button></Link>
-          </motion.div>
-          
         </form>
 
-        {/* FOOTER NAV */}
         <p className="mt-6 text-center text-sm text-gray-300">
           Don't have an account?{" "}
           <Link to="/register" className="text-yellow-400 hover:underline">

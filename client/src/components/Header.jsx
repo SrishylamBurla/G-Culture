@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
+import { BookHeart, Search, ShoppingBag } from "lucide-react"
 
 export default function Header({ menuOpen, setMenuOpen }) {
   const { cartItems } = useSelector((state) => state.cart);
@@ -59,8 +60,8 @@ export default function Header({ menuOpen, setMenuOpen }) {
   return (
     <header
       className="
-        fixed w-full top-0 z-[99999]
-        bg-[rgba(0,0,0,0.1)]
+        fixed top-0 w-full z-[99999]
+        bg-[rgba(136,245,216,0.1)]
         backdrop-blur-md
         border-b border-white/10
         shadow-[0_2px_8px_rgba(0,0,0,0.3)]
@@ -95,9 +96,7 @@ export default function Header({ menuOpen, setMenuOpen }) {
                 rel="prefetch"
                 key={cat.name}
                 to={cat.path}
-                className="relative group text-md hover:text-yellow-400 tracking-normal bg-clip-text transition-colors duration-300 text-gray-200"
-                //text-transparent bg-gradient-to-r from-[#43034a] via-[#41033b] to-[#38021f] 
-                // style={{ WebkitTextStroke: "0.4px" }}
+                className="hidden relative group text-md hover:text-yellow-400 tracking-normal bg-clip-text transition-colors duration-300 text-gray-800"
               >
                 {cat.name}
                 <span className="absolute left-0 bottom-[-4px] w-0 h-[2px] bg-gradient-to-r from-[#0f6ed4] via-[#a01cb2] to-[#de8328] transition-all duration-300 group-hover:w-full"></span>
@@ -138,9 +137,9 @@ export default function Header({ menuOpen, setMenuOpen }) {
           </div>
 
           {/* RIGHT: Search + Icons */}
-          <div className="flex items-center space-x-5 text-xl relative pr-2">
+          <div className="flex items-center space-x-3 text-xl relative pr-2">
             {/* Desktop Search */}
-            <div className="hidden md:flex items-center bg-amber-50 border rounded-xs border-gray-300 gap-1 px-1 py-1 w-[300px] h-[25px] shadow-sm">
+            <div className="hidden md:flex items-center bg-amber-50 border rounded-xs border-gray-300 gap-1 px-1 py-1 w-[300px] h-[30px] shadow-sm">
               <input
                 type="text"
                 placeholder="Search for products..."
@@ -150,11 +149,7 @@ export default function Header({ menuOpen, setMenuOpen }) {
                 onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
               />
               <button onClick={handleSearch}>
-                <img
-                  src="/images/search.png"
-                  alt="search"
-                  className="w-4 h-4 cursor-pointer"
-                />
+                <Search className="text-black cursor-pointer" size={24} strokeWidth={1.5} />
               </button>
             </div>
 
@@ -164,23 +159,15 @@ export default function Header({ menuOpen, setMenuOpen }) {
                 onClick={() => setShowSearch(!showSearch)}
                 className="md:hidden flex items-center justify-center"
               >
-                <img
-                  src="/images/search.png"
-                  alt="search"
-                  className="w-4 h-4 cursor-pointer"
-                />
+                <Search className="text-black cursor-pointer" size={24} strokeWidth={1.5} />
               </button>
             )}
 
             {/* Wishlist */}
             <Link to="/wishlist" className="relative">
-              <img
-                src="/images/wishlist.png"
-                alt="Wishlist"
-                className="w-5 h-5 hover:opacity-80"
-              />
+              <BookHeart className="text-black" size={24} strokeWidth={1.5} />
               {wishlist.length > 0 && (
-                <span className="absolute -top-2 -right-2 text-white text-xs px-1 rounded-full">
+                <span className="absolute -top-2 -right-2 text-white bg-black border-red-100 text-xs px-1 rounded-full">
                   {wishlist.length}
                 </span>
               )}
@@ -188,13 +175,9 @@ export default function Header({ menuOpen, setMenuOpen }) {
 
             {/* Cart */}
             <Link to="/cart" className="relative">
-              <img
-                src="/images/cart.png"
-                alt="cart"
-                className="w-5 h-5 hover:opacity-80"
-              />
+              <ShoppingBag className="text-black" size={24} strokeWidth={1.5} />
               {cartItems.length > 0 && (
-                <span className="absolute -top-2 -right-2 text-white text-[10px] md:text-xs rounded-full w-4 h-4 flex items-center justify-center">
+                <span className="absolute -top-2 -right-2 text-white bg-black border-red-100 text-[10px] md:text-xs rounded-full w-4 h-4 flex items-center justify-center">
                   {cartItems.length}
                 </span>
               )}
@@ -225,11 +208,7 @@ export default function Header({ menuOpen, setMenuOpen }) {
                   onClick={handleSearch}
                   className="absolute right-2 top-1/2 -translate-y-1/2"
                 >
-                  <img
-                    src="/images/search.png"
-                    alt="search"
-                    className="w-4 h-4 cursor-pointer"
-                  />
+                  <Search className="text-black" size={20} strokeWidth={1.5} />
                 </button>
               </div>
               <button

@@ -1,16 +1,27 @@
 import { configureStore } from "@reduxjs/toolkit";
-import userReducer from "../features/user/userSlice";
 import cartReducer from "../features/cart/cartSlice";
-import productsReducer from "../features/products/productSlice";
-import orderReducer from "../features/order/orderSlice";
 import wishlistReducer from "../features/wishlist/wishlistSlice";
+import userReducer from "../features/user/userSlice"
+import { productApi } from "../features/products/productApi";  
+import { orderApi } from "../features/order/orderApi"; 
+import { userApi } from "../features/user/userApi"; 
 
 export const store = configureStore({
   reducer: {
     user: userReducer,
     cart: cartReducer,
-    products: productsReducer,
-    order: orderReducer,
     wishlist: wishlistReducer,
+
+    // RTK Query reducers
+    [productApi.reducerPath]: productApi.reducer,
+    [orderApi.reducerPath]: orderApi.reducer,
+    [userApi.reducerPath]: userApi.reducer,
   },
+
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(
+      productApi.middleware,
+      orderApi.middleware,
+      userApi.middleware
+    ),
 });

@@ -112,7 +112,6 @@ export const cancelOrder = async (req, res) => {
 
     if (!order) return res.status(404).json({ message: "Order not found" });
 
-    // Only user who created the order can cancel, or admin
     if (order.user.toString() !== req.user._id.toString() && !req.user.isAdmin) {
       return res.status(403).json({ message: "Not authorized to cancel this order" });
     }

@@ -22,19 +22,29 @@ import CapsPage from "./pages/CapsPage";
 import ChestbagsPage from "./pages/ChestbagsPage";
 import MobileMenu from "./components/MobileMenu";
 import { PhoneSignIn } from "./pages/PhoneSignIn";
+import OrdersPage from "./pages/OrdersPage";
+import OrderDetailsPage from "./pages/OrderDetailsPage";
+import OrderSuccessPage from "./pages/OrderSuccessPage";
+
+import AdminRoutes from "./routes/AdminRoutes";
+import AdminLayout from "./layouts/AdminLayout";
+
+import AdminDashboard from "./pages/admin/AdminDashboard";
+import AdminProducts from "./pages/admin/AdminProducts";
+import AdminOrders from "./pages/admin/AdminOrders";
+import AdminUsers from "./pages/admin/AdminUsers";
+
+
 
 function App() {
   const [menuOpen, setMenuOpen] = useState(false);
-
-  // Prevent background scroll when mobile menu is open
   useEffect(() => {
     document.body.style.overflow = menuOpen ? "hidden" : "auto";
   }, [menuOpen]);
 
   return (
     <BrowserRouter>
-      <div className="flex flex-col min-h-screen bg-[#001424] text-white">
-        {/* Header always visible */}
+      <div className="flex flex-col min-h-screen text-white">
         <Header menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
 
         {menuOpen && <MobileMenu setMenuOpen={setMenuOpen} />}
@@ -66,16 +76,16 @@ function App() {
             },
           }}
         />
-
-        {/* Main Content */}
         <main className="flex-grow">
           <Routes>
-            {/* General Routes */}
             <Route path="/" element={<HomePage />} />
             <Route path="/shop" element={<ShopPage />} />
             <Route path="/product/:id" element={<ProductPage />} />
             <Route path="/cart" element={<CartPage />} />
             <Route path="/search" element={<SearchPage />} />
+            <Route path="/orders" element={<OrdersPage />} />
+            <Route path="/order/:id" element={<OrderDetailsPage />} />
+            <Route path="/order-success/:id" element={<OrderSuccessPage />} />
 
             {/* Auth Routes */}
             <Route path="/login" element={<LoginPage />} />
@@ -101,13 +111,27 @@ function App() {
             />
 
             {/* Category Routes */}
-            <Route path="/men/streetwear" element={<StreetwearPage />} />
-            <Route path="/men/casualwear" element={<CasualwearPage />} />
-            <Route path="/men/caps" element={<CapsPage />} />
-            <Route path="/men/chestbags" element={<ChestbagsPage />} />
+            <Route path="/streetwear" element={<StreetwearPage />} />
+            <Route path="/casualwear" element={<CasualwearPage />} />
+            <Route path="/caps" element={<CapsPage />} />
+            <Route path="/chestbags" element={<ChestbagsPage />} />
 
             {/* Wishlist */}
             <Route path="/wishlist" element={<WishlistPage />} />
+
+            <Route
+              path="/admin"
+              element={
+                <AdminRoutes>
+                  <AdminLayout />
+                </AdminRoutes>
+              }
+            >
+              <Route path="dashboard" element={<AdminDashboard />} />
+              <Route path="products" element={<AdminProducts />} />
+              <Route path="orders" element={<AdminOrders />} />
+              <Route path="users" element={<AdminUsers />} />
+            </Route>
           </Routes>
         </main>
 

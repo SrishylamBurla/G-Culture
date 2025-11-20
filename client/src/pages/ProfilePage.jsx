@@ -1,25 +1,36 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { logout, updateAvatar, updateName, updatePassword } from "../features/user/userSlice";
 import { motion, AnimatePresence } from "framer-motion";
 import toast from "react-hot-toast";
 import { TextField } from "@mui/material";
+
+// RTK QUERY MUTATIONS
+import {
+  useUpdateAvatarMutation,
+  useUpdateNameMutation,
+  useUpdatePasswordMutation,
+} from "../features/user/userApi";
+
+// FIXED IMPORT
+import { logout, setCredentials } from "../features/user/userSlice";
 
 export default function ProfilePage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { userInfo } = useSelector((state) => state.user);
 
+  const [updateAvatar] = useUpdateAvatarMutation();
+  const [updateName] = useUpdateNameMutation();
+  const [updatePassword] = useUpdatePasswordMutation();
+
   const [preview, setPreview] = useState(userInfo?.avatar || "/images/avatar2.png");
   const [selectedFile, setSelectedFile] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  // modals
   const [openNameModal, setOpenNameModal] = useState(false);
   const [openPasswordModal, setOpenPasswordModal] = useState(false);
 
-  // form fields
   const [newName, setNewName] = useState(userInfo?.name || "");
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPass, setNewPass] = useState("");
@@ -29,6 +40,7 @@ export default function ProfilePage() {
     navigate("/login");
   };
 
+  // AVATAR UPLOAD
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -48,7 +60,10 @@ export default function ProfilePage() {
     try {
       setLoading(true);
 
-      await dispatch(updateAvatar(formData)).unwrap();
+      const updatedUser = await updateAvatar(formData).unwrap();
+
+      // FIXED: update global state
+      dispatch(setCredentials(updatedUser));
 
       toast.success("Avatar updated 🎉", { id: toastId });
 
@@ -59,50 +74,61 @@ export default function ProfilePage() {
 
       setSelectedFile(null);
     } catch (err) {
-      toast.error("Failed to update avatar 😢", { id: toastId });
+      toast.error(err?.data?.message || "Avatar update failed", { id: toastId });
     } finally {
       setLoading(false);
     }
   };
 
-  // 🔵 UPDATE NAME HANDLER
+  // UPDATE NAME
   const saveName = async () => {
     if (!newName.trim()) return toast.error("Name cannot be empty.");
 
     const toastId = toast.loading("Updating name...");
     try {
-      await dispatch(updateName(newName)).unwrap();
-      toast.success("Name updated successfully 🎉", { id: toastId });
+      const updatedUser = await updateName({ name: newName }).unwrap();
+
+      dispatch(setCredentials(updatedUser)); // FIXED
+
+      toast.success("Name updated 🎉", { id: toastId });
       setOpenNameModal(false);
     } catch (err) {
-      toast.error(err || "Failed to update name", { id: toastId });
+      toast.error(err?.data?.message || "Failed to update name", { id: toastId });
     }
   };
 
-  // 🔐 UPDATE PASSWORD HANDLER
+  // UPDATE PASSWORD
   const savePassword = async () => {
     if (!currentPassword || !newPass)
       return toast.error("All fields are required.");
 
     const toastId = toast.loading("Updating password...");
     try {
-      await dispatch(updatePassword({ currentPassword, newPassword: newPass })).unwrap();
+      await updatePassword({
+        currentPassword,
+        newPassword: newPass,
+      }).unwrap();
+
       toast.success("Password updated successfully 🔐", { id: toastId });
+
       setOpenPasswordModal(false);
       setCurrentPassword("");
       setNewPass("");
     } catch (err) {
-      toast.error(err || "Password update failed", { id: toastId });
+      toast.error(err?.data?.message || "Password update failed", { id: toastId });
     }
   };
 
   if (!userInfo) {
     return (
-      <div className="text-center mt-20 bg-[#001424]">
+      <div className="text-center mt-20">
         <h2 className="text-xl font-semibold text-gray-400 mb-4">
           Please log in to access your account 👤
         </h2>
-        <Link to="/login" className="px-4 py-2 bg-black text-white rounded hover:bg-gray-800">
+        <Link
+          to="/login"
+          className="px-4 py-2 bg-black text-white rounded hover:bg-gray-800"
+        >
           Go to Login
         </Link>
       </div>
@@ -110,12 +136,12 @@ export default function ProfilePage() {
   }
 
   return (
-    <div className="px-4 py-10 bg-[#001424] pt-[9rem] -mt-[5rem]">
-      <h2 className="text-3xl font-bold text-center text-gray-100 pt-16 uppercase mb-8">
+    <div className="px-4 py-10 pt-[9rem] -mt-[5rem]">
+      <h2 className="text-3xl font-bold text-center text-gray-800 pt-16 uppercase mb-8">
         My Account
       </h2>
 
-      <div className="max-w-3xl mx-auto shadow-md rounded-lg p-6 bg-[#001424]">
+      <div className="max-w-3xl mx-auto shadow-md rounded-lg bg-amber-100 p-6">
         <div className="flex flex-col md:flex-row items-center gap-6">
 
           {/* AVATAR */}
@@ -141,10 +167,13 @@ export default function ProfilePage() {
 
           {/* USER DETAILS */}
           <div className="flex-1 text-center md:text-left">
-            <h3 className="text-xl text-gray-200 font-semibold">{userInfo.name}</h3>
-            <p className="text-gray-400">{userInfo.email}</p>
+            <h3 className="text-xl text-gray-800 font-semibold">{userInfo.name}</h3>
+            <p className="text-gray-600">{userInfo.email}</p>
 
-            <button onClick={handleLogout} className="mt-4 px-3 py-1 bg-black text-white rounded hover:bg-gray-800">
+            <button
+              onClick={handleLogout}
+              className="mt-4 px-3 py-1 bg-black text-white rounded hover:bg-gray-800"
+            >
               Logout
             </button>
 
@@ -184,13 +213,13 @@ export default function ProfilePage() {
         {/* LINKS */}
         <div className="grid sm:grid-cols-2 gap-4">
           <Link to="/orders" className="p-4 border border-gray-700 rounded-lg hover:shadow">
-            <h4 className="font-medium text-gray-200">My Orders</h4>
-            <p className="text-sm text-gray-400">Track your orders.</p>
+            <h4 className="font-medium text-gray-800">My Orders</h4>
+            <p className="text-sm text-gray-600">Track your orders.</p>
           </Link>
 
           <Link to="/wishlist" className="p-4 border border-gray-700 rounded-lg hover:shadow">
-            <h4 className="font-medium text-gray-200">Wishlist</h4>
-            <p className="text-sm text-gray-400">Saved items.</p>
+            <h4 className="font-medium text-gray-800">Wishlist</h4>
+            <p className="text-sm text-gray-600">Saved items.</p>
           </Link>
         </div>
       </div>
@@ -215,13 +244,6 @@ export default function ProfilePage() {
                 onChange={(e) => setNewName(e.target.value)}
                 InputLabelProps={{ style: { color: "#ccc" } }}
                 InputProps={{ style: { color: "white" } }}
-                sx={{
-                  "& .MuiOutlinedInput-root": {
-                    "& fieldset": { borderColor: "#666" },
-                    "&:hover fieldset": { borderColor: "#facc15" },
-                    "&.Mui-focused fieldset": { borderColor: "#facc15" },
-                  },
-                }}
               />
 
               <div className="flex gap-3 justify-end mt-6">
@@ -254,35 +276,21 @@ export default function ProfilePage() {
                 fullWidth
                 type="password"
                 label="Current Password"
+                className="mb-4"
                 value={currentPassword}
                 onChange={(e) => setCurrentPassword(e.target.value)}
                 InputLabelProps={{ style: { color: "#ccc" } }}
                 InputProps={{ style: { color: "white" } }}
-                sx={{
-                  "& .MuiOutlinedInput-root": {
-                    "& fieldset": { borderColor: "#666" },
-                    "&:hover fieldset": { borderColor: "#facc15" },
-                    "&.Mui-focused fieldset": { borderColor: "#facc15" },
-                  },
-                }}
               />
 
               <TextField
                 fullWidth
                 type="password"
                 label="New Password"
-                className="mt-4"
                 value={newPass}
                 onChange={(e) => setNewPass(e.target.value)}
                 InputLabelProps={{ style: { color: "#ccc" } }}
                 InputProps={{ style: { color: "white" } }}
-                sx={{
-                  "& .MuiOutlinedInput-root": {
-                    "& fieldset": { borderColor: "#666" },
-                    "&:hover fieldset": { borderColor: "#facc15" },
-                    "&.Mui-focused fieldset": { borderColor: "#facc15" },
-                  },
-                }}
               />
 
               <div className="flex gap-3 justify-end mt-6">
@@ -298,7 +306,6 @@ export default function ProfilePage() {
         )}
       </AnimatePresence>
 
-      {/* ANIMATION CSS */}
       <style>{`
         .animate-ping-once {
           animation: pingOnce 0.6s ease-out forwards;

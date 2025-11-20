@@ -92,7 +92,7 @@ export default function WishlistPage() {
 
 if (!userInfo) {
   return (
-    <div className="bg-[#001424] bg-[url('https://www.transparenttextures.com/patterns/gplay.png')] min-h-screen flex flex-col items-center justify-center px-6 pt-[5rem] text-center">
+    <div className="min-h-screen flex flex-col items-center justify-center px-6 text-center">
       
       {/* <img
         src={"/images/wishlistImage.png"}
@@ -128,7 +128,7 @@ if (!userInfo) {
 
   if (wishlist.length === 0) {
     return (
-      <div className="text-center bg-[#001424] bg-[url('https://www.transparenttextures.com/patterns/gplay.png')] min-h-screen flex flex-col items-center justify-center px-4 pt-[4.5rem]">
+      <div className="text-center min-h-screen flex flex-col items-center justify-center px-4 pt-[4.5rem]">
         <h2 className="text-xl font-semibold text-gray-600 mb-4">
           Your wishlist is empty 💔
         </h2>
@@ -144,13 +144,13 @@ if (!userInfo) {
 
   return (
     <motion.div
-      className="px-2 md:px-3 lg:px-4 py-12 bg-[#001424] bg-[url('https://www.transparenttextures.com/patterns/gplay.png')] pt-[4.5rem] md:pt-[5rem]"
+      className="px-2 md:px-3 lg:px-4 py-12 bg-[#e5e1e1] pt-[4.5rem] md:pt-[5rem]"
       variants={container}
       initial="hidden"
       animate="show"
       exit="exit"
     >
-      <h2 className="text-2xl font-bold text-center text-gray-200 py-4 md:py-6 md:mt-8 tracking-wide drop-shadow-sm">
+      <h2 className="text-2xl font-bold text-center text-black py-4 md:py-6 md:mt-8 tracking-wide drop-shadow-sm">
         My Wishlist
       </h2>
 

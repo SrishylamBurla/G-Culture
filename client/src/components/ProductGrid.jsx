@@ -12,7 +12,7 @@ export default function ProductGrid({ products = [], filters = {} }) {
   const { cartItems } = useSelector((state) => state.cart);
   const [quantities, setQuantities] = useState({});
 
-  // ✅ Filter logic
+  // 🟢 client-side filtering (optional)
   const filteredProducts = Array.isArray(products)
     ? products.filter(
         (p) =>
@@ -20,7 +20,7 @@ export default function ProductGrid({ products = [], filters = {} }) {
           (!filters.subcategory || p.subcategory === filters.subcategory) &&
           (!filters.size || p.sizes?.includes(filters.size)) &&
           (!filters.color || p.colors?.includes(filters.color)) &&
-          (!filters.price || p.price <= filters.price)
+          (!filters.price || (p.offerPrice ?? p.price) <= filters.price)
       )
     : [];
 
@@ -28,7 +28,7 @@ export default function ProductGrid({ products = [], filters = {} }) {
     e.preventDefault();
     const qty = quantities[product._id] || 1;
     dispatch(addToCart({ ...product, quantity: qty }));
-    toast.success(`${product.name} added to cart 🛒`, { duration: 1500 });
+    toast.success(`${product.name} added to cart 🛒`);
   };
 
   const handleToggleWishlist = (e, product) => {
@@ -36,7 +36,7 @@ export default function ProductGrid({ products = [], filters = {} }) {
     dispatch(toggleWishlist(product));
   };
 
-  // ✨ Smooth fade + flow animation (no blur)
+  // animations
   const containerVariants = {
     hidden: { opacity: 0 },
     show: {
@@ -44,25 +44,17 @@ export default function ProductGrid({ products = [], filters = {} }) {
       transition: {
         staggerChildren: 0.12,
         delayChildren: 0.1,
-        when: "beforeChildren",
       },
     },
   };
 
   const fadeVariants = {
-    hidden: {
-      opacity: 0,
-      y: 30,
-      scale: 0.96,
-    },
+    hidden: { opacity: 0, y: 30, scale: 0.95 },
     show: {
       opacity: 1,
       y: 0,
       scale: 1,
-      transition: {
-        duration: 0.8,
-        ease: [0.16, 1, 0.3, 1],
-      },
+      transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] },
     },
   };
 
@@ -74,19 +66,14 @@ export default function ProductGrid({ products = [], filters = {} }) {
       animate="show"
     >
       {filteredProducts.length > 0 ? (
-        filteredProducts.map((p) => (
+        filteredProducts.map((product) => (
           <motion.div
-            key={p._id}
+            key={product._id}
             variants={fadeVariants}
-            className="transition-transform duration-700 will-change-transform"
-            whileHover={{
-              scale: 1.01,
-              transition: { type: "spring", stiffness: 120, damping: 12 },
-            }}
-            whileTap={{ scale: 0.97 }}
+            whileHover={{ scale: 1.02 }}
           >
             <ProductCard
-              product={p}
+              product={product}
               quantities={quantities}
               setQuantities={setQuantities}
               handleAddToCart={handleAddToCart}
@@ -101,29 +88,10 @@ export default function ProductGrid({ products = [], filters = {} }) {
           className="col-span-full text-center text-gray-500 mt-10"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
         >
-          No products found in this category.
+          No products found.
         </motion.p>
       )}
     </motion.div>
   );
 }
-
-// import { Link } from "react-router-dom";
-
-// export default function ProductGrid({ products }) {
-//   if (!products.length) return <p>No products found.</p>;
-
-//   return (
-//     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-//       {products.map((p) => (
-//         <Link key={p.slug} to={`/product/${p.slug}`} className="block group">
-//           <img src={p.images[0]} alt={p.name} className="w-full h-64 object-cover rounded-lg" />
-//           <h3 className="font-medium mt-2">{p.name}</h3>
-//           <p className="text-gray-600 text-sm">₹{p.offerPrice}</p>
-//         </Link>
-//       ))}
-//     </div>
-//   );
-// }

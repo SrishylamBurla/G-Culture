@@ -1,10 +1,16 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { TextField, Button, IconButton, InputAdornment, CircularProgress } from "@mui/material";
+import {
+  TextField,
+  Button,
+  IconButton,
+  InputAdornment,
+  CircularProgress,
+} from "@mui/material";
 import { Visibility, VisibilityOff, Google } from "@mui/icons-material";
 import { useDispatch } from "react-redux";
-import { loginUser } from "../features/user/userSlice";
-import API from "../api/axios";
+import { useRegisterMutation, useLoginMutation } from "../features/user/userApi";
+import { setCredentials } from "../features/user/userSlice"; // <- use the action your slice actually exports
 import { useNavigate, Link } from "react-router-dom";
 import toast from "react-hot-toast";
 
@@ -14,38 +20,41 @@ export default function RegisterPage() {
   const [password, setPassword] = useState("");
   const [showPass, setShowPass] = useState(false);
 
-  const [btnLoading, setBtnLoading] = useState(false);
+  const [register, { isLoading }] = useRegisterMutation();
+  const [login] = useLoginMutation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  // small animation object used for Google / Phone buttons
+  const googleAnimation = {
+    tap: { scale: 0.95 },
+    hover: { scale: 1.05 },
+  };
+
   const handleRegister = async (e) => {
     e.preventDefault();
-    setBtnLoading(true);
 
     const toastId = toast.loading("Creating your account...");
-
     try {
-      await API.post("/auth/register", { name, email, password });
+      // 1) Register
+      await register({ name, email, password }).unwrap();
 
       toast.success("Account created successfully!", { id: toastId });
 
-      // Auto login after registration
-      await dispatch(loginUser({ email, password })).unwrap();
+      // 2) Auto-login
+      const loginData = await login({ email, password }).unwrap();
 
+      // 3) Save to redux + localStorage through your slice action
+      dispatch(setCredentials(loginData));
+
+      // 4) Redirect
       setTimeout(() => navigate("/"), 600);
     } catch (err) {
-      toast.error(err.response?.data?.message || "Registration failed", {
-        id: toastId,
-      });
-    } finally {
-      setBtnLoading(false);
+      // RTK Query errors can be in err.data or err.error — handle both
+      const message =
+        err?.data?.message || err?.error || "Registration failed";
+      toast.error(message, { id: toastId });
     }
-  };
-
-  /** Google Login Micro-animation */
-  const googleAnimation = {
-    tap: { scale: 0.95 },
-    hover: { scale: 1.05 }
   };
 
   return (
@@ -57,8 +66,7 @@ export default function RegisterPage() {
         px-4 pt-[5rem]
       "
     >
-      {/* PAGE LOADING OVERLAY */}
-      {btnLoading && (
+      {isLoading && (
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 0.4 }}
@@ -66,7 +74,6 @@ export default function RegisterPage() {
         />
       )}
 
-      {/* CARD WRAPPER */}
       <motion.div
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
@@ -77,15 +84,11 @@ export default function RegisterPage() {
           border border-white/10 relative z-[1000]
         "
       >
-        {/* TITLE */}
         <h2 className="text-3xl font-bold text-center text-gray-100 mb-6 tracking-wide">
           Create Account
         </h2>
 
-        {/* FORM */}
         <form onSubmit={handleRegister} className="space-y-5">
-
-          {/* FULL NAME */}
           <TextField
             label="Full Name"
             type="text"
@@ -111,7 +114,6 @@ export default function RegisterPage() {
             }}
           />
 
-          {/* EMAIL */}
           <TextField
             label="Email"
             type="email"
@@ -137,7 +139,6 @@ export default function RegisterPage() {
             }}
           />
 
-          {/* PASSWORD */}
           <TextField
             label="Password"
             type={showPass ? "text" : "password"}
@@ -149,8 +150,12 @@ export default function RegisterPage() {
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
-                  <IconButton onClick={() => setShowPass((prev) => !prev)}>
-                    {showPass ? <VisibilityOff sx={{ color: "#ccc" }} /> : <Visibility sx={{ color: "#ccc" }} />}
+                  <IconButton onClick={() => setShowPass((p) => !p)}>
+                    {showPass ? (
+                      <VisibilityOff sx={{ color: "#ccc" }} />
+                    ) : (
+                      <Visibility sx={{ color: "#ccc" }} />
+                    )}
                   </IconButton>
                 </InputAdornment>
               ),
@@ -170,13 +175,12 @@ export default function RegisterPage() {
             }}
           />
 
-          {/* REGISTER BUTTON */}
-          <motion.div whileHover={{ scale: !btnLoading ? 1.03 : 1 }}>
+          <motion.div whileHover={{ scale: !isLoading ? 1.03 : 1 }}>
             <Button
               type="submit"
               fullWidth
               variant="contained"
-              disabled={btnLoading}
+              disabled={isLoading}
               sx={{
                 py: 1.5,
                 fontWeight: "600",
@@ -187,7 +191,7 @@ export default function RegisterPage() {
                 },
               }}
             >
-              {btnLoading ? (
+              {isLoading ? (
                 <div className="flex items-center justify-center gap-2">
                   <CircularProgress size={20} sx={{ color: "black" }} />
                   Creating...
@@ -198,34 +202,12 @@ export default function RegisterPage() {
             </Button>
           </motion.div>
 
-          {/* GOOGLE LOGIN */}
           <motion.div
             variants={googleAnimation}
             whileTap="tap"
             whileHover="hover"
             className="mt-3"
           >
-            <Button
-              fullWidth
-              variant="outlined"
-              sx={{
-                py: 1.2,
-                borderColor: "yellow",
-                color: "yellow",
-                gap: 1.5,
-                "&:hover": { borderColor: "#facc15", bgcolor: "rgba(255,255,255,0.05)" },
-              }}
-            >
-              <Google sx={{ color: "#facc15" }} />
-              Continue with Google
-            </Button>
-          </motion.div>
-          <motion.div
-            variants={googleAnimation}
-            whileTap="tap"
-            whileHover="hover"
-          >
-          <Link to={'/phone-login'}>
             <Button
               fullWidth
               variant="outlined"
@@ -241,12 +223,33 @@ export default function RegisterPage() {
               }}
             >
               <Google sx={{ color: "#facc15" }} />
-              Continue with Phone
-            </Button></Link>
+              Continue with Google
+            </Button>
+          </motion.div>
+
+          <motion.div variants={googleAnimation} whileTap="tap" whileHover="hover">
+            <Link to={"/phone-login"}>
+              <Button
+                fullWidth
+                variant="outlined"
+                sx={{
+                  py: 1.2,
+                  borderColor: "yellow",
+                  color: "yellow",
+                  gap: 1.5,
+                  "&:hover": {
+                    borderColor: "#facc15",
+                    bgcolor: "rgba(255,255,255,0.05)",
+                  },
+                }}
+              >
+                <Google sx={{ color: "#facc15" }} />
+                Continue with Phone
+              </Button>
+            </Link>
           </motion.div>
         </form>
 
-        {/* FOOTER */}
         <p className="mt-6 text-center text-sm text-gray-300">
           Already have an account?{" "}
           <Link to="/login" className="text-yellow-400 hover:underline">

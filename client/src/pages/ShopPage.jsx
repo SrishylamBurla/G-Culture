@@ -1,16 +1,14 @@
 // import { useEffect, useState } from "react";
-// import { useDispatch, useSelector } from "react-redux";
-// import { fetchProducts } from "../features/products/productSlice";
-// import ProductCard from "../components/ProductCard";
-// import ShopProductFilters from "../components/filters/ShopProductFilters";
 // import { motion, AnimatePresence } from "framer-motion";
 // import { Filter } from "lucide-react";
+
+// import { useGetProductsQuery } from "../features/products/productApi";
+
+// import ProductCard from "../components/ProductCard";
+// import ShopProductFilters from "../components/filters/ShopProductFilters";
 // import SkeletonProducts from "../components/SkeletonProducts";
 
 // export default function ShopPage() {
-//   const dispatch = useDispatch();
-//   const { items, loading } = useSelector((state) => state.products);
-
 //   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
 //   const [filters, setFilters] = useState({
@@ -21,22 +19,25 @@
 //     color: "",
 //   });
 
-//   useEffect(() => {
-//     dispatch(fetchProducts());
-//   }, [dispatch]);
+//   // 🔥 RTK QUERY FETCH
+//   const {
+//     data: products = [],
+//     isLoading,
+//     isFetching,
+//   } = useGetProductsQuery(filters);
 
-//   // Disable page scroll when mobile drawer is open
+//   // Prevent background scroll when drawer opens
 //   useEffect(() => {
 //     document.body.style.overflow = isFilterOpen ? "hidden" : "auto";
 //   }, [isFilterOpen]);
 
-//   // Filtering logic
-//   const filteredProducts = items.filter((p) => {
+//   // Local filtering (optional)
+//   const filteredProducts = products.filter((p) => {
 //     return (
 //       (!filters.category || p.category === filters.category) &&
 //       (!filters.subcategory || p.subcategory === filters.subcategory) &&
-//       (!filters.size || p.sizes.includes(filters.size)) &&
-//       (!filters.color || p.colors.includes(filters.color)) &&
+//       (!filters.size || p.sizes?.includes(filters.size)) &&
+//       (!filters.color || p.colors?.includes(filters.color)) &&
 //       p.offerPrice <= filters.price
 //     );
 //   });
@@ -62,7 +63,6 @@
 //         <AnimatePresence>
 //           {isFilterOpen && (
 //             <>
-//               {/* Overlay */}
 //               <motion.div
 //                 initial={{ opacity: 0 }}
 //                 animate={{ opacity: 0.4 }}
@@ -72,7 +72,6 @@
 //                 onClick={() => setIsFilterOpen(false)}
 //               />
 
-//               {/* Drawer */}
 //               <motion.div
 //                 initial={{ x: "-100%" }}
 //                 animate={{ x: 0 }}
@@ -80,7 +79,7 @@
 //                 transition={{ duration: 0.35, ease: "easeOut" }}
 //                 className="fixed top-0 left-0 h-full w-[80%] max-w-[270px]
 //                            border-r border-white/10 z-[99999]
-//                            shadow-xl overflow-y-auto"
+//                            shadow-xl overflow-y-auto bg-[#001424]"
 //               >
 //                 <ShopProductFilters
 //                   filters={filters}
@@ -98,14 +97,25 @@
 //           <ShopProductFilters filters={filters} setFilters={setFilters} />
 //         </aside>
 
-//         {/* ---------- MAIN GRID AREA ---------- */}
+//         {/* ---------- MAIN GRID ---------- */}
 //         <motion.div
-//           className="flex-1 px-2 md:px-3 pb-24 pt-4 overflow-y-auto scrollbar-hover h-[calc(100vh-64px)]"
+//           className="flex-1 md:px-3 pb-24 pt-4 overflow-y-auto scrollbar-hover h-[calc(100vh-64px)]"
 //           initial={{ opacity: 0 }}
 //           animate={{ opacity: 1 }}
 //           transition={{ duration: 0.6, ease: "easeOut" }}
 //         >
-//           {/* Animated Title */}
+//           {/* Section Title */}
+//           <div
+//             className="flex justify-end"
+//             style={{
+//               animation: "fadeInRight 0.9s ease-out forwards",
+//             }}
+//           >
+//             <h1 className="inline text-gray-900 text-lg py-1 px-2 page-tags bg-[#159181]">
+//               #ShopAll
+//             </h1>
+//           </div>
+
 //           <div
 //             className="pt-4 pb-8 mx-3"
 //             style={{ animation: "fadeInLeft 1s ease-out forwards" }}
@@ -117,29 +127,46 @@
 //             </h1>
 //           </div>
 
-//           {/* Fade animation CSS */}
-//           <style>{`
-//             @keyframes fadeInLeft {
-//               0% { opacity: 0; transform: translateX(-40px); }
-//               100% { opacity: 1; transform: translateX(0); }
-//             }
-//           `}</style>
-
-//           {/* Product Grid */}
+//           {/* Grid */}
 //           <AnimatePresence mode="wait">
-//             {loading || items.length === 0 ? (
+//             {(isLoading || isFetching) ? (
 //               <SkeletonProducts />
 //             ) : filteredProducts.length > 0 ? (
 //               <motion.div
-//                 rel="prefetch"
 //                 key="grid"
-//                 className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 pt-6 px-2"
+//                 className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-1 md:gap-3 pt-6"
+//                 initial="hidden"
+//                 animate="show"
+//                 variants={{
+//                   hidden: { opacity: 0 },
+//                   show: {
+//                     opacity: 1,
+//                     transition: {
+//                       staggerChildren: 0.12,
+//                       delayChildren: 0.1,
+//                     },
+//                   },
+//                 }}
 //               >
 //                 {filteredProducts.map((product) => (
 //                   <motion.div
 //                     key={product._id}
-//                     whileHover={{ scale: 1.02 }}
-//                     transition={{ type: "spring", stiffness: 120, damping: 12 }}
+//                     variants={{
+//                       hidden: { opacity: 0, y: 30, scale: 0.96 },
+//                       show: {
+//                         opacity: 1,
+//                         y: 0,
+//                         scale: 1,
+//                         transition: {
+//                           duration: 0.8,
+//                           ease: [0.16, 1, 0.3, 1],
+//                         },
+//                       },
+//                     }}
+//                     whileHover={{
+//                       scale: 1.02,
+//                       transition: { type: "spring", stiffness: 120, damping: 12 },
+//                     }}
 //                   >
 //                     <ProductCard product={product} />
 //                   </motion.div>
@@ -164,9 +191,9 @@
 // }
 
 
+
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchProducts } from "../features/products/productSlice";
+import { useGetProductsQuery } from "../features/products/productApi";
 import ProductCard from "../components/ProductCard";
 import ShopProductFilters from "../components/filters/ShopProductFilters";
 import { motion, AnimatePresence } from "framer-motion";
@@ -174,8 +201,6 @@ import { Filter } from "lucide-react";
 import SkeletonProducts from "../components/SkeletonProducts";
 
 export default function ShopPage() {
-  const dispatch = useDispatch();
-  const { items, loading } = useSelector((state) => state.products);
 
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
@@ -187,9 +212,8 @@ export default function ShopPage() {
     color: "",
   });
 
-  useEffect(() => {
-    dispatch(fetchProducts());
-  }, [dispatch]);
+  const { data: items = [], isLoading: loading } = useGetProductsQuery();
+
 
   useEffect(() => {
     document.body.style.overflow = isFilterOpen ? "hidden" : "auto";

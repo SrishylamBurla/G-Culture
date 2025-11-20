@@ -10,17 +10,14 @@ export const register = async (req, res) => {
     return res.status(400).json({ message: "User already exists" });
   const user = await User.create({ name, email, password });
   if (user) {
-    res
-      .status(201)
-      .json({
-        _id: user._id,
-        name: user.name,
-        email: user.email,
-        isAdmin: user.isAdmin,
-        password: user.password,
-        avatar: user.avatar || null,
-        token: generateToken(user._id),
-      });
+    res.status(201).json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      isAdmin: user.isAdmin,
+      avatar: user.avatar || null,
+      token: generateToken(user._id),
+    });
   } else res.status(400).json({ message: "Invalid user data" });
 };
 
@@ -33,7 +30,6 @@ export const login = async (req, res) => {
       name: user.name,
       email: user.email,
       isAdmin: user.isAdmin,
-      password: user.password,
       avatar: user.avatar || null,
       token: generateToken(user._id),
     });
@@ -52,7 +48,6 @@ export const getProfile = async (req, res) => {
     });
   else res.status(404).json({ message: "User not found" });
 };
-
 
 export const updateAvatar = async (req, res) => {
   const user = await User.findById(req.user._id);
@@ -77,29 +72,70 @@ export const updateAvatar = async (req, res) => {
 
 export const updateName = async (req, res) => {
   try {
-    const user = await User.findById(req.user._id);
-
-    if (!user) return res.status(404).json({ message: "User not found" });
-
     const { name } = req.body;
-    if (!name) return res.status(400).json({ message: "Name is required" });
 
-    user.name = name;
+    if (!name)
+      return res.status(400).json({ message: "Name is required" });
 
-    const updatedUser = await user.save({ validateBeforeSave: false });
+    // Update user
+    const updatedUser = await User.findByIdAndUpdate(
+      req.user.id,
+      { name },
+      { new: true, runValidators: true }
+    );
 
-    res.json({
-      _id: updatedUser._id,
+    if (!updatedUser)
+      return res.status(404).json({ message: "User not found" });
+
+    // New token because name changed
+    const token = jwt.sign(
+      { id: updatedUser._id },
+      process.env.JWT_SECRET,
+      { expiresIn: "30d" }
+    );
+
+    // FINAL RESPONSE (MATCHES YOUR TESTS)
+    return res.status(200).json({
+      message: "Name updated",
       name: updatedUser.name,
-      email: updatedUser.email,
-      avatar: updatedUser.avatar,
-      token: generateToken(updatedUser._id),
+      token,
+      user: updatedUser,
     });
-  } catch (err) {
-    res.status(500).json({ message: "Failed to update name" });
+
+  } catch (error) {
+    console.error("UPDATE-NAME ERROR:", error);
+    return res.status(500).json({ message: "Internal Server Error", error: error.message });
   }
 };
 
+
+
+// export const updateName = async (req, res) => {
+//   try {
+//     const user = await User.findById(req.user._id);
+//     if (!user) return res.status(404).json({ message: "User not found" });
+//     console.log("BODY FROM FRONTEND:", req.body);
+
+// console.log("TOKEN:", req.headers.authorization);
+
+//     const { name } = req.body;
+//     if (!name) return res.status(400).json({ message: "Name is required" });
+
+//     user.name = name;
+
+//     const updatedUser = await user.save({ validateBeforeSave: false });
+
+//     res.json({
+//       _id: updatedUser._id,
+//       name: updatedUser.name,
+//       email: updatedUser.email,
+//       avatar: updatedUser.avatar,
+//       token: generateToken(updatedUser._id),
+//     });
+//   } catch (err) {
+//     res.status(500).json({ message: "Failed to update name" });
+//   }
+// };
 
 export const updatePassword = async (req, res) => {
   try {
@@ -198,9 +234,8 @@ export const updateUser = async (req, res) => {
       name: updatedUser.name,
       email: updatedUser.email,
       isAdmin: updatedUser.isAdmin,
-      avatar: updatedUser.avatar
+      avatar: updatedUser.avatar,
     });
-
   } catch (error) {
     res.status(500).json({ message: "Failed to update user" });
   }
@@ -222,22 +257,22 @@ export const createUser = async (req, res) => {
     const { name, email, password, isAdmin } = req.body;
 
     const exists = await User.findOne({ email });
-    if (exists) return res.status(400).json({ message: "Email already exists" });
+    if (exists)
+      return res.status(400).json({ message: "Email already exists" });
 
     const newUser = await User.create({
       name,
       email,
       password,
-      isAdmin: isAdmin || false
+      isAdmin: isAdmin || false,
     });
 
     res.status(201).json({
       _id: newUser._id,
       name: newUser.name,
       email: newUser.email,
-      isAdmin: newUser.isAdmin
+      isAdmin: newUser.isAdmin,
     });
-
   } catch (error) {
     res.status(500).json({ message: "Failed to create user" });
   }
