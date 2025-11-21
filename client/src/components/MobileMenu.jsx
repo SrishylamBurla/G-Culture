@@ -16,10 +16,10 @@ export default function MobileMenu({ setMenuOpen }) {
 
       <nav className="flex flex-col items-center justify-center space-y-6 h-full text-2xl font-light">
         {[
-          { name: "Street wear", path: "/men/streetwear" },
-          { name: "Casual wear", path: "/men/casualwear" },
-          { name: "Caps", path: "/men/caps" },
-          { name: "Chest bags", path: "/men/chestbags" },
+          { name: "Street wear", path: "/streetwear" },
+          { name: "Casual wear", path: "/casualwear" },
+          { name: "Caps", path: "/caps" },
+          { name: "Chest bags", path: "/chestbags" },
         ].map((cat) => (
           <Link
             key={cat.name}
