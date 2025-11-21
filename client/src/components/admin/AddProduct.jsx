@@ -45,62 +45,183 @@ export default function AddProduct() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4 p-6 shadow bg-[#0b3a52]">
+    <div className="p-6">
+      <form
+        onSubmit={handleSubmit}
+        className="bg-white rounded-lg shadow-lg p-6 space-y-6 max-w-3xl mx-auto"
+      >
+        <h1 className="text-xl font-semibold text-gray-800 border-b pb-2">
+          Add New Product
+        </h1>
 
-      <h1 className="text-2xl font-bold mb-4">Add New Product</h1>
+        {/* GRID FORM */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 
-      <input required name="name" placeholder="Product Name"
-             value={form.name} onChange={handleChange}
-             className="w-full border p-2 rounded" />
+          {/* NAME */}
+          <div>
+            <label className="text-xs font-medium text-gray-600">
+              Product Name
+            </label>
+            <input
+              required
+              name="name"
+              value={form.name}
+              onChange={handleChange}
+              className="w-full mt-1 border p-2 rounded text-sm border border-gray-600"
+              placeholder="Men's Oversized T-shirt"
+            />
+          </div>
 
-      <input required name="slug" placeholder="Product Slug"
-             value={form.Slug} onChange={handleChange}
-             className="w-full border p-2 rounded" />
+          {/* SLUG */}
+          <div>
+            <label className="text-xs font-medium text-gray-600">
+              Product Slug
+            </label>
+            <input
+              required
+              name="slug"
+              value={form.slug}
+              onChange={handleChange}
+              className="w-full mt-1 border p-2 rounded text-sm border border-gray-600"
+              placeholder="mens-oversized-tshirt"
+            />
+          </div>
 
-      <textarea required name="description" placeholder="Description"
-                value={form.description} onChange={handleChange}
-                className="w-full border p-2 rounded" />
+          {/* PRICE */}
+          <div>
+            <label className="text-xs font-medium text-gray-600">
+              Price
+            </label>
+            <input
+              name="price"
+              type="number"
+              value={form.price}
+              onChange={handleChange}
+              className="w-full mt-1 border p-2 rounded text-sm border border-gray-600"
+              placeholder="999"
+            />
+          </div>
 
-      <input name="price" placeholder="Regular Price"
-             value={form.price} onChange={handleChange}
-             className="w-full border p-2 rounded" />
+          {/* OFFER PRICE */}
+          <div>
+            <label className="text-xs font-medium text-gray-600">
+              Offer Price
+            </label>
+            <input
+              name="offerPrice"
+              type="number"
+              value={form.offerPrice}
+              onChange={handleChange}
+              className="w-full mt-1 border p-2 rounded text-sm border border-gray-600"
+              placeholder="799"
+            />
+          </div>
 
-      <input name="offerPrice" placeholder="Offer Price"
-             value={form.offerPrice} onChange={handleChange}
-             className="w-full border p-2 rounded" />
+          {/* CATEGORY */}
+          <div>
+            <label className="text-xs font-medium text-gray-600">
+              Category
+            </label>
+            <input
+              name="category"
+              value={form.category}
+              onChange={handleChange}
+              className="w-full mt-1 border p-2 rounded text-sm border border-gray-600"
+              placeholder="streetwear / casualwear"
+            />
+          </div>
 
-      <input name="category" placeholder="Category"
-             value={form.category} onChange={handleChange}
-             className="w-full border p-2 rounded" />
+          {/* SUBCATEGORY */}
+          <div>
+            <label className="text-xs font-medium text-gray-600">
+              Subcategory
+            </label>
+            <input
+              name="subcategory"
+              value={form.subcategory}
+              onChange={handleChange}
+              className="w-full mt-1 border p-2 rounded text-sm border border-gray-600"
+              placeholder="oversized / slim-fit / cargo"
+            />
+          </div>
 
-      <input name="subcategory" placeholder="Sub Category"
-             value={form.subcategory} onChange={handleChange}
-             className="w-full border p-2 rounded" />
+          {/* STOCK */}
+          <div>
+            <label className="text-xs font-medium text-gray-600">Stock</label>
+            <input
+              name="stock"
+              type="number"
+              value={form.stock}
+              onChange={handleChange}
+              className="w-full mt-1 border p-2 rounded text-sm border border-gray-600"
+              placeholder="50"
+            />
+          </div>
 
-      {/* <input name="brand" placeholder="Brand"
-             value={form.brand} onChange={handleChange}
-             className="w-full border p-2 rounded" /> */}
+          {/* SIZES */}
+          <div>
+            <label className="text-xs font-medium text-gray-600">
+              Sizes (comma separated)
+            </label>
+            <input
+              name="sizes"
+              value={form.sizes}
+              onChange={handleChange}
+              className="w-full mt-1 border p-2 rounded text-sm border border-gray-600"
+              placeholder="S, M, L, XL"
+            />
+          </div>
 
-      <input name="CountInStock" placeholder="Stock Count"
-             value={form.CountInStock} onChange={handleChange}
-             className="w-full border p-2 rounded" />
+          {/* COLORS */}
+          <div>
+            <label className="text-xs font-medium text-gray-600">
+              Colors (comma separated)
+            </label>
+            <input
+              name="colors"
+              value={form.colors}
+              onChange={handleChange}
+              className="w-full mt-1 border p-2 rounded text-sm border border-gray-600"
+              placeholder="Black, White, Blue"
+            />
+          </div>
 
-      <input name="sizes" placeholder="Sizes (comma separated)"
-             value={form.sizes} onChange={handleChange}
-             className="w-full border p-2 rounded" />
+          {/* IMAGES */}
+          <div className="md:col-span-2">
+            <label className="text-xs font-medium text-gray-600">
+              Image URLs (comma separated)
+            </label>
+            <input
+              name="images"
+              value={form.images}
+              onChange={handleChange}
+              className="w-full mt-1 border p-2 rounded text-sm border border-gray-600"
+              placeholder="https://…, https://…"
+            />
+          </div>
+        </div>
 
-      <input name="colors" placeholder="Colors (comma separated)"
-             value={form.colors} onChange={handleChange}
-             className="w-full border p-2 rounded" />
+        {/* DESCRIPTION */}
+        <div>
+          <label className="text-xs font-medium text-gray-600">
+            Description
+          </label>
+          <textarea
+            required
+            name="description"
+            value={form.description}
+            onChange={handleChange}
+            rows={4}
+            className="w-full mt-1 border p-2 rounded text-sm border border-gray-600"
+            placeholder="Write product details here…"
+          />
+        </div>
 
-      <input name="images" placeholder="Image URLs (comma separated)"
-             value={form.images} onChange={handleChange}
-             className="w-full border p-2 rounded" />
-
-      <button className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
-        Create Product
-      </button>
-
-    </form>
+        {/* BUTTON */}
+        <button className="w-full py-2 bg-blue-600 text-white rounded hover:bg-blue-700 text-sm">
+          Create Product
+        </button>
+      </form>
+    </div>
   );
 }

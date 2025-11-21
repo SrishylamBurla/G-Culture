@@ -73,7 +73,7 @@ export const productApi = createApi({
       }),
       invalidatesTags: (res, err, { id }) => [
         "Products",
-        { type: "Product", id:result?._id },
+        { type: "Product", id },
       ],
     }),
 

@@ -75,7 +75,6 @@
 //     </div>
 //   );
 // }
-
 import {
   useGetUsersQuery,
   useDeleteUserMutation,
@@ -83,6 +82,7 @@ import {
   useUpdateUserMutation,
 } from "../../features/user/userApi";
 import { useState } from "react";
+import { toast } from "react-hot-toast";
 
 export default function AdminUsers() {
   const { data: users = [], isLoading } = useGetUsersQuery();
@@ -92,77 +92,107 @@ export default function AdminUsers() {
 
   const [editingUser, setEditingUser] = useState(null);
 
-  // if (isLoading) return <p>Loading...</p>;
+  const handleDelete = async (id) => {
+    if (!confirm("Are you sure? This cannot be undone.")) return;
+
+    try {
+      await deleteUser(id).unwrap();
+      toast.success("User deleted");
+    } catch (err) {
+      toast.error("Failed to delete user");
+      console.error(err);
+    }
+  };
+
+  const handleToggleAdmin = async (id) => {
+    try {
+      await toggleAdmin(id).unwrap();
+      toast.success("Role updated");
+    } catch (err) {
+      toast.error("Failed to update role");
+      console.error(err);
+    }
+  };
 
   return (
-    <div className="bg-[#0e506f] h-screen">
-      <h2 className="text-2xl font-bold px-4 py-2 bg-[#0e506f]">Users</h2>
-      {isLoading ? (
-        <p className="px-4">Loading...</p>
-      ) : (
-        <div className="overflow-y-auto h-screen bg-[#0b3a52] shadow pb-12">
-          <table className="w-full text-left text-gray-50">
-            <thead className="bg-gray-800 sticky top-0">
-              <tr>
-                <th className="p-2">Name</th>
-                <th className="p-2">Email</th>
-                <th className="p-2">Admin</th>
-                <th className="p-2">Actions</th>
-              </tr>
-            </thead>
+    <div className="p-4 md:p-6 bg-gray-100 min-h-screen">
+      <div className="flex justify-between items-center mb-6">
+        <h2 className="text-3xl font-semibold text-black">Users</h2>
+      </div>
 
-            <tbody>
-              {users.map((u) => (
-                <tr key={u._id} className="border-b">
-                  <td className="p-2">{u.name}</td>
-                  <td className="p-2">{u.email}</td>
-                  <td className="p-2">
-                    {u.isAdmin ? (
-                      <span className="text-green-600">Admin</span>
-                    ) : (
-                      <span className="text-gray-500">User</span>
-                    )}
-                  </td>
-
-                  <td className="p-2 space-x-2">
-                    {/* Make Admin / Remove Admin Button */}
-                    <button
-                      onClick={() => toggleAdmin(u._id)}
-                      className="px-3 py-1 text-sm bg-blue-600 text-white rounded"
-                    >
-                      {u.isAdmin ? "Remove Admin" : "Make Admin"}
-                    </button>
-
-                    {/* Edit Button */}
-                    <button
-                      onClick={() => setEditingUser(u)}
-                      className="px-3 py-1 text-sm bg-yellow-500 text-white rounded"
-                    >
-                      Edit
-                    </button>
-
-                    {/* Delete Button */}
-                    <button
-                      onClick={() => deleteUser(u._id)}
-                      className="px-3 py-1 text-sm bg-red-600 text-white rounded"
-                    >
-                      Delete
-                    </button>
-                  </td>
+      <div className="bg-white rounded-lg shadow-md overflow-hidden">
+        {isLoading ? (
+          <p className="p-4 text-gray-600">Loading users...</p>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm">
+              <thead className="bg-gray-600 text-gray-200 sticky top-0 shadow">
+                <tr>
+                  <th className="p-3 text-left font-medium">Name</th>
+                  <th className="p-3 text-left font-medium">Email</th>
+                  <th className="p-3 text-left font-medium">Role</th>
+                  <th className="p-3 text-left font-medium">Actions</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
 
-          {/* Edit Popup */}
-          {editingUser && (
-            <EditUserPopup
-              user={editingUser}
-              onClose={() => setEditingUser(null)}
-              onSave={updateUser}
-            />
-          )}
-        </div>
+              <tbody>
+                {users.map((u) => (
+                  <tr
+                    key={u._id}
+                    className="border-b hover:bg-gray-50 transition"
+                  >
+                    <td className="p-3 text-gray-800">{u.name}</td>
+                    <td className="p-3 text-gray-700">{u.email}</td>
+
+                    <td className="p-3">
+                      {u.isAdmin ? (
+                        <span className="px-2 py-1 text-xs bg-green-100 text-green-700 rounded">
+                          Admin
+                        </span>
+                      ) : (
+                        <span className="px-2 py-1 text-xs bg-gray-200 text-gray-700 rounded">
+                          User
+                        </span>
+                      )}
+                    </td>
+
+                    <td className="p-3 flex gap-3">
+                      <button
+                        onClick={() => handleToggleAdmin(u._id)}
+                        className="px-3 py-1 text-xs bg-blue-100 text-blue-700 rounded hover:bg-blue-200 transition"
+                      >
+                        {u.isAdmin ? "Remove Admin" : "Make Admin"}
+                      </button>
+
+                      <button
+                        onClick={() => setEditingUser(u)}
+                        className="px-3 py-1 text-xs bg-yellow-100 text-yellow-700 rounded hover:bg-yellow-200 transition"
+                      >
+                        Edit
+                      </button>
+
+                      <button
+                        onClick={() => handleDelete(u._id)}
+                        className="px-3 py-1 text-xs bg-red-100 text-red-700 rounded hover:bg-red-200 transition"
+                      >
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+
+            </table>
+          </div>
+        )}
+      </div>
+
+      {editingUser && (
+        <EditUserPopup
+          user={editingUser}
+          onClose={() => setEditingUser(null)}
+          onSave={updateUser}
+        />
       )}
     </div>
   );
@@ -176,28 +206,40 @@ function EditUserPopup({ user, onClose, onSave }) {
   });
 
   const submit = async () => {
-    await onSave({ id: user._id, ...form });
-    onClose();
+    try {
+      await onSave({ id: user._id, ...form }).unwrap();
+      toast.success("User updated");
+      onClose();
+    } catch (err) {
+      toast.error("Failed to update");
+      console.error(err);
+    }
   };
 
   return (
-    <div className="fixed inset-0 flex justify-center items-center bg-black/40">
-      <div className="bg-white p-6 rounded-xl w-80 space-y-3 text-gray-800">
-        <h3 className="text-lg font-bold">Edit User</h3>
+    <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center px-4">
+      <div className="bg-white p-6 rounded-xl w-full max-w-sm shadow-lg space-y-4">
+        <h3 className="text-lg font-semibold text-gray-800">Edit User</h3>
 
-        <input
-          className="w-full border p-2 rounded"
-          value={form.name}
-          onChange={(e) => setForm({ ...form, name: e.target.value })}
-        />
+        <div className="space-y-2">
+          <label className="text-sm font-medium text-gray-600">Name</label>
+          <input
+            className="w-full border p-2 rounded text-gray-800"
+            value={form.name}
+            onChange={(e) => setForm({ ...form, name: e.target.value })}
+          />
+        </div>
 
-        <input
-          className="w-full border p-2 rounded"
-          value={form.email}
-          onChange={(e) => setForm({ ...form, email: e.target.value })}
-        />
+        <div className="space-y-2">
+          <label className="text-sm font-medium text-gray-600">Email</label>
+          <input
+            className="w-full border p-2 rounded text-gray-800"
+            value={form.email}
+            onChange={(e) => setForm({ ...form, email: e.target.value })}
+          />
+        </div>
 
-        <label className="flex items-center gap-2 text-sm">
+        <label className="flex items-center gap-2 text-sm text-gray-700">
           <input
             type="checkbox"
             checked={form.isAdmin}
@@ -206,13 +248,16 @@ function EditUserPopup({ user, onClose, onSave }) {
           Make Admin
         </label>
 
-        <div className="flex justify-end gap-2">
-          <button onClick={onClose} className="px-3 py-1">
+        <div className="flex justify-end gap-2 pt-2">
+          <button
+            onClick={onClose}
+            className="px-4 py-1 rounded text-gray-700 hover:bg-gray-100 transition"
+          >
             Cancel
           </button>
           <button
             onClick={submit}
-            className="px-3 py-1 bg-blue-600 text-white rounded"
+            className="px-4 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
           >
             Save
           </button>

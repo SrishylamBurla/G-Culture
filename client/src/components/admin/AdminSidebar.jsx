@@ -12,7 +12,7 @@ export default function AdminSidebar() {
   ];
 
   return (
-    <aside className="w-50 bg-[#092a50] text-white min-h-screen border-r">
+    <aside className="w-50 bg-[#0b3a52] text-white min-h-screen">
       {/* <h2 className="text-xl font-bold mb-4 px-3 pt-3">G-Culture Admin</h2>
       <hr className="border border-gray-500" /> */}
 
@@ -34,3 +34,4 @@ export default function AdminSidebar() {
     </aside>
   );
 }
+

@@ -21,6 +21,28 @@ export default function AdminDashboard() {
 
   const totalRevenue = orders.reduce((sum, o) => sum + o.totalPrice, 0);
 
+  const deliveredCount = orders.filter((o) => o.isDelivered).length;
+  const cancelledCount = orders.filter((o) => o.isCancelled).length;
+  const pendingCount = orders.filter(
+    (o) => !o.isDelivered && !o.isCancelled
+  ).length;
+
+  const adminUsers = users.filter((u) => u.isAdmin).length;
+  const normalUsers = users.filter((u) => !u.isAdmin).length;
+
+  const categoryCounts = products.reduce((acc, p) => {
+    acc[p.category] = (acc[p.category] || 0) + 1;
+    return acc;
+  }, {});
+
+  const todayRevenue = orders
+    .filter((o) => new Date(o.createdAt).toDateString() === new Date().toDateString())
+    .reduce((sum, o) => sum + o.totalPrice, 0);
+
+  const monthRevenue = orders
+    .filter((o) => new Date(o.createdAt).getMonth() === new Date().getMonth())
+    .reduce((sum, o) => sum + o.totalPrice, 0);
+
   const chartData =
     orders.slice(-7).map((o) => ({
       date: new Date(o.createdAt).toLocaleDateString(),
@@ -28,85 +50,118 @@ export default function AdminDashboard() {
     })) || [];
 
   return (
-    <div className="space-y-6 text-gray-800 p-4">
-    
-      {/* Page Title */}
-      <h1 className="text-3xl font-bold mb-4">Dashboard</h1>
+    <div className="space-y-6 p-4 text-white">
 
-      {/* Stats */}
+      <h1 className="text-3xl font-bold mb-4 text-black">Dashboard</h1>
+
+      {/* Enhanced Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <StatCard title="Users" value={users.length} color="bg-blue-600" />
-        <StatCard title="Orders" value={orders.length} color="bg-green-600" />
-        <StatCard title="Products" value={products.length} color="bg-purple-600" />
-        <StatCard
-          title="Revenue"
-          value={`₹ ${totalRevenue.toLocaleString("en-IN")}`}
-          color="bg-orange-600"
-        />
+
+        {/* USERS */}
+        <div className="p-4 rounded-xl shadow bg-gradient-to-br from-blue-600 to-blue-800">
+          <h3 className="text-sm opacity-90">Users</h3>
+          <p className="text-3xl font-bold">{users.length}</p>
+
+          <div className="mt-3 space-y-1 text-sm">
+            <p><span className="text-purple-300 font-semibold">Admins: </span>{adminUsers}</p>
+            <p><span className="text-blue-200 font-semibold">Users: </span>{normalUsers}</p>
+          </div>
+        </div>
+
+        {/* ORDERS */}
+        <div className="p-4 rounded-xl shadow bg-gradient-to-br from-green-600 to-green-800">
+          <h3 className="text-sm opacity-90">Orders</h3>
+          <p className="text-3xl font-bold">{orders.length}</p>
+
+          <div className="mt-3 space-y-1 text-sm">
+            <p><span className="text-green-200">Delivered:</span> {deliveredCount}</p>
+            <p><span className="text-yellow-300">Pending:</span> {pendingCount}</p>
+            <p><span className="text-red-300">Cancelled:</span> {cancelledCount}</p>
+          </div>
+        </div>
+
+        {/* PRODUCTS */}
+        <div className="p-4 rounded-xl shadow bg-gradient-to-br from-purple-600 to-purple-800">
+          <h3 className="text-sm opacity-90">Products</h3>
+          <p className="text-3xl font-bold">{products.length}</p>
+
+          <div className="mt-3 text-sm space-y-1">
+            {Object.entries(categoryCounts).map(([cat, count]) => (
+              <p key={cat}>
+                <span className="text-pink-200 capitalize">{cat}:</span> {count}
+              </p>
+            ))}
+          </div>
+        </div>
+
+        {/* REVENUE */}
+        <div className="p-4 rounded-xl shadow bg-gradient-to-br from-orange-500 to-orange-700">
+          <h3 className="text-sm opacity-90">Revenue</h3>
+          <p className="text-3xl font-bold">
+            ₹ {totalRevenue.toLocaleString("en-IN")}
+          </p>
+
+          <div className="mt-3 text-sm space-y-1">
+            <p><span className="text-yellow-200">Today:</span> ₹{todayRevenue}</p>
+            <p><span className="text-green-200">This Month:</span> ₹{monthRevenue}</p>
+          </div>
+        </div>
+
       </div>
 
       {/* Chart */}
-      <div className="bg-white shadow rounded-lg p-4">
-        <h2 className="text-xl font-semibold mb-2 text-gray-900">Sales Overview</h2>
-        <ResponsiveContainer width="100%" height={250}>
-          <LineChart data={chartData}>
-            <XAxis dataKey="date" stroke="#444" />
-            <YAxis stroke="#444" />
-            <Tooltip />
-            <Line type="monotone" dataKey="total" stroke="#2563eb" strokeWidth={2} />
-          </LineChart>
-        </ResponsiveContainer>
+      <div className="bg-white text-gray-800 shadow rounded-lg p-4">
+        <h2 className="text-xl font-semibold mb-2">Sales Overview</h2>
+        <div className="h-64">
+          <ResponsiveContainer width="100%" height="100%">
+            <LineChart data={chartData}>
+              <XAxis dataKey="date" stroke="#444" />
+              <YAxis stroke="#444" />
+              <Tooltip />
+              <Line type="monotone" dataKey="total" stroke="#2563eb" strokeWidth={2} />
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
       </div>
 
       {/* Recent Orders */}
-      <div className="bg-white shadow rounded-lg p-4">
-        <h2 className="text-xl font-semibold mb-4 text-gray-900">Recent Orders</h2>
-
-        <table className="w-full text-left text-gray-800">
+      <div className="bg-white text-gray-800 shadow rounded-lg p-4">
+        <h2 className="text-xl font-semibold mb-4">Recent Orders</h2>
+        <table className="w-full text-left">
           <thead>
-            <tr className="border-b text-gray-900 bg-gray-100">
-              <th className="p-2 font-semibold">Order ID</th>
-              <th className="p-2 font-semibold">User</th>
-              <th className="p-2 font-semibold">Total</th>
-              <th className="p-2 font-semibold">Status</th>
-              <th className="p-2 font-semibold">Date</th>
+            <tr className="border-b bg-gray-100">
+              <th className="p-2">Order ID</th>
+              <th className="p-2">User</th>
+              <th className="p-2">Total</th>
+              <th className="p-2">Status</th>
+              <th className="p-2">Date</th>
             </tr>
           </thead>
 
           <tbody>
             {recentOrders.slice(0, 5).map((o) => (
               <tr key={o._id} className="border-b hover:bg-gray-50 transition">
-                <td className="p-2 text-gray-700">#{o._id.slice(-6)}</td>
-                <td className="p-2 text-gray-700">{o.user?.name || "Unknown"}</td>
-                <td className="p-2 text-gray-700">₹{o.totalPrice}</td>
+                <td className="p-2">#{o._id.slice(-6)}</td>
+                <td className="p-2">{o.user?.name || "Unknown"}</td>
+                <td className="p-2">₹{o.totalPrice}</td>
                 <td className="p-2">
-                  {o.isPaid ? (
-                    <span className="text-green-600 font-semibold">Paid</span>
+                  {o.isCancelled ? (
+                    <span className="text-red-600 font-medium">Cancelled</span>
+                  ) : o.isDelivered ? (
+                    <span className="text-green-600 font-medium">Delivered</span>
+                  ) : o.isPaid ? (
+                    <span className="text-blue-600 font-medium">Paid</span>
                   ) : (
-                    <span className="text-yellow-600 font-semibold">Pending</span>
+                    <span className="text-yellow-600 font-medium">Pending</span>
                   )}
                 </td>
-                <td className="p-2 text-gray-700">
-                  {new Date(o.createdAt).toLocaleDateString()}
-                </td>
+                <td className="p-2">{new Date(o.createdAt).toLocaleDateString()}</td>
               </tr>
             ))}
           </tbody>
         </table>
-
-        {recentOrders.length === 0 && (
-          <p className="text-gray-500 text-center py-4">No recent orders.</p>
-        )}
       </div>
-    </div>
-  );
-}
 
-function StatCard({ title, value, color }) {
-  return (
-    <div className={`${color} text-white p-4 rounded-lg shadow`}>
-      <h3 className="text-sm opacity-90">{title}</h3>
-      <p className="text-2xl font-bold">{value}</p>
     </div>
   );
 }
