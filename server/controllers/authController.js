@@ -247,8 +247,6 @@ export const createUser = async (req, res) => {
   }
 };
 
-import User from "../models/User.js";
-
 // GET ALL USERS
 export const getAllUsers = async (req, res) => {
   try {
