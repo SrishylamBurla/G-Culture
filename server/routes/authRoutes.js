@@ -26,6 +26,9 @@ router.put("/update-avatar", protect, upload.single("avatar"), updateAvatar);
 router.put("/update-name", protect, updateName);
 router.put("/update-password", protect, updatePassword);
 
+router.route("/:id/make-admin")
+  .put(protect, admin, toggleAdmin);
+
 router
   .route("/:id")
   .get(protect, admin, getUserById)

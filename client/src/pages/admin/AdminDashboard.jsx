@@ -2,7 +2,7 @@ import {
   useGetAllOrdersQuery,
   useGetRecentOrdersQuery,
 } from "../../features/order/orderApi";
-import { useGetAllUsersQuery } from "../../features/user/userApi";
+import { useGetUsersQuery } from "../../features/user/userApi";
 import { useGetAllProductsQuery } from "../../features/products/productApi";
 import {
   LineChart,
@@ -16,7 +16,7 @@ import {
 export default function AdminDashboard() {
   const { data: orders = [] } = useGetAllOrdersQuery();
   const { data: recentOrders = [] } = useGetRecentOrdersQuery();
-  const { data: users = [] } = useGetAllUsersQuery();
+  const { data: users = [] } = useGetUsersQuery();
   const { data: products = [] } = useGetAllProductsQuery();
 
   const totalRevenue = orders.reduce((sum, o) => sum + o.totalPrice, 0);

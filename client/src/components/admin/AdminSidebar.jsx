@@ -14,7 +14,7 @@ export default function AdminSidebar() {
   return (
     <aside className="w-50 bg-[#053244] text-white min-h-screen">
       <h2 className="text-xl font-bold mb-4 px-3 pt-3">G-Culture Admin</h2>
-      <hr border border-gray-500 />
+      <hr className="border border-gray-500" />
 
       <nav className="space-y-3 px-3 pt-3">
         {menu.map((m) => (

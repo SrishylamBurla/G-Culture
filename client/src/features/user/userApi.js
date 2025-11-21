@@ -58,10 +58,35 @@ export const userApi = createApi({
         headers: { "Content-Type": "application/json" },
       }),
     }),
-    
-    getAllUsers: builder.query({
-      query: () => "/users",
+
+    getUsers: builder.query({
+      query: () => "/auth",
       providesTags: ["Users"],
+    }),
+
+    updateUser: builder.mutation({
+      query: ({ id, ...body }) => ({
+        url: `/auth/${id}`,
+        method: "PUT",
+        body,
+      }),
+      invalidatesTags: ["Users"],
+    }),
+
+    deleteUser: builder.mutation({
+      query: (id) => ({
+        url: `/auth/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Users"],
+    }),
+
+    toggleAdmin: builder.mutation({
+      query: (id) => ({
+        url: `/auth/${id}/make-admin`,
+        method: "PUT",
+      }),
+      invalidatesTags: ["Users"],
     }),
 
     // UPDATE AVATAR (multipart/form-data)
@@ -81,7 +106,10 @@ export const {
   useLoginMutation,
   useRegisterMutation,
   useUpdateNameMutation,
-  useGetAllUsersQuery,
+  useGetUsersQuery,
   useUpdatePasswordMutation,
   useUpdateAvatarMutation,
+  useDeleteUserMutation,
+  useUpdateUserMutation,
+  useToggleAdminMutation
 } = userApi;
