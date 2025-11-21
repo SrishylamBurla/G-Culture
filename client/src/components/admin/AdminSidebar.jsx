@@ -12,17 +12,18 @@ export default function AdminSidebar() {
   ];
 
   return (
-    <aside className="w-60 bg-[#0a192f] text-white min-h-screen p-5">
-      <h2 className="text-xl font-bold mb-6">G-Culture Admin</h2>
+    <aside className="w-50 bg-[#053244] text-white min-h-screen">
+      <h2 className="text-xl font-bold mb-4 px-3 pt-3">G-Culture Admin</h2>
+      <hr border border-gray-500 />
 
-      <nav className="space-y-3">
+      <nav className="space-y-3 px-3 pt-3">
         {menu.map((m) => (
           <Link
             key={m.path}
             to={m.path}
             className={`block px-4 py-2 rounded-md transition ${
               pathname === m.path
-                ? "bg-blue-600"
+                ? "bg-gray-800"
                 : "hover:bg-gray-700"
             }`}
           >

@@ -26,8 +26,8 @@ export default function HomePage() {
 
   return (
     <div>
-      <section className="min-h-screen bg-gray-200 text-black pt-[5rem] md:pt-[6rem]">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 md:gap-1 p-2 md:p-4">
+      <section className="min-h-screen bg-gray-200 text-black pt-[4.5rem] md:pt-[5.8rem]">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
 
           {categories.map((cat) => (
             <Link

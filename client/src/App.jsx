@@ -33,8 +33,9 @@ import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminProducts from "./pages/admin/AdminProducts";
 import AdminOrders from "./pages/admin/AdminOrders";
 import AdminUsers from "./pages/admin/AdminUsers";
-
-
+import AddProduct from "./components/admin/AddProduct";
+import EditProduct from "./components/admin/EditProduct";
+import AdminOrderDetails from "./pages/admin/AdminOrderDetails";
 
 function App() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -131,6 +132,9 @@ function App() {
               <Route path="products" element={<AdminProducts />} />
               <Route path="orders" element={<AdminOrders />} />
               <Route path="users" element={<AdminUsers />} />
+              <Route path="products/add" element={<AddProduct />} />
+              <Route path="products/:id/edit" element={<EditProduct />} />
+              <Route path="orders/:id" element={<AdminOrderDetails />} />
             </Route>
           </Routes>
         </main>

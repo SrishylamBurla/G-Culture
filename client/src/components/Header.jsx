@@ -61,9 +61,8 @@ export default function Header({ menuOpen, setMenuOpen }) {
     <header
       className="
         fixed top-0 w-full z-[99999]
-        bg-[rgba(136,245,216,0.1)]
-        backdrop-blur-md
-        border-b border-white/10
+        bg-[#f2f3f4]
+        border-b border-white/1
         shadow-[0_2px_8px_rgba(0,0,0,0.3)]
         transition-all duration-500
         overflow-x-hidden
@@ -112,17 +111,17 @@ export default function Header({ menuOpen, setMenuOpen }) {
             onClick={() => setMenuOpen(!menuOpen)}
           >
             <span
-              className={`w-6 h-[2px] bg-white transition-all duration-300 ${
+              className={`w-6 h-[2px] bg-black transition-all duration-300 ${
                 menuOpen ? "rotate-45 translate-y-[7px]" : ""
               }`}
             ></span>
             <span
-              className={`w-6 h-[2px] bg-white transition-all duration-300 ${
+              className={`w-6 h-[2px] bg-black transition-all duration-300 ${
                 menuOpen ? "opacity-0" : ""
               }`}
             ></span>
             <span
-              className={`w-6 h-[2px] bg-white transition-all duration-300 ${
+              className={`w-6 h-[2px] bg-black transition-all duration-300 ${
                 menuOpen ? "-rotate-45 -translate-y-[7px]" : ""
               }`}
             ></span>

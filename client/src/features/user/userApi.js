@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 const baseQuery = fetchBaseQuery({
   baseUrl: `${import.meta.env.VITE_API_URL}/api`,
-  credentials:"include",
+  credentials: "include",
   prepareHeaders: (headers, { getState }) => {
     const token = getState().user.userInfo?.token;
     if (token) headers.set("Authorization", `Bearer ${token}`);
@@ -58,6 +58,11 @@ export const userApi = createApi({
         headers: { "Content-Type": "application/json" },
       }),
     }),
+    
+    getAllUsers: builder.query({
+      query: () => "/users",
+      providesTags: ["Users"],
+    }),
 
     // UPDATE AVATAR (multipart/form-data)
     updateAvatar: builder.mutation({
@@ -76,6 +81,7 @@ export const {
   useLoginMutation,
   useRegisterMutation,
   useUpdateNameMutation,
+  useGetAllUsersQuery,
   useUpdatePasswordMutation,
   useUpdateAvatarMutation,
 } = userApi;

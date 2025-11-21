@@ -1,4 +1,3 @@
-
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const orderApi = createApi({
@@ -19,7 +18,6 @@ export const orderApi = createApi({
   tagTypes: ["Orders", "Order"],
 
   endpoints: (builder) => ({
-
     createOrder: builder.mutation({
       query: (order) => ({
         url: "/orders",
@@ -38,6 +36,12 @@ export const orderApi = createApi({
       query: () => "/orders/myorders",
       providesTags: ["Orders"],
     }),
+
+    getRecentOrders: builder.query({
+  query: () => "/orders?limit=5",
+  providesTags: ["Orders"],
+}),
+
 
     getAllOrders: builder.query({
       query: () => "/orders",
@@ -61,26 +65,23 @@ export const orderApi = createApi({
         url: `/orders/${id}/deliver`,
         method: "PUT",
       }),
-      invalidatesTags: (result, error, id) => [
-        "Orders",
-        { type: "Order", id },
-      ],
+      invalidatesTags: (result, error, id) => ["Orders", { type: "Order", id }],
     }),
     cancelOrder: builder.mutation({
-  query: (id) => ({
-    url: `/orders/${id}/cancel`,
-    method: "PUT",
-    body: {},
-  }),
-  invalidatesTags: ["Orders"],
-}),
-
+      query: (id) => ({
+        url: `/orders/${id}/cancel`,
+        method: "PUT",
+        body: {},
+      }),
+      invalidatesTags: ["Orders"],
+    }),
   }),
 });
 
 export const {
   useCreateOrderMutation,
   useGetOrderByIdQuery,
+  useGetRecentOrdersQuery,
   useGetMyOrdersQuery,
   useGetAllOrdersQuery,
   useUpdateOrderToPaidMutation,
