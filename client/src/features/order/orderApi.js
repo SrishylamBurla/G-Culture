@@ -38,10 +38,9 @@ export const orderApi = createApi({
     }),
 
     getRecentOrders: builder.query({
-  query: () => "/orders?limit=5",
-  providesTags: ["Orders"],
-}),
-
+      query: () => "/orders?limit=5",
+      providesTags: ["Orders"],
+    }),
 
     getAllOrders: builder.query({
       query: () => "/orders",
@@ -67,13 +66,14 @@ export const orderApi = createApi({
       }),
       invalidatesTags: (result, error, id) => ["Orders", { type: "Order", id }],
     }),
+    
     cancelOrder: builder.mutation({
       query: (id) => ({
         url: `/orders/${id}/cancel`,
         method: "PUT",
         body: {},
       }),
-      invalidatesTags: ["Orders"],
+      invalidatesTags: (result, error, id) => ["Orders", { type: "Order", id }],
     }),
   }),
 });

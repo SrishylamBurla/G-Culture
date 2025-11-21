@@ -30,6 +30,8 @@ const orderSchema = new mongoose.Schema(
     paidAt: Date,
     isDelivered: { type: Boolean, default: false },
     deliveredAt: Date,
+    isCancelled: { type: Boolean, default: false },
+    cancelledAt: { type: Date },
   },
   { timestamps: true }
 );
