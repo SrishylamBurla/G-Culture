@@ -172,37 +172,6 @@ export const getUsers = async (req, res) => {
   }
 };
 
-// export const getUsers = async (req, res) => {
-//   try {
-//     const page = Number(req.query.page) || 1;
-//     const limit = 20;
-//     const skip = (page - 1) * limit;
-
-//     const keyword = req.query.search
-//       ? {
-//           name: { $regex: req.query.search, $options: "i" }
-//         }
-//       : {};
-
-//     const users = await User.find(keyword)
-//       .select("-password")
-//       .skip(skip)
-//       .limit(limit);
-
-//     const count = await User.countDocuments(keyword);
-
-//     res.json({
-//       users,
-//       page,
-//       pages: Math.ceil(count / limit),
-//       total: count
-//     });
-//   } catch (error) {
-//     console.error("Error fetching users:", error);
-//     res.status(500).json({ message: "Failed to fetch users" });
-//   }
-// };
-
 export const getUserById = async (req, res) => {
   try {
     const user = await User.findById(req.params.id).select("-password");
