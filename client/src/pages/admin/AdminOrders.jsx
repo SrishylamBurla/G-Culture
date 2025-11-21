@@ -153,9 +153,8 @@ export default function AdminOrdersCards() {
     if (!confirm("Are you sure you want to cancel this order?")) return;
     try {
       setLoadingId(id);
-      const result = await cancelOrder(id).unwrap();
+      await cancelOrder(id).unwrap();
       toast.success("Order cancelled successfully");
-      console.log("CANCEL RESPONSE:", result);
     } catch (err) {
       console.error("Cancel error:", err);
       toast.error(err?.data?.message || "Failed to cancel order");
@@ -316,7 +315,7 @@ export default function AdminOrdersCards() {
                   </button>
                 )}
 
-                {!order.isCancelled && (
+                {!order.isCancelled && !order.isDelivered && (
                   <button
                     onClick={() => handleCancel(order._id)}
                     disabled={loadingId === order._id}
