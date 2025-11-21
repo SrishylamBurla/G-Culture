@@ -149,7 +149,7 @@ export default function Header({ menuOpen, setMenuOpen }) {
                 onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
               />
               <button onClick={handleSearch}>
-                <Search className="text-black cursor-pointer" size={24} strokeWidth={1.5} />
+                <Search className="text-black cursor-pointer" size={24} strokeWidth={1} />
               </button>
             </div>
 
@@ -159,13 +159,13 @@ export default function Header({ menuOpen, setMenuOpen }) {
                 onClick={() => setShowSearch(!showSearch)}
                 className="md:hidden flex items-center justify-center"
               >
-                <Search className="text-black cursor-pointer" size={24} strokeWidth={1.5} />
+                <Search className="text-black cursor-pointer" size={24} strokeWidth={1} />
               </button>
             )}
 
             {/* Wishlist */}
             <Link to="/wishlist" className="relative">
-              <BookHeart className="text-black" size={24} strokeWidth={1.5} />
+              <BookHeart className="text-black" size={24} strokeWidth={1} />
               {wishlist.length > 0 && (
                 <span className="absolute -top-2 -right-2 text-white bg-black border-red-100 text-xs px-1 rounded-full">
                   {wishlist.length}
@@ -175,7 +175,7 @@ export default function Header({ menuOpen, setMenuOpen }) {
 
             {/* Cart */}
             <Link to="/cart" className="relative">
-              <ShoppingBag className="text-black" size={24} strokeWidth={1.5} />
+              <ShoppingBag className="text-black" size={24} strokeWidth={1} />
               {cartItems.length > 0 && (
                 <span className="absolute -top-2 -right-2 text-white bg-black border-red-100 text-[10px] md:text-xs rounded-full w-4 h-4 flex items-center justify-center">
                   {cartItems.length}
@@ -208,7 +208,7 @@ export default function Header({ menuOpen, setMenuOpen }) {
                   onClick={handleSearch}
                   className="absolute right-2 top-1/2 -translate-y-1/2"
                 >
-                  <Search className="text-black" size={20} strokeWidth={1.5} />
+                  <Search className="text-black" size={20} strokeWidth={1} />
                 </button>
               </div>
               <button
