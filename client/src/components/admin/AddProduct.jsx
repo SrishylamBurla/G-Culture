@@ -9,12 +9,12 @@ export default function AddProduct() {
 
   const [form, setForm] = useState({
     name: "",
+    slug: "",
     description: "",
     price: "",
     offerPrice: "",
     category: "",
     subcategory: "",
-    brand: "",
     sizes: "",
     colors: "",
     stock: "",
@@ -53,6 +53,10 @@ export default function AddProduct() {
              value={form.name} onChange={handleChange}
              className="w-full border p-2 rounded" />
 
+      <input required name="slug" placeholder="Product Slug"
+             value={form.Slug} onChange={handleChange}
+             className="w-full border p-2 rounded" />
+
       <textarea required name="description" placeholder="Description"
                 value={form.description} onChange={handleChange}
                 className="w-full border p-2 rounded" />
@@ -69,16 +73,16 @@ export default function AddProduct() {
              value={form.category} onChange={handleChange}
              className="w-full border p-2 rounded" />
 
-      <input name="subcategory" placeholder="Subcategory"
+      <input name="subcategory" placeholder="Sub Category"
              value={form.subcategory} onChange={handleChange}
              className="w-full border p-2 rounded" />
 
-      <input name="brand" placeholder="Brand"
+      {/* <input name="brand" placeholder="Brand"
              value={form.brand} onChange={handleChange}
-             className="w-full border p-2 rounded" />
+             className="w-full border p-2 rounded" /> */}
 
-      <input name="stock" placeholder="Stock Count"
-             value={form.stock} onChange={handleChange}
+      <input name="CountInStock" placeholder="Stock Count"
+             value={form.CountInStock} onChange={handleChange}
              className="w-full border p-2 rounded" />
 
       <input name="sizes" placeholder="Sizes (comma separated)"

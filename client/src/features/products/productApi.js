@@ -2,14 +2,29 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const productApi = createApi({
   reducerPath: "productApi",
+
   baseQuery: fetchBaseQuery({
     baseUrl: `${import.meta.env.VITE_API_URL}/api`,
+
+    prepareHeaders: (headers, { getState }) => {
+      const token = getState().user.userInfo?.token;
+      if (token) {
+        headers.set("Authorization", `Bearer ${token}`);
+      }
+      return headers;
+    },
   }),
 
   tagTypes: ["Products", "Product"],
 
   endpoints: (builder) => ({
+    // GET ALL PRODUCTS (ADMIN + PUBLIC)
+    getAllProducts: builder.query({
+      query: () => "/products",
+      providesTags: ["Products"],
+    }),
 
+    // GET PRODUCTS WITH FILTERS
     getProducts: builder.query({
       query: (filters = {}) => {
         const params = new URLSearchParams(filters).toString();
@@ -18,12 +33,7 @@ export const productApi = createApi({
       providesTags: ["Products"],
     }),
 
-    getAllProducts: builder.query({
-  query: () => "/products",
-  providesTags: ["Products"],
-}),
-
-
+    // GET PRODUCTS BY CATEGORY
     getProductsByCategory: builder.query({
       query: (filters = {}) => {
         const params = new URLSearchParams(filters).toString();
@@ -32,30 +42,34 @@ export const productApi = createApi({
       providesTags: ["Products"],
     }),
 
+    // SEARCH
     searchProducts: builder.query({
       query: (query) => `/products/search?query=${query}`,
       providesTags: ["Products"],
     }),
 
+    // GET SINGLE PRODUCT
     getProductById: builder.query({
       query: (id) => `/products/${id}`,
       providesTags: (res, err, id) => [{ type: "Product", id }],
     }),
 
+    // CREATE PRODUCT (ADMIN)
     createProduct: builder.mutation({
       query: (productData) => ({
         url: `/products`,
         method: "POST",
-        body: productData,
+        body: productData, // For FormData no headers needed
       }),
       invalidatesTags: ["Products"],
     }),
 
+    // UPDATE PRODUCT (ADMIN)
     updateProduct: builder.mutation({
       query: ({ id, updates }) => ({
         url: `/products/${id}`,
         method: "PUT",
-        body: updates,
+        body: updates, // FormData works fine
       }),
       invalidatesTags: (res, err, { id }) => [
         "Products",
@@ -63,6 +77,7 @@ export const productApi = createApi({
       ],
     }),
 
+    // DELETE PRODUCT (ADMIN)
     deleteProduct: builder.mutation({
       query: (id) => ({
         url: `/products/${id}`,
@@ -70,7 +85,6 @@ export const productApi = createApi({
       }),
       invalidatesTags: ["Products"],
     }),
-
   }),
 });
 

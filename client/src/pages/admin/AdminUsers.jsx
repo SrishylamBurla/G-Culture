@@ -96,10 +96,10 @@ export default function AdminUsers() {
   if (isLoading) return <p>Loading...</p>;
 
   return (
-    <div className="bg-white p-6 rounded-xl shadow space-y-4">
+    <div className="p-6 bg-[#0e506f] h-screen shadow space-y-4">
       <h2 className="text-2xl font-bold mb-4">Users</h2>
 
-      <table className="w-full text-left text-gray-800">
+      <table className="w-full text-left bg-[#0b3a52] text-gray-50">
         <thead>
           <tr className="border-b">
             <th className="p-2">Name</th>

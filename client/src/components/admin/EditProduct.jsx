@@ -19,12 +19,12 @@ export default function EditProduct() {
     if (product) {
       setForm({
         name: product.name,
+        slug: product.slug,
         description: product.description,
         price: product.price,
         offerPrice: product.offerPrice,
         category: product.category,
         subcategory: product.subcategory,
-        brand: product.brand,
         stock: product.stock,
         sizes: product.sizes.join(", "),
         colors: product.colors.join(", "),
@@ -64,12 +64,12 @@ export default function EditProduct() {
       <h1 className="text-2xl font-bold mb-4">Edit Product</h1>
 
       <input name="name" value={form.name} onChange={handleChange} className="w-full border p-2 rounded" />
+      <input name="slug" value={form.slug} onChange={handleChange} className="w-full border p-2 rounded" />
       <textarea name="description" value={form.description} onChange={handleChange} className="w-full border p-2 rounded" />
       <input name="price" value={form.price} onChange={handleChange} className="w-full border p-2 rounded" />
       <input name="offerPrice" value={form.offerPrice} onChange={handleChange} className="w-full border p-2 rounded" />
       <input name="category" value={form.category} onChange={handleChange} className="w-full border p-2 rounded" />
       <input name="subcategory" value={form.subcategory} onChange={handleChange} className="w-full border p-2 rounded" />
-      <input name="brand" value={form.brand} onChange={handleChange} className="w-full border p-2 rounded" />
       <input name="stock" value={form.stock} onChange={handleChange} className="w-full border p-2 rounded" />
       <input name="sizes" value={form.sizes} onChange={handleChange} className="w-full border p-2 rounded" />
       <input name="colors" value={form.colors} onChange={handleChange} className="w-full border p-2 rounded" />
