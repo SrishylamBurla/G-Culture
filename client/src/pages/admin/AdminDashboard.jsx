@@ -29,6 +29,7 @@ export default function AdminDashboard() {
 
   return (
     <div className="space-y-6 text-gray-800 p-4">
+    
       {/* Page Title */}
       <h1 className="text-3xl font-bold mb-4">Dashboard</h1>
 

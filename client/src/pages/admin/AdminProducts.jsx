@@ -24,25 +24,25 @@ export default function AdminProducts() {
   };
 
   return (
-    <div>
-      <div className="flex justify-between p-2 bg-[#0e506f]">
+    <div className="bg-[#0e506f] h-screen">
+      <div className="flex justify-between px-4 py-2 bg-[#0e506f]">
         <h1 className="text-2xl font-bold">Products</h1>
 
         <Link
           to="/admin/products/add"
-          className="px-2 py-1 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+          className="px-2 py-1 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition"
         >
           + Add Product
         </Link>
       </div>
 
       {isLoading ? (
-        <p>Loading products...</p>
+        <p className="px-4">Loading products...</p>
       ) : (
-        <div className="overflow-x-auto bg-[#0b3a52] shadow p-4">
+        <div className="overflow-y-auto h-screen bg-[#0b3a52] shadow pb-12">
           <table className="w-full text-left">
-            <thead>
-              <tr className="border-b">
+            <thead className="bg-gray-800 sticky top-0">
+              <tr className="">
                 <th className="p-2">Image</th>
                 <th className="p-2">Name</th>
                 <th className="p-2">Category</th>
@@ -53,7 +53,7 @@ export default function AdminProducts() {
 
             <tbody>
               {products.map((product) => (
-                <tr key={product._id} className="border-b hover:bg-[#0a4e4e]">
+                <tr key={product._id} className="border-b hover:bg-gray-600">
                   <td className="p-2">
                     <img
                       src={product.images?.[0]}

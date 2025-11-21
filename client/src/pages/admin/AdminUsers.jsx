@@ -76,12 +76,11 @@
 //   );
 // }
 
-
 import {
   useGetUsersQuery,
   useDeleteUserMutation,
   useToggleAdminMutation,
-  useUpdateUserMutation
+  useUpdateUserMutation,
 } from "../../features/user/userApi";
 import { useState } from "react";
 
@@ -93,72 +92,77 @@ export default function AdminUsers() {
 
   const [editingUser, setEditingUser] = useState(null);
 
-  if (isLoading) return <p>Loading...</p>;
+  // if (isLoading) return <p>Loading...</p>;
 
   return (
-    <div className="p-6 bg-[#0e506f] h-screen shadow space-y-4">
-      <h2 className="text-2xl font-bold mb-4">Users</h2>
+    <div className="bg-[#0e506f] h-screen">
+      <h2 className="text-2xl font-bold px-4 py-2 bg-[#0e506f]">Users</h2>
+      {isLoading ? (
+        <p className="px-4">Loading...</p>
+      ) : (
+        <div className="overflow-y-auto h-screen bg-[#0b3a52] shadow pb-12">
+          <table className="w-full text-left text-gray-50">
+            <thead className="bg-gray-800 sticky top-0">
+              <tr>
+                <th className="p-2">Name</th>
+                <th className="p-2">Email</th>
+                <th className="p-2">Admin</th>
+                <th className="p-2">Actions</th>
+              </tr>
+            </thead>
 
-      <table className="w-full text-left bg-[#0b3a52] text-gray-50">
-        <thead>
-          <tr className="border-b">
-            <th className="p-2">Name</th>
-            <th className="p-2">Email</th>
-            <th className="p-2">Admin</th>
-            <th className="p-2">Actions</th>
-          </tr>
-        </thead>
+            <tbody>
+              {users.map((u) => (
+                <tr key={u._id} className="border-b">
+                  <td className="p-2">{u.name}</td>
+                  <td className="p-2">{u.email}</td>
+                  <td className="p-2">
+                    {u.isAdmin ? (
+                      <span className="text-green-600">Admin</span>
+                    ) : (
+                      <span className="text-gray-500">User</span>
+                    )}
+                  </td>
 
-        <tbody>
-          {users.map((u) => (
-            <tr key={u._id} className="border-b">
-              <td className="p-2">{u.name}</td>
-              <td className="p-2">{u.email}</td>
-              <td className="p-2">
-                {u.isAdmin ? (
-                  <span className="text-green-600">Admin</span>
-                ) : (
-                  <span className="text-gray-500">User</span>
-                )}
-              </td>
+                  <td className="p-2 space-x-2">
+                    {/* Make Admin / Remove Admin Button */}
+                    <button
+                      onClick={() => toggleAdmin(u._id)}
+                      className="px-3 py-1 text-sm bg-blue-600 text-white rounded"
+                    >
+                      {u.isAdmin ? "Remove Admin" : "Make Admin"}
+                    </button>
 
-              <td className="p-2 space-x-2">
-                {/* Make Admin / Remove Admin Button */}
-                <button
-                  onClick={() => toggleAdmin(u._id)}
-                  className="px-3 py-1 text-sm bg-blue-600 text-white rounded"
-                >
-                  {u.isAdmin ? "Remove Admin" : "Make Admin"}
-                </button>
+                    {/* Edit Button */}
+                    <button
+                      onClick={() => setEditingUser(u)}
+                      className="px-3 py-1 text-sm bg-yellow-500 text-white rounded"
+                    >
+                      Edit
+                    </button>
 
-                {/* Edit Button */}
-                <button
-                  onClick={() => setEditingUser(u)}
-                  className="px-3 py-1 text-sm bg-yellow-500 text-white rounded"
-                >
-                  Edit
-                </button>
+                    {/* Delete Button */}
+                    <button
+                      onClick={() => deleteUser(u._id)}
+                      className="px-3 py-1 text-sm bg-red-600 text-white rounded"
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
 
-                {/* Delete Button */}
-                <button
-                  onClick={() => deleteUser(u._id)}
-                  className="px-3 py-1 text-sm bg-red-600 text-white rounded"
-                >
-                  Delete
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-
-      {/* Edit Popup */}
-      {editingUser && (
-        <EditUserPopup
-          user={editingUser}
-          onClose={() => setEditingUser(null)}
-          onSave={updateUser}
-        />
+          {/* Edit Popup */}
+          {editingUser && (
+            <EditUserPopup
+              user={editingUser}
+              onClose={() => setEditingUser(null)}
+              onSave={updateUser}
+            />
+          )}
+        </div>
       )}
     </div>
   );
@@ -197,16 +201,19 @@ function EditUserPopup({ user, onClose, onSave }) {
           <input
             type="checkbox"
             checked={form.isAdmin}
-            onChange={(e) =>
-              setForm({ ...form, isAdmin: e.target.checked })
-            }
+            onChange={(e) => setForm({ ...form, isAdmin: e.target.checked })}
           />
           Make Admin
         </label>
 
         <div className="flex justify-end gap-2">
-          <button onClick={onClose} className="px-3 py-1">Cancel</button>
-          <button onClick={submit} className="px-3 py-1 bg-blue-600 text-white rounded">
+          <button onClick={onClose} className="px-3 py-1">
+            Cancel
+          </button>
+          <button
+            onClick={submit}
+            className="px-3 py-1 bg-blue-600 text-white rounded"
+          >
             Save
           </button>
         </div>

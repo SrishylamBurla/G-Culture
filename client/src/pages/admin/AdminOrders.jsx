@@ -40,23 +40,23 @@ export default function AdminOrders() {
   };
 
   return (
-    <div className="">
-      <h1 className="text-2xl font-bold p-2 bg-[#0e506f]">Orders</h1>
+    <div className="bg-[#0e506f] h-screen">
+      <h1 className="text-2xl font-bold px-4 py-2 bg-[#0e506f]">Orders</h1>
 
       {isLoading ? (
-        <p>Loading orders...</p>
+        <p className="px-4">Loading orders...</p>
       ) : (
-        <div className="shadow bg-[#0b3a52] p-4 overflow-x-auto">
+        <div className="shadow bg-[#0b3a52] overflow-x-auto h-screen pb-12">
           <table className="w-full text-left">
-            <thead>
-              <tr className="border-b bg-gray-800">
-                <th className="p-3">Order ID</th>
-                <th className="p-3">User</th>
-                <th className="p-3">Total</th>
-                <th className="p-3">Paid</th>
-                <th className="p-3">Delivered</th>
-                <th className="p-3">Date</th>
-                <th className="p-3">Actions</th>
+            <thead className="sticky top-0">
+              <tr className=" bg-gray-800">
+                <th className="p-2">Order ID</th>
+                <th className="p-2">User</th>
+                <th className="p-2">Total</th>
+                <th className="p-2">Paid</th>
+                <th className="p-2">Delivered</th>
+                <th className="p-2">Date</th>
+                <th className="p-2">Actions</th>
               </tr>
             </thead>
 
@@ -95,7 +95,7 @@ export default function AdminOrders() {
                       View
                     </Link>
 
-                    {!order.isCancelled && !order.isDelivered && (
+                    {!order.isDelivered && (
                       <button
                         onClick={() => handleDelivered(order._id)}
                         className="text-green-600 underline"
@@ -105,7 +105,7 @@ export default function AdminOrders() {
                       </button>
                     )}
 
-                    {!order.isCancelled && !order.isDelivered && (
+                    {!order.isCancelled && (
                       <button
                         onClick={() => handleCancel(order._id)}
                         className="text-red-500 underline"

@@ -4,23 +4,25 @@ import { Outlet } from "react-router-dom";
 
 export default function AdminLayout() {
   return (
-    <div className="flex bg-gray-100 min-h-screen pt-[4.5rem] md:pt-[5.8rem]">
+    <div className="pt-[4.5rem] md:pt-[5.8rem]">
+    {/* Top Header */}
+        <header className="h-14 shadow flex items-center justify-center px-4 bg-gray-900">
+          <h1 className="font-semibold text-lg text-white">G-Culture Admin Panel</h1>
+        </header>
+    <div className="flex bg-gray-100 min-h-screen">
       {/* Sidebar */}
       <AdminSidebar />
 
       {/* Main Content */}
       <div className="flex-1 flex flex-col">
-        {/* Top Header */}
-        <header className="h-14 shadow flex items-center justify-between px-4 bg-[#8e57ae]">
-          <h1 className="font-semibold text-lg text-white">Admin Panel</h1>
-        </header>
+        
 
         {/* Page Body */}
         <main className="">
           <Outlet />
         </main>
       </div>
-    </div>
+    </div></div>
   );
 }
 

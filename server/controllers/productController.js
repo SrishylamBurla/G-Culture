@@ -63,13 +63,38 @@ export const createProduct = async (req, res) => {
 };
 
 export const updateProduct = async (req, res) => {
-  const product = await Product.findById(req.params.id);
-  if (product) {
-    Object.assign(product, req.body);
-    const updated = await product.save();
-    res.json(updated);
-  } else res.status(404).json({ message: "Product not found" });
+  try {
+    const product = await Product.findById(req.params.id);
+
+    if (!product) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+
+    // Merge changes
+    for (let key in req.body) {
+      product[key] = req.body[key];
+    }
+
+    // Save updated product
+    const updatedProduct = await product.save();
+
+    res.json(updatedProduct);
+
+  } catch (error) {
+    console.error("UPDATE PRODUCT ERROR:", error);
+    res.status(500).json({ message: "Server Error" });
+  }
 };
+
+
+// export const updateProduct = async (req, res) => {
+//   const product = await Product.findById(req.params.id);
+//   if (product) {
+//     Object.assign(product, req.body);
+//     const updated = await product.save();
+//     res.json(updated);
+//   } else res.status(404).json({ message: "Product not found" });
+// };
 
 export const deleteProduct = async (req, res) => {
   try {
