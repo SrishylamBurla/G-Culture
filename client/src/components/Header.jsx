@@ -86,16 +86,16 @@ export default function Header({ menuOpen, setMenuOpen }) {
               />
             </Link>
             {[
-              { name: "Street wear", path: "/men/streetwear" },
-              { name: "Casual wear", path: "/men/casualwear" },
-              { name: "Caps", path: "/men/caps" },
-              { name: "Chest bags", path: "/men/chestbags" },
+              { name: "Street wear", path: "/streetwear" },
+              { name: "Casual wear", path: "/casualwear" },
+              { name: "Caps", path: "/caps" },
+              { name: "Chest bags", path: "/chestbags" },
             ].map((cat) => (
               <Link
                 rel="prefetch"
                 key={cat.name}
                 to={cat.path}
-                className="hidden relative group text-md hover:text-yellow-400 tracking-normal bg-clip-text transition-colors duration-300 text-gray-800"
+                className="md:hidden relative group text-md hover:text-yellow-400 tracking-normal bg-clip-text transition-colors duration-300 text-gray-800"
               >
                 {cat.name}
                 <span className="absolute left-0 bottom-[-4px] w-0 h-[2px] bg-gradient-to-r from-[#0f6ed4] via-[#a01cb2] to-[#de8328] transition-all duration-300 group-hover:w-full"></span>
