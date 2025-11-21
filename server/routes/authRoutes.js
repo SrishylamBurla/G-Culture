@@ -11,6 +11,7 @@ import {
   deleteUser,
   updateUser,
   createUser,
+  toggleAdmin
 } from "../controllers/authController.js";
 import { admin, protect } from "../middleware/authMiddleware.js";
 import upload from "../middleware/uploadMiddleware.js";
