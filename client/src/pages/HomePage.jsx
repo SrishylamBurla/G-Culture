@@ -100,7 +100,7 @@ export default function HomePage() {
   ];
 
   return (
-    <div className="pt-[4rem] md:pt-[5.8rem]">
+    <div className="pt-[2rem] md:pt-[5.8rem]">
 
       {/* ===========================
           🌟 HERO SECTION
@@ -108,7 +108,7 @@ export default function HomePage() {
       <section
         className="
           w-full
-          h-[120vh] md:h-[95vh] py-30 md:py-2
+          h-[100vh] md:h-[95vh] py-30 md:py-2
           bg-gradient-to-br from-[#0a0a0a] to-[#1a1a1a]
           text-white flex flex-col md:flex-row
           items-center justify-between
@@ -153,7 +153,7 @@ export default function HomePage() {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1.2 }}
           whileHover={{ scale: 1.03 }}
-          className="mt-10 md:mt-0 relative"
+          className="mt-2 md:mt-0 relative"
         >
           {/* Animated border */}
           <motion.div
@@ -196,12 +196,12 @@ export default function HomePage() {
               >
                 <img
                   src={cat.img}
-                  className="w-full h-48 object-cover"
+                  className="w-full h-60 object-cover"
                   alt={cat.name}
                 />
-                <div className="p-4 text-center font-semibold text-gray-800">
+                {/* <div className="p-4 text-center font-semibold text-gray-800">
                   {cat.name}
-                </div>
+                </div> */}
               </Link>
             ))}
           </motion.div>
