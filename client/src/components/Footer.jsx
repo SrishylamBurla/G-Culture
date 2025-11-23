@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 export default function Footer() {
   return (
     <footer className="font-sans transition-all duration-700 ease-in-out 
-      bg-gradient-to-b from-[#0a192f] to-[#0a192f] text-gray-300">
+      bg-gradient-to-r from-[#0a192f] via-[#0b335e] to-[#0a192f] text-gray-300">
 
       <div className="p-4 md:p-4 lg:p-6 xl:p-8">
 

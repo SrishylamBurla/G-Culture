@@ -294,7 +294,7 @@ export default function Header({ menuOpen, setMenuOpen }) {
   };
 
   return (
-    <header className="fixed top-0 w-full z-[99999] bg-[#f2f3f4] shadow-md">
+    <header className="fixed top-0 w-full z-[99999] bg-[#c9cfd6] shadow-md">
       <div className="bg-black text-white text-center text-sm py-1">
         Free shipping for all orders! 🚚
       </div>
