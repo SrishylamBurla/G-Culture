@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
-import CategoryCard from "../components/CategoryCard";
+// import CategoryCard from "../components/CategoryCard";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination, Navigation } from "swiper/modules";
@@ -10,7 +10,7 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 import ParallaxWrapper from "../components/ParallaxWrapper";
 
-const HERO_IMG_LOCAL = "/images/HomeImgs/Herosec.png";
+// const HERO_IMG_LOCAL = "/images/HomeImgs/Herosec.png";
 
 export default function HomePage() {
   const categories = [
@@ -49,51 +49,51 @@ export default function HomePage() {
   return (
     <div className="bg-[#050507] text-white min-h-screen">
       {/* HERO */}
-      <ParallaxWrapper speed={0.1}>
+      {/* <ParallaxWrapper speed={0.2}> */}
       <section
         ref={heroRef}
-        className="relative w-full overflow-hidden min-h-[100vh] md:min-h-[120vh] flex items-center"
+        className="relative w-full overflow-hidden min-h-[50vh] md:h-[110vh] flex justify-center items-center"
       >
         {/* ambient shapes */}
         <div className="pointer-events-none absolute -left-28 -top-28 w-[420px] h-[420px] rounded-full blur-[120px] bg-gradient-to-br from-[#d4af37]/20 to-transparent" />
         <div className="pointer-events-none absolute -right-32 -bottom-32 w-[420px] h-[420px] rounded-full blur-[120px] bg-gradient-to-br from-[#b8860b]/12 to-transparent" />
 
-        <div className="relative z-10 max-w-[1400px] mx-auto px-6 md:px-12 lg:px-20 py-35 md:py-50 flex flex-col justify-center md:flex-row items-center gap-50">
+        <div className="relative z-10 w-full px-6 md:px-8 lg:px-10 py-35 md:py-50 flex flex-col justify-center md:flex-row items-center gap-50">
           {/* LEFT: Text */}
           <motion.div
             style={{ y: yText, opacity: opacityFade }}
-            className="flex-1 max-w-xl"
+            className="flex-1 max-w-2xl"
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9 }}
           >
-            <h1 className="text-[48px] md:text-[84px] lg:text-[96px] font-extrabold leading-[0.95] tracking-tight">
+            <h1 className="hero-head text-[48px] md:text-[84px] lg:text-[96px] leading-[0.95] tracking-tight">
               G-CULTURE
             </h1>
 
-            <p className="mt-4 text-[15px] md:text-[20px] text-gray-300 max-w-xl">
+            <p className="mt-4 text-[15px] md:text-[30px] text-gray-300 max-w-2xl">
               For men who carry{" "}
               <span className="text-[#d4af37] font-semibold">confidence</span>{" "}
-              like a second skin — functional, refined, unapologetic.
+              like a second skin
             </p>
 
             <div className="mt-8 flex flex-wrap gap-4">
               <Link
                 to="/shop"
-                className="inline-flex items-center justify-center px-6 py-3 rounded-full bg-white text-black font-semibold shadow hover:scale-[1.02] transition"
+                className="inline-flex items-center justify-center px-6 py-3 rounded-sm border-1 text-white hover:bg-amber-50 hover:text-black font-semibold shadow hover:scale-[1.02] transition"
               >
                 Explore Collection
               </Link>
 
-              <Link
+              {/* <Link
                 to="/about-us"
                 className="inline-flex items-center justify-center px-6 py-3 rounded-full border border-white/10 text-white hover:bg-white/5 transition"
               >
                 Our Story
-              </Link>
+              </Link> */}
             </div>
 
-            <div className="mt-8 flex flex-wrap gap-6 text-sm text-gray-400">
+            {/* <div className="mt-8 flex flex-wrap gap-6 text-sm text-gray-400">
               <div className="flex items-center gap-3">
                 <span className="inline-block w-9 h-9 rounded-full bg-white/5 flex items-center justify-center text-sm">
                   🚚
@@ -117,7 +117,7 @@ export default function HomePage() {
                   </div>
                 </div>
               </div>
-            </div>
+            </div> */}
           </motion.div>
 
           <motion.div
@@ -144,7 +144,7 @@ export default function HomePage() {
       </section>
       {/* ================ CATEGORY SLIDER ================ */}
 
-      <section className="relative w-full h-[75vh] md:h-[85vh] md:px-20 py-10 bg-black">
+      <section className="relative w-full h-[75vh] md:h-[90vh] md:px-20 py-10 bg-black">
         <Swiper
           modules={[Autoplay, Pagination, Navigation]}
           slidesPerView={1}
@@ -224,7 +224,7 @@ export default function HomePage() {
       
       {/* ================ PROMO ROW ================ */}
 
-      <section className="pt-24 bg-[#07070a]">
+      <section className="pt-24 py-24 bg-[#07070a]">
         <div className="max-w-[1200px] mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-6">
           <PromoCard
             title="Sustainable Fabrics"
@@ -240,7 +240,7 @@ export default function HomePage() {
           />
         </div>
       </section>
-      </ParallaxWrapper>
+      {/* </ParallaxWrapper> */}
     </div>
   );
 }

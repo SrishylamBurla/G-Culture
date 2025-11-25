@@ -120,9 +120,11 @@
 
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import ParallaxWrapper from "./ParallaxWrapper";
 
 export default function Footer() {
   return (
+    // <ParallaxWrapper speed={0.1}>
     <footer
       className="
         font-sans bg-[#0a0a0c]
@@ -266,5 +268,6 @@ export default function Footer() {
         </div>
       </motion.div>
     </footer>
+    // </ParallaxWrapper> 
   );
 }

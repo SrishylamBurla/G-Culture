@@ -180,14 +180,14 @@ body::-webkit-scrollbar {
   transform: scale(1.15);
 }
 
-/* .home-heading {
+.hero-head {
   font-family: 'Poppins', sans-serif;
-  font-weight: 700;
+  font-weight: 600;
   color: #ffffff;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
-.cat-heading {
+/* .cat-heading {
   font-family: 'Poppins', sans-serif;
   font-weight: 700;
   color: #333333;
