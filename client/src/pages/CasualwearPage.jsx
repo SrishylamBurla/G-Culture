@@ -65,14 +65,14 @@ export default function CasualwearPage() {
 
   return (
     <section
-      className="w-full min-h-screen bg-gray-100
+      className="w-full min-h-screen
                  pt-[4.5rem] md:pt-[5.8rem]"
     >
       <div className="flex flex-col md:flex-row w-full">
 
         {/* MOBILE FILTER BUTTON */}
         <button
-          className="md:hidden flex items-center gap-2 p-3 
+          className="md:hidden flex items-center gap-2 p-3 bg-[#001424]
                      text-gray-200 border-b border-white/10 sticky top-0 z-[50]"
           onClick={() => setIsFilterOpen(true)}
         >

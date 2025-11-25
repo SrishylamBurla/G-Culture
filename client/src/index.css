@@ -167,6 +167,31 @@ body::-webkit-scrollbar {
   font-weight: 800;
 }
 
+
+.swiper-pagination {
+  bottom: 14px !important;
+}
+.swiper-pagination-bullet {
+  opacity: .6;
+}
+.swiper-pagination-bullet-active {
+  opacity: 1;
+  transform: scale(1.15);
+}
+
+/* .home-heading {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  color: #ffffff;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.cat-heading {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  color: #333333;
+}  */
+
 .page-tags {
   font-family: 'Poppins', sans-serif;
   font-weight: 600;

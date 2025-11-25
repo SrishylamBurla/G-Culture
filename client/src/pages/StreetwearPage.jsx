@@ -85,7 +85,7 @@ export default function StreetwearPage() {
 
         {/* MOBILE FILTER BUTTON */}
         <button
-          className="md:hidden flex items-center gap-2 p-3 text-gray-200 border-b border-white/10 sticky top-0 z-[50]"
+          className="md:hidden bg-[#001424] flex items-center gap-2 p-3 text-gray-200 border-b border-white/10 sticky top-0 z-[50]"
           onClick={() => setIsFilterOpen(true)}
         >
           <Filter size={18} />

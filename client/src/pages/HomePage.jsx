@@ -1,219 +1,15 @@
-// import { Link } from "react-router-dom";
-// import { motion, useAnimation } from "framer-motion";
-// import { useEffect, useRef } from "react";
-
-// /**
-//  * HomePage - modular.com inspired hero + carousel
-//  *
-//  * - Left: huge "G-CULTURE" heading + subtitle + CTA
-//  * - Right: animated framed image (uses uploaded image path)
-//  * - Below: auto-scrolling carousel with category cards (looped)
-//  *
-//  * Replace image path if needed. The uploaded file path used here:
-//  * /mnt/data/ce0dfe8b-81de-47b5-8208-6da3c983921f.png
-//  */
-
-// const HERO_IMG = "/mnt/data/ce0dfe8b-81de-47b5-8208-6da3c983921f.png";
-
-// const categories = [
-//   {
-//     name: "Street Wear",
-//     quote: "Built for the streets. Worn by the fearless.",
-//     path: "/streetwear",
-//     accent: "from-indigo-600 to-cyan-400",
-//   },
-//   {
-//     name: "Casual Wear",
-//     quote: "Comfort that moves with your hustle.",
-//     path: "/casualwear",
-//     accent: "from-emerald-500 to-lime-400",
-//   },
-//   {
-//     name: "Chest Bags",
-//     quote: "Carry only what matters. Move like a creator.",
-//     path: "/chestbags",
-//     accent: "from-yellow-500 to-orange-400",
-//   },
-//   {
-//     name: "Caps",
-//     quote: "Finish your fit. Crown your style.",
-//     path: "/caps",
-//     accent: "from-pink-500 to-rose-400",
-//   },
-// ];
-
-// export default function HomePage() {
-//   const marqueeControls = useAnimation();
-//   const trackRef = useRef(null);
-
-//   // start marquee (auto scroll) animation once mounted
-//   useEffect(() => {
-//     // a continuous loop using framer-motion
-//     const loop = async() => {
-//       while (true) {
-//         await marqueeControls.start({
-//           x: ["0%", "-50%"],
-//           transition: { duration: 14, ease: "linear" },
-//         });
-//         // reset instantly to start and loop
-//         await marqueeControls.set({ x: "0%" });
-//       }
-//     };
-//     loop();
-//   }, [marqueeControls]);
-
-//   return (
-//     <main className="min-h-screen bg-gray-800 text-white pt-[4.5rem] md:pt[5.8rem] ">
-//       {/* HERO */}
-//       <section className="relative overflow-hidden">
-//         <div className="max-w-7xl mx-auto px-6 md:px-8 lg:px-12">
-//           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center min-h-[90vh]">
-//             {/* LEFT: Heading + quote */}
-//             <div className="py-12 md:py-20">
-//               <motion.h1
-//                 initial={{ opacity: 0, y: 18 }}
-//                 animate={{ opacity: 1, y: 0 }}
-//                 transition={{ duration: 0.9 }}
-//                 className="text-5xl md:text-6xl lg:text-7xl font-extralight leading-tight tracking-tight"
-//                 aria-label="G-CULTURE"
-//               >
-//                 G-CULTURE
-//               </motion.h1>
-
-//               <motion.p
-//                 initial={{ opacity: 0 }}
-//                 animate={{ opacity: 1 }}
-//                 transition={{ delay: 0.25, duration: 0.9 }}
-//                 className="mt-6 text-lg md:text-2xl max-w-lg text-gray-300"
-//               >
-//                 For men who carry confidence like a second skin.
-//               </motion.p>
-
-//               <motion.div
-//                 initial={{ opacity: 0, y: 6 }}
-//                 animate={{ opacity: 1, y: 0 }}
-//                 transition={{ delay: 0.5, duration: 0.7 }}
-//                 className="mt-8"
-//               >
-//                 <Link
-//                   to="/shop"
-//                   className="inline-block bg-white text-gray-900 rounded-full px-6 py-3 text-lg font-medium shadow hover:shadow-md transition"
-//                 >
-//                   Explore Collection
-//                 </Link>
-//               </motion.div>
-
-//               {/* subtle supporting text */}
-//               <p className="mt-6 text-sm text-gray-500 max-w-sm">
-//                 Curated drops • Quality fabrics • Tailored fits — shop the latest from G-CULTURE.
-//               </p>
-//             </div>
-
-//             {/* RIGHT: Framed animated image */}
-//             <div className="relative flex justify-center md:justify-end">
-//               {/* decorative outer rotated frame */}
-//               <motion.div
-//                 initial={{ rotate: -6, opacity: 0 }}
-//                 animate={{ rotate: [-6, -2, -6], opacity: 1 }}
-//                 transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-//                 className="relative w-[340px] md:w-[420px] lg:w-[420px] h-[420px] md:h-[420px] flex items-center justify-center"
-//               >
-//                 <div className="absolute inset-0 border-2 border-white/10 rounded-2xl transform translate-x-6 translate-y-6 pointer-events-none"></div>
-
-//                 {/* image card */}
-//                 <motion.figure
-//                   whileHover={{ scale: 1.03, rotate: 0 }}
-//                   className="relative w-full h-full rounded-2xl overflow-hidden bg-black/60 border border-white/5 shadow-lg"
-//                   role="img"
-//                   aria-label="Hero garment image"
-//                 >
-//                   {/* image */}
-//                   <img
-//                     src={'/images/HomeImgs/Herosec.png'}
-//                     alt="Hero - G-Culture model"
-//                     className="w-full h-full object-cover grayscale contrast-90"
-//                     style={{ mixBlendMode: "normal" }}
-//                   />
-
-//                   {/* inner overlay text card */}
-//                   {/* <div className="absolute left-4 bottom-6 bg-black/60 backdrop-blur-sm border border-white/10 rounded-md px-4 py-3 text-xs text-gray-200 max-w-[70%]">
-//                     <div className="uppercase text-[10px] text-gray-400 mb-1 tracking-wider">Self reminder</div>
-//                     <div className="text-sm font-medium">One step at a time. You’ll get there.</div>
-//                     <div className="mt-2 text-[10px] text-gray-400">G-CULTURE</div>
-//                   </div> */}
-//                 </motion.figure>
-//               </motion.div>
-//             </div>
-//           </div>
-//         </div>
-//       </section>
-
-//       {/* CAROUSEL SECTION */}
-//       <section className="py-12">
-//         <div className="max-w-7xl mx-auto px-6 md:px-8 lg:px-12">
-//           <div className="flex items-center justify-between mb-6">
-//             <h2 className="text-2xl font-semibold text-white">Explore categories</h2>
-//             <p className="text-sm text-gray-400">Curated picks, updated regularly</p>
-//           </div>
-
-//           {/* marquee-like auto-scrolling row using framer-motion */}
-//           <div className="relative overflow-hidden">
-//             <motion.div
-//               animate={marqueeControls}
-//               ref={trackRef}
-//               className="flex w-[200%] gap-6"
-//               style={{ willChange: "transform" }}
-//             >
-//               {/* duplicate list twice to create smooth loop */}
-//               {[...categories, ...categories].map((c, idx) => (
-//                 <Link
-//                   to={c.path}
-//                   key={`${c.name}-${idx}`}
-//                   className="min-w-[260px] md:min-w-[320px] lg:min-w-[380px] bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl p-6 shadow-lg hover:scale-105 transition-transform"
-//                 >
-//                   <div className={`h-40 rounded-md bg-gradient-to-br ${c.accent} bg-opacity-30 flex items-end p-4`}>
-//                     <div>
-//                       <h3 className="text-white text-xl font-semibold">{c.name}</h3>
-//                       <p className="text-sm text-gray-200 mt-1">{c.quote}</p>
-//                     </div>
-//                   </div>
-
-//                   <div className="mt-4 flex items-center justify-between">
-//                     <span className="text-sm text-gray-300">Shop</span>
-//                     <span className="text-xs text-gray-400">{c.name}</span>
-//                   </div>
-//                 </Link>
-//               ))}
-//             </motion.div>
-//           </div>
-//         </div>
-//       </section>
-
-//       {/* Optional small footer spacing */}
-//       <div className="h-28" />
-//     </main>
-//   );
-// }
-
-
-
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef } from "react";
+import CategoryCard from "../components/CategoryCard";
 
-// Auto-scroll animation config
-const scrollX = {
-  animate: {
-    x: ["0%", "-100%"],
-    transition: {
-      x: {
-        repeat: Infinity,
-        repeatType: "loop",
-        duration: 15,
-        ease: "linear",
-      },
-    },
-  },
-};
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay, Pagination, Navigation } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
+
+const HERO_IMG_LOCAL = "/images/HomeImgs/Herosec.png";
 
 export default function HomePage() {
   const categories = [
@@ -239,114 +35,271 @@ export default function HomePage() {
     },
   ];
 
+  // Parallax for hero
+  const heroRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: heroRef,
+    offset: ["start start", "end start"],
+  });
+  const yText = useTransform(scrollYProgress, [0, 1], ["0px", "-120px"]);
+  const yImage = useTransform(scrollYProgress, [0, 1], ["0px", "140px"]);
+  const opacityFade = useTransform(scrollYProgress, [0, 1], [1, 0]);
+
   return (
-    <div className="pt-[2rem] md:pt-[5.8rem]">
-
-      {/* ===========================
-          🌟 HERO SECTION
-      ============================ */}
+    <div className="bg-[#050507] text-white min-h-screen">
+      {/* HERO */}
       <section
-        className="
-          w-full
-          h-[100vh] md:h-[95vh] py-30 md:py-2
-          bg-gradient-to-br from-[#0a0a0a] to-[#1a1a1a]
-          text-white flex flex-col md:flex-row
-          items-center justify-between
-          px-6 md:px-16 lg:px-40
-          relative overflow-hidden
-        "
+        ref={heroRef}
+        className="relative w-full overflow-hidden min-h-[100vh] md:min-h-screen"
       >
+        {/* ambient shapes */}
+        <div className="pointer-events-none absolute -left-28 -top-28 w-[420px] h-[420px] rounded-full blur-[120px] bg-gradient-to-br from-[#d4af37]/20 to-transparent" />
+        <div className="pointer-events-none absolute -right-32 -bottom-32 w-[420px] h-[420px] rounded-full blur-[120px] bg-gradient-to-br from-[#b8860b]/12 to-transparent" />
 
-        {/* LEFT TEXT */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1 }}
-          className="max-w-xl z-10"
-        >
-          <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight leading-tight">
-            G-CULTURE
-          </h1>
-
-          <p className="text-lg md:text-2xl mt-4 text-gray-200 max-w-4xl leading-relaxed">
-            For men who carry confidence like a second skin.
-          </p>
-
-          <div className="mt-8">
-            <Link
-              to="/shop"
-              className="
-                px-6 py-3 text-lg font-semibold
-                bg-white text-black rounded-full
-                hover:bg-black hover:text-white
-                transition duration-300 border border-white/20
-              "
-            >
-              Explore Collection
-            </Link>
-          </div>
-        </motion.div>
-
-        {/* RIGHT — ANIMATED BORDERED IMAGE */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1.2 }}
-          whileHover={{ scale: 1.03 }}
-          className="mt-2 md:mt-0 relative"
-        >
-          {/* Animated border */}
+        <div className="relative z-10 max-w-[1400px] mx-auto px-6 md:px-12 lg:px-20 py-35 md:py-50 flex flex-col justify-center md:flex-row items-center gap-50">
+          {/* LEFT: Text */}
           <motion.div
-            animate={{ rotate: 360 }}
-            transition={{ repeat: Infinity, duration: 18, ease: "linear" }}
-            className="absolute -inset-4 border-4 rounded-3xl border-white/20"
-          />
-
-          {/* Actual image */}
-          <img
-            src="/images/HomeImgs/Herosec.png"
-            alt="Men clothing hero"
-            className="w-[260px] md:w-[380px] rounded-3xl shadow-2xl object-cover"
-          />
-        </motion.div>
-      </section>
-
-      {/* ===========================
-          🔥 PREMIUM AUTO CAROUSEL
-      ============================ */}
-      <section className="py-10 bg-white">
-        <h2 className="text-center text-3xl md:text-4xl font-bold mb-8 text-black">
-          Shop by Category
-        </h2>
-
-        <div className="overflow-hidden whitespace-nowrap relative">
-          <motion.div
-            className="flex gap-6 px-4"
-            {...scrollX}
+            style={{ y: yText, opacity: opacityFade }}
+            className="flex-1 max-w-xl"
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9 }}
           >
-            {[...categories, ...categories].map((cat, i) => (
+            <h1 className="text-[48px] md:text-[84px] lg:text-[96px] font-extrabold leading-[0.95] tracking-tight">
+              G-CULTURE
+            </h1>
+
+            <p className="mt-4 text-[15px] md:text-[20px] text-gray-300 max-w-xl">
+              For men who carry{" "}
+              <span className="text-[#d4af37] font-semibold">confidence</span>{" "}
+              like a second skin — functional, refined, unapologetic.
+            </p>
+
+            <div className="mt-8 flex flex-wrap gap-4">
               <Link
-                to={cat.path}
-                key={i}
-                className="
-                  min-w-[250px] md:min-w-[320px] 
-                  bg-gray-100 rounded-xl overflow-hidden shadow-md
-                  hover:scale-[1.03] transition duration-300
-                "
+                to="/shop"
+                className="inline-flex items-center justify-center px-6 py-3 rounded-full bg-white text-black font-semibold shadow hover:scale-[1.02] transition"
               >
-                <img
-                  src={cat.img}
-                  className="w-full h-60 object-cover"
-                  alt={cat.name}
-                />
-                {/* <div className="p-4 text-center font-semibold text-gray-800">
-                  {cat.name}
-                </div> */}
+                Explore Collection
               </Link>
-            ))}
+
+              <Link
+                to="/about-us"
+                className="inline-flex items-center justify-center px-6 py-3 rounded-full border border-white/10 text-white hover:bg-white/5 transition"
+              >
+                Our Story
+              </Link>
+            </div>
+
+            <div className="mt-8 flex flex-wrap gap-6 text-sm text-gray-400">
+              <div className="flex items-center gap-3">
+                <span className="inline-block w-9 h-9 rounded-full bg-white/5 flex items-center justify-center text-sm">
+                  🚚
+                </span>
+                <div>
+                  <div className="font-semibold text-white">Free Shipping</div>
+                  <div className="text-xs text-gray-400">
+                    All orders above ₹999
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-3">
+                <span className="inline-block w-9 h-9 rounded-full bg-white/5 flex items-center justify-center text-sm">
+                  🔁
+                </span>
+                <div>
+                  <div className="font-semibold text-white">Easy Returns</div>
+                  <div className="text-xs text-gray-400">
+                    7-day easy exchange
+                  </div>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, scale: 0.85 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1.2 }}
+            whileHover={{ scale: 1.03 }}
+            className="relative mt-0"
+          >
+            {/* Rotating border frame */}
+            <motion.div
+              animate={{ rotate: 360 }}
+              transition={{ repeat: Infinity, duration: 18, ease: "linear" }}
+              className="absolute -inset-4 rounded-3xl border-4 border-white/20"
+            />
+
+            <img
+              src="/images/HomeImgs/Herosec.png"
+              alt="Hero"
+              className="w-[260px] md:w-[380px] rounded-3xl shadow-2xl object-cover"
+            />
           </motion.div>
         </div>
       </section>
+
+      {/* ============================
+    FULLSCREEN CATEGORY SLIDER
+=============================== */}
+      <section className="relative w-full h-[75vh] md:h-[85vh] md:px-20 py-10 bg-black">
+        <Swiper
+          modules={[Autoplay, Pagination, Navigation]}
+          slidesPerView={1}
+          loop={true}
+          autoplay={{ delay: 3500, disableOnInteraction: false }}
+          pagination={{ clickable: true }}
+          navigation={{
+            nextEl: ".cat-next-btn",
+            prevEl: ".cat-prev-btn",
+          }}
+          className="h-full w-full"
+        >
+          {categories.map((cat, i) => (
+            <SwiperSlide key={i}>
+              <div className="relative h-screen w-full overflow-hidden">
+                {/* Background Image */}
+                <motion.div
+                  initial={{ scale: 1.1 }}
+                  animate={{ scale: 1 }}
+                  transition={{ duration: 2 }}
+                  className="absolute inset-0 bg-cover bg-center"
+                  style={{ backgroundImage: `url(${cat.img})` }}
+                />
+
+                {/* Dark Overlay */}
+                <div className="absolute inset-0 bg-black/40 backdrop-blur-[2px]" />
+
+                {/* Content */}
+                <div className="relative z-20 h-full w-full flex flex-col items-center justify-center text-center px-6">
+                  <motion.h2
+                    initial={{ opacity: 0, y: 40 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.9 }}
+                    className="text-4xl md:text-6xl font-bold text-white"
+                  >
+                    {cat.name}
+                  </motion.h2>
+
+                  <motion.p
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.2, duration: 0.8 }}
+                    className="text-lg md:text-2xl text-gray-200 mt-4 max-w-2xl"
+                  >
+                    {cat.quote ||
+                      "Discover the latest collection crafted for men who move with confidence."}
+                  </motion.p>
+
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.4, duration: 0.8 }}
+                    className="mt-8"
+                  >
+                    <Link
+                      to={cat.path}
+                      className="px-8 py-3 rounded-full bg-white text-black text-lg font-semibold hover:bg-black hover:text-white transition"
+                    >
+                      Explore {cat.name}
+                    </Link>
+                  </motion.div>
+                </div>
+              </div>
+            </SwiperSlide>
+          ))}
+        </Swiper>
+
+        {/* Navigation Buttons */}
+        <button className="cat-prev-btn absolute left-6 top-1/2 -translate-y-1/2 z-30 text-white bg-white/20 hover:bg-white/40 backdrop-blur-md rounded-full p-3 transition">
+          ❮
+        </button>
+
+        <button className="cat-next-btn absolute right-6 top-1/2 -translate-y-1/2 z-30 text-white bg-white/20 hover:bg-white/40 backdrop-blur-md rounded-full p-3 transition">
+          ❯
+        </button>
+      </section>
+
+      {/* ================ PROMO ROW ================ */}
+      <section className="py-12 bg-[#07070a]">
+        <div className="max-w-[1200px] mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-6">
+          <PromoCard
+            title="Sustainable Fabrics"
+            subtitle="Organic cotton & recycled blends."
+          />
+          <PromoCard
+            title="Limited Drops"
+            subtitle="Small batch releases — get them before they vanish."
+          />
+          <PromoCard
+            title="Tailored Fit"
+            subtitle="Refined fits crafted for comfort & movement."
+          />
+        </div>
+      </section>
     </div>
+  );
+}
+
+/* ---------- Category tile (3D tilt + badge) ---------- */
+function CategoryTile({ cat }) {
+  return (
+    <Link
+      to={cat.path}
+      className="block min-w-[320px] md:min-w-[420px] bg-white rounded-2xl shadow-xl overflow-hidden transform-gpu hover:scale-[1.02] transition"
+      aria-label={`Open ${cat.name}`}
+    >
+      <div className="relative h-60 md:h-64">
+        <img
+          src={cat.img}
+          alt={cat.name}
+          className="w-full h-full object-cover"
+          draggable={false}
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+        <div className="absolute left-6 bottom-6">
+          <div className="text-2xl md:text-3xl font-bold text-white">
+            {cat.name}
+          </div>
+          <div className="text-sm text-white/90 mt-1 hidden md:block">
+            Explore latest edits & essentials
+          </div>
+        </div>
+      </div>
+
+      <div className="px-4 py-3">
+        <div className="text-lg font-semibold text-gray-800">{cat.name}</div>
+        <div className="text-sm text-gray-500 mt-1">
+          Explore latest edits & essentials
+        </div>
+      </div>
+    </Link>
+  );
+}
+
+/* ---------- Promo card ---------- */
+function PromoCard({ title, subtitle }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 16 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.6 }}
+      className="bg-gradient-to-br from-white/6 to-white/3 border border-white/6 p-6 rounded-xl text-white"
+    >
+      <div className="text-sm text-gray-300 uppercase tracking-wider mb-2">
+        Why G-Culture
+      </div>
+      <h4 className="text-xl font-semibold">{title}</h4>
+      <p className="mt-2 text-gray-300 text-sm">{subtitle}</p>
+      <Link
+        to="/shop"
+        className="inline-block mt-4 text-sm underline text-white/90"
+      >
+        Shop now
+      </Link>
+    </motion.div>
   );
 }
