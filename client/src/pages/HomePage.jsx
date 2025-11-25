@@ -8,6 +8,7 @@ import { Autoplay, Pagination, Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
+import ParallaxWrapper from "../components/ParallaxWrapper";
 
 const HERO_IMG_LOCAL = "/images/HomeImgs/Herosec.png";
 
@@ -48,9 +49,10 @@ export default function HomePage() {
   return (
     <div className="bg-[#050507] text-white min-h-screen">
       {/* HERO */}
+      <ParallaxWrapper speed={0.1}>
       <section
         ref={heroRef}
-        className="relative w-full overflow-hidden min-h-[100vh] md:min-h-screen"
+        className="relative w-full overflow-hidden min-h-[100vh] md:min-h-[120vh] flex items-center"
       >
         {/* ambient shapes */}
         <div className="pointer-events-none absolute -left-28 -top-28 w-[420px] h-[420px] rounded-full blur-[120px] bg-gradient-to-br from-[#d4af37]/20 to-transparent" />
@@ -140,10 +142,8 @@ export default function HomePage() {
           </motion.div>
         </div>
       </section>
+      {/* ================ CATEGORY SLIDER ================ */}
 
-      {/* ============================
-    FULLSCREEN CATEGORY SLIDER
-=============================== */}
       <section className="relative w-full h-[75vh] md:h-[85vh] md:px-20 py-10 bg-black">
         <Swiper
           modules={[Autoplay, Pagination, Navigation]}
@@ -221,9 +221,10 @@ export default function HomePage() {
           ❯
         </button>
       </section>
-
+      
       {/* ================ PROMO ROW ================ */}
-      <section className="py-12 bg-[#07070a]">
+
+      <section className="pt-24 bg-[#07070a]">
         <div className="max-w-[1200px] mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-6">
           <PromoCard
             title="Sustainable Fabrics"
@@ -239,6 +240,7 @@ export default function HomePage() {
           />
         </div>
       </section>
+      </ParallaxWrapper>
     </div>
   );
 }

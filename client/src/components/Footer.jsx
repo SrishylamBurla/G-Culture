@@ -141,11 +141,11 @@ export default function Footer() {
         initial={{ opacity: 0, y: 25 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7 }}
-        className="relative z-20 max-w-[1400px] mx-auto p-6 md:p-10 lg:p-14"
+        className="relative z-20 max-w-[1400px] mx-auto p-2 md:p-4 lg:p-6"
       >
 
         {/* GRID */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
 
           {/* BRAND SECTION */}
           <div>
@@ -169,7 +169,7 @@ export default function Footer() {
               Learn More
             </Link>
           </div>
-    <div className="grid grid-cols-2 md:grid-cols-1">
+    <div className="grid grid-cols-2 md:grid-cols-2">
           {/* COMPANY LINKS */}
           <div>
             <h4 className="text-white text-sm font-semibold tracking-widest mb-5 uppercase">
