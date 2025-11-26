@@ -8,6 +8,7 @@ import { Autoplay, Pagination, Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
+import HomeHeroCarousel from "../components/HomeHeroCarousel";
 // import ParallaxWrapper from "../components/ParallaxWrapper";
 
 export default function HomePage() {
@@ -20,7 +21,7 @@ export default function HomePage() {
     {
       name: "Casual Wear",
       path: "/casualwear",
-      img: "/images/HomeImgs/casualwear.png",
+      img: "/images/HomeImgs/casualwear1.webp",
     },
     {
       name: "Chest Bags",
@@ -107,9 +108,88 @@ export default function HomePage() {
           </motion.div>
         </div>
       </section>
+      {/* <section>
+      <HomeHeroCarousel />
+    </section> */}
       {/* ================ CATEGORY SLIDER ================ */}
+      <section className="bg-[#050507]">
+        <div className="w-full">
+          <h2 className="text-center text-4xl md:text-5xl font-bold mb-12 text-white">
+            Shop by <span className="text-yellow-400">Category</span>
+          </h2>
 
-      <section className="relative w-full h-[50vh] md:h-[60vh] bg-black">
+          <div className="flex flex-col">
+            {categories.map((cat, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 80 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.4 }}
+                transition={{ duration: 0.8, ease: "easeOut" }}
+                className="
+            relative w-full h-[70vh]
+            overflow-hidden shadow-xl
+            group cursor-pointer
+          "
+              >
+                {/* Background Image */}
+                <motion.div
+                  className="absolute inset-0 bg-center bg-cover"
+                  // style={{ backgroundImage: `url(${cat.img})` }}
+                  style={{backgroundColor: 'gray'}}
+                  initial={{ scale: 1.15 }}
+                  whileInView={{ scale: 1 }}
+                  transition={{ duration: 2, ease: "easeOut" }}
+                />
+
+                {/* Dark Overlay */}
+                {/* <div className="absolute inset-0 bg-black/50 group-hover:bg-black/40 transition-all"></div> */}
+
+                {/* Text Content */}
+                <div className="absolute right-5 top-20 flex flex-col justify-center items-center text-center px-6 z-20">
+                  <motion.h3
+                    className="text-3xl md:text-4xl font-extrabold text-white drop-shadow-lg"
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.2, duration: 0.7 }}
+                  >
+                    {cat.name}
+                  </motion.h3>
+
+                  <motion.p
+                    className="mt-4 text-lg md:text-2xl text-gray-200 max-w-2xl"
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.3, duration: 0.7 }}
+                  >
+                    {cat.quote ||
+                      "Discover exclusive new arrivals curated for bold men."}
+                  </motion.p>
+
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.4, duration: 0.7 }}
+                    className="mt-8"
+                  >
+                    <Link
+                      to={cat.path}
+                      className="
+                  px-10 py-3 rounded-sm border-1 hover:bg-black text-black hover:text-white
+                  text-lg font-semibold shadow-lg transition
+                "
+                    >
+                      Explore {cat.name}
+                    </Link>
+                  </motion.div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* <section className="relative w-full h-[50vh] md:h-[60vh] bg-black">
         <Swiper
           modules={[Autoplay, Pagination, Navigation]}
           slidesPerView={1}
@@ -125,7 +205,7 @@ export default function HomePage() {
           {categories.map((cat, i) => (
             <SwiperSlide key={i}>
               <div className="relative h-[50vh] md:h-[60vh] w-full overflow-hidden">
-                {/* Background Image */}
+                
                 <motion.div
                   initial={{ scale: 1.1 }}
                   animate={{ scale: 1 }}
@@ -135,10 +215,6 @@ export default function HomePage() {
                   // style={{ backgroundImage: `url(${cat.img})` }}
                 />
 
-                {/* Dark Overlay */}
-                {/* <div className="absolute inset-0 bg-black/40 backdrop-blur-[2px]" /> */}
-
-                {/* Content */}
                 <div className="relative z-20 h-full w-full flex flex-col items-center justify-center text-center px-6">
                   <motion.h2
                     initial={{ opacity: 0, y: 40 }}
@@ -177,8 +253,6 @@ export default function HomePage() {
             </SwiperSlide>
           ))}
         </Swiper>
-
-        {/* Navigation Buttons */}
         <button className="cat-prev-btn absolute left-6 top-1/2 -translate-y-1/2 z-30 text-white rounded-full p-3 transition">
           ❮
         </button>
@@ -186,7 +260,7 @@ export default function HomePage() {
         <button className="cat-next-btn absolute right-6 top-1/2 -translate-y-1/2 z-30 text-white rounded-full p-3 transition">
           ❯
         </button>
-      </section>
+      </section> */}
 
       {/* ================ PROMO ROW ================ */}
 
