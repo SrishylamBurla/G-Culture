@@ -136,7 +136,7 @@ export default function HomePage() {
                 <motion.div
                   className="absolute inset-0 bg-center bg-cover"
                   // style={{ backgroundImage: `url(${cat.img})` }}
-                  style={{backgroundColor: 'gray'}}
+                  // style={{backgroundColor: 'gray'}}
                   initial={{ scale: 1.15 }}
                   whileInView={{ scale: 1 }}
                   transition={{ duration: 2, ease: "easeOut" }}
@@ -175,7 +175,7 @@ export default function HomePage() {
                     <Link
                       to={cat.path}
                       className="
-                  px-10 py-3 rounded-sm border-1 hover:bg-black text-black hover:text-white
+                  px-10 py-3 rounded-sm border-1 text-white bg-black hover:bg-white hover:text-black
                   text-lg font-semibold shadow-lg transition
                 "
                     >
