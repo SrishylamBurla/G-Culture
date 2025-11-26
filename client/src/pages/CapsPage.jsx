@@ -126,7 +126,7 @@ export default function CapsPage() {
 
           {/* HEADING */}
           <div
-            className="py-6 mx-3 md:px-0"
+            className="py-6 px-3"
             style={{ animation: "fadeInLeft 1s ease-out forwards" }}
           >
             <h1 className="inline text-4xl shop-quote bg-clip-text text-transparent 

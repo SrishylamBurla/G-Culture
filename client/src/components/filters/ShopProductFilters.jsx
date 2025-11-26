@@ -65,10 +65,9 @@ export default function ShopProductFilters({
 
   return (
     <aside
-      className={`w-full md:w-64 flex flex-col bg-[#001424]
+      className={`w-50 flex flex-col bg-[#001424]
           bg-[url('https://www.transparenttextures.com/patterns/snow.png')]
-          border-r border-white/10 text-gray-100 sticky top-[64px]
-          h-[calc(100vh-64px)] overflow-y-scroll scrollbar-hover
+          border-r border-white/10 text-gray-100 sticky overflow-y-scroll scrollbar-hover
           px-4 py-2 transition-all duration-300`}
     >
 

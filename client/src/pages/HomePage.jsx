@@ -8,9 +8,7 @@ import { Autoplay, Pagination, Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
-import ParallaxWrapper from "../components/ParallaxWrapper";
-
-// const HERO_IMG_LOCAL = "/images/HomeImgs/Herosec.png";
+// import ParallaxWrapper from "../components/ParallaxWrapper";
 
 export default function HomePage() {
   const categories = [
@@ -71,7 +69,7 @@ export default function HomePage() {
               G-CULTURE
             </h1>
 
-            <p className="mt-4 text-[15px] md:text-[30px] text-gray-300 max-w-2xl">
+            <p className="mt-4 text-[20px] md:text-[30px] text-gray-300 max-w-2xl">
               For men who carry{" "}
               <span className="text-[#d4af37] font-semibold">confidence</span>{" "}
               like a second skin
@@ -84,40 +82,7 @@ export default function HomePage() {
               >
                 Explore Collection
               </Link>
-
-              {/* <Link
-                to="/about-us"
-                className="inline-flex items-center justify-center px-6 py-3 rounded-full border border-white/10 text-white hover:bg-white/5 transition"
-              >
-                Our Story
-              </Link> */}
             </div>
-
-            {/* <div className="mt-8 flex flex-wrap gap-6 text-sm text-gray-400">
-              <div className="flex items-center gap-3">
-                <span className="inline-block w-9 h-9 rounded-full bg-white/5 flex items-center justify-center text-sm">
-                  🚚
-                </span>
-                <div>
-                  <div className="font-semibold text-white">Free Shipping</div>
-                  <div className="text-xs text-gray-400">
-                    All orders above ₹999
-                  </div>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-3">
-                <span className="inline-block w-9 h-9 rounded-full bg-white/5 flex items-center justify-center text-sm">
-                  🔁
-                </span>
-                <div>
-                  <div className="font-semibold text-white">Easy Returns</div>
-                  <div className="text-xs text-gray-400">
-                    7-day easy exchange
-                  </div>
-                </div>
-              </div>
-            </div> */}
           </motion.div>
 
           <motion.div
@@ -137,14 +102,14 @@ export default function HomePage() {
             <img
               src="/images/HomeImgs/Herosec.png"
               alt="Hero"
-              className="w-[260px] md:w-[380px] rounded-3xl shadow-2xl object-cover"
+              className="w-[260px] md:w-[350px] rounded-3xl shadow-2xl object-cover"
             />
           </motion.div>
         </div>
       </section>
       {/* ================ CATEGORY SLIDER ================ */}
 
-      <section className="relative w-full h-[75vh] md:h-[90vh] md:px-20 py-10 bg-black">
+      <section className="relative w-full h-[50vh] md:h-[60vh] bg-black">
         <Swiper
           modules={[Autoplay, Pagination, Navigation]}
           slidesPerView={1}
@@ -159,18 +124,19 @@ export default function HomePage() {
         >
           {categories.map((cat, i) => (
             <SwiperSlide key={i}>
-              <div className="relative h-screen w-full overflow-hidden">
+              <div className="relative h-[50vh] md:h-[60vh] w-full overflow-hidden">
                 {/* Background Image */}
                 <motion.div
                   initial={{ scale: 1.1 }}
                   animate={{ scale: 1 }}
                   transition={{ duration: 2 }}
                   className="absolute inset-0 bg-cover bg-center"
-                  style={{ backgroundImage: `url(${cat.img})` }}
+                  style={{backgroundColor: "gray"}}
+                  // style={{ backgroundImage: `url(${cat.img})` }}
                 />
 
                 {/* Dark Overlay */}
-                <div className="absolute inset-0 bg-black/40 backdrop-blur-[2px]" />
+                {/* <div className="absolute inset-0 bg-black/40 backdrop-blur-[2px]" /> */}
 
                 {/* Content */}
                 <div className="relative z-20 h-full w-full flex flex-col items-center justify-center text-center px-6">
@@ -213,15 +179,15 @@ export default function HomePage() {
         </Swiper>
 
         {/* Navigation Buttons */}
-        <button className="cat-prev-btn absolute left-6 top-1/2 -translate-y-1/2 z-30 text-white bg-white/20 hover:bg-white/40 backdrop-blur-md rounded-full p-3 transition">
+        <button className="cat-prev-btn absolute left-6 top-1/2 -translate-y-1/2 z-30 text-white rounded-full p-3 transition">
           ❮
         </button>
 
-        <button className="cat-next-btn absolute right-6 top-1/2 -translate-y-1/2 z-30 text-white bg-white/20 hover:bg-white/40 backdrop-blur-md rounded-full p-3 transition">
+        <button className="cat-next-btn absolute right-6 top-1/2 -translate-y-1/2 z-30 text-white rounded-full p-3 transition">
           ❯
         </button>
       </section>
-      
+
       {/* ================ PROMO ROW ================ */}
 
       <section className="pt-24 py-24 bg-[#07070a]">
@@ -242,42 +208,6 @@ export default function HomePage() {
       </section>
       {/* </ParallaxWrapper> */}
     </div>
-  );
-}
-
-/* ---------- Category tile (3D tilt + badge) ---------- */
-function CategoryTile({ cat }) {
-  return (
-    <Link
-      to={cat.path}
-      className="block min-w-[320px] md:min-w-[420px] bg-white rounded-2xl shadow-xl overflow-hidden transform-gpu hover:scale-[1.02] transition"
-      aria-label={`Open ${cat.name}`}
-    >
-      <div className="relative h-60 md:h-64">
-        <img
-          src={cat.img}
-          alt={cat.name}
-          className="w-full h-full object-cover"
-          draggable={false}
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
-        <div className="absolute left-6 bottom-6">
-          <div className="text-2xl md:text-3xl font-bold text-white">
-            {cat.name}
-          </div>
-          <div className="text-sm text-white/90 mt-1 hidden md:block">
-            Explore latest edits & essentials
-          </div>
-        </div>
-      </div>
-
-      <div className="px-4 py-3">
-        <div className="text-lg font-semibold text-gray-800">{cat.name}</div>
-        <div className="text-sm text-gray-500 mt-1">
-          Explore latest edits & essentials
-        </div>
-      </div>
-    </Link>
   );
 }
 

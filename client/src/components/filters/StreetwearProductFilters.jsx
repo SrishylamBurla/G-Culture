@@ -267,9 +267,9 @@ export default function StreetwearProductFilters({
 
   return (
     <aside
-      className="w-50 md:w-50 flex flex-col bg-gray-200
+      className="w-50 flex flex-col bg-gray-200
                  border-r border-white/10 text-gray-800
-                 sticky h-[calc(100vh-64px)] overflow-y-scroll
+                 sticky overflow-y-scroll
                  scrollbar-hover px-4 py-2 transition-all duration-300"
     >
       {/* HEADER */}

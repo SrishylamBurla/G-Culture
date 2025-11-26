@@ -133,13 +133,25 @@ export default function CasualwearPage() {
 
           {/* HEADING */}
           <div
-            className="py-6 mx-3 md:px-0"
+            className="py-6 px-3"
             style={{ animation: "fadeInLeft 1s ease-out forwards" }}
           >
             <h1 className="inline text-4xl shop-quote bg-clip-text text-transparent bg-gradient-to-r from-[#907b02] to-[#b27006]">
               Not Imported, Just Ignited...
             </h1>
           </div>
+
+           <style>{`
+            @keyframes fadeInLeft {
+              0% { opacity: 0; transform: translateX(-40px); }
+              100% { opacity: 1; transform: translateX(0); }
+            }
+
+            @keyframes fadeInRight {
+              0% { opacity: 0; transform: translateX(40px); }
+              100% { opacity: 1; transform: translateX(0); }
+            }
+          `}</style>
 
           {/* GRID OR LOADER */}
           {isLoading || isFetching ? (
