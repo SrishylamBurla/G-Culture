@@ -7,7 +7,7 @@ import toast from "react-hot-toast";
 
 // RTK QUERY
 import { useGetProductByIdQuery } from "../features/products/productApi";
-import useGetCreateReviewMutation from "../features/products/productApi";
+import { useGetCreateReviewMutation } from "../features/products/productApi";
 
 export default function ProductPage() {
   const { id } = useParams();
