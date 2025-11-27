@@ -41,6 +41,16 @@ export const productApi = createApi({
       },
       providesTags: ["Products"],
     }),
+    // FEATUERED PRODUCTS
+    getFeaturedProducts: builder.query({
+      query: () => `/products/featured`,
+      providesTags: ["Products"],
+    }),
+    // LATEST PRODUCTS
+    getLatestProducts: builder.query({
+      query: () => `/products/latest`,
+      providesTags: ["Products"],
+    }),
 
     // SEARCH
     searchProducts: builder.query({
@@ -97,4 +107,6 @@ export const {
   useCreateProductMutation,
   useUpdateProductMutation,
   useDeleteProductMutation,
+  useGetFeaturedProductsQuery,
+  useGetLatestProductsQuery,
 } = productApi;

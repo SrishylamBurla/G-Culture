@@ -114,6 +114,23 @@ export const deleteProduct = async (req, res) => {
   }
 };
 
+export const getFeaturedProducts = async (req, res) => {
+  try {
+    const products = await Product.find({}).sort({ rating: -1 }).limit(8);
+    res.json(products);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+export const getLatestProducts = async (req, res) => {
+  try {
+    const products = await Product.find({}).sort({ createdAt: -1 }).limit(8);
+    res.json(products);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  } 
+};
 
 
 export const searchProducts = async (req, res) => {

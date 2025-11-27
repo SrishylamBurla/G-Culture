@@ -25,6 +25,9 @@ export const products = [
     category: "streetwear",
     subcategory: "shirts",
     description: "Comfortable cotton shirt perfect for daily wear.",
+    rating: 4.5,
+    numReviews: 10,
+    brand: "FashionCo",
     sizes: ["S", "M", "L", "XL"],
     colors: ["blue", "black", "white"],
     images: [
@@ -41,6 +44,9 @@ export const products = [
     category: "streetwear",
     subcategory: "bottoms",
     description: "Stretchable slim fit jeans with modern styling.",
+    rating: 4.2,
+    numReviews: 8,
+    brand: "DenimPro",
     sizes: ["30", "32", "34", "36"],
     colors: ["black", "blue", "gray"],
     images: [
@@ -57,6 +63,9 @@ export const products = [
     category: "streetwear",
     subcategory: "tops",
     description: "Soft cotton T-shirt with classic fit.",
+    rating: 4.0,
+    numReviews: 12,
+    brand: "CasualWear",
     sizes: ["S", "M", "L"],
     colors: ["white"],
     images: [
@@ -73,6 +82,9 @@ export const products = [
     category: "streetwear",
     subcategory: "outerwear",
     description: "Warm and lightweight hooded jacket for winter.",
+    rating: 4.3,
+    numReviews: 5,
+    brand: "OuterStyle",
     sizes: ["M", "L", "XL"],
     colors: ["gray"],
     images: [
@@ -89,6 +101,9 @@ export const products = [
     category: "streetwear",
     subcategory: "trousers",
     description: "Tailored formal pants for office wear.",
+    rating: 4.1,
+    numReviews: 7,
+    brand: "OfficeWear",
     sizes: ["32", "34", "36"],
     colors: ["navy"],
     images: [
@@ -105,6 +120,9 @@ export const products = [
     category: "streetwear",
     subcategory: "tops",
     description: "Premium polo T-shirt with breathable fabric.",
+    rating: 4.4,
+    numReviews: 9,
+    brand: "PoloStar",
     sizes: ["S", "M", "L"],
     colors: ["red"],
     images: [
@@ -123,6 +141,9 @@ export const products = [
     category: "casualwear",
     subcategory: "dresses",
     description: "Elegant floral print dress for casual outings.",
+    rating: 4.6,
+    numReviews: 15,
+    brand: "Elegance",
     sizes: ["S", "M", "L"],
     colors: ["pink"],
     images: [
@@ -139,6 +160,9 @@ export const products = [
     category: "casualwear",
     subcategory: "bottoms",
     description: "Trendy high-waist jeans with perfect fit.",
+    rating: 4.3,
+    numReviews: 11,
+    brand: "DenimDivas",
     sizes: ["26", "28", "30"],
     colors: ["light blue"],
     images: [
@@ -155,6 +179,9 @@ export const products = [
     category: "casualwear",
     subcategory: "tops",
     description: "Soft cotton crop top for everyday wear.",
+    rating: 4.0,
+    numReviews: 14,
+    brand: "TrendyWear",
     sizes: ["S", "M"],
     colors: ["black"],
     images: [
@@ -171,6 +198,9 @@ export const products = [
     category: "casualwear",
     subcategory: "bottoms",
     description: "Flowy long skirt with elegant design.",
+    rating: 4.2,  
+    numReviews: 6,
+    brand: "SkirtStyle",
     sizes: ["S", "M", "L"],
     colors: ["green"],
     images: [
@@ -187,6 +217,9 @@ export const products = [
     category: "casualwear",
     subcategory: "outerwear",
     description: "Classic denim jacket that goes with everything.",
+    rating: 4.5,
+    numReviews: 9,
+    brand: "DenimQueen",
     sizes: ["M", "L"],
     colors: ["blue"],
     images: [
@@ -203,6 +236,9 @@ export const products = [
     category: "casualwear",
     subcategory: "ethnic",
     description: "Stylish kurti set for traditional occasions.",
+    rating: 4.4,
+    numReviews: 8,
+    brand: "EthnicWear",
     sizes: ["S", "M", "L"],
     colors: ["yellow"],
     images: [
@@ -221,6 +257,9 @@ export const products = [
     category: "caps",
     subcategory: "tops",
     description: "Colorful printed T-shirt for kids.",
+    rating: 4.1,
+    numReviews: 13,
+    brand: "KidsFashion",
     sizes: ["S", "M"],
     colors: ["yellow"],
     images: [
@@ -237,6 +276,9 @@ export const products = [
     category: "caps",
     subcategory: "bottoms",
     description: "Comfortable denim shorts for playtime.",
+    rating: 4.0,
+    numReviews: 10,
+    brand: "DenimKids",
     sizes: ["S", "M"],
     colors: ["blue"],
     images: [
@@ -253,6 +295,9 @@ export const products = [
     category: "caps",
     subcategory: "dresses",
     description: "Soft cotton frock for girls.",
+    rating: 4.5,
+    numReviews: 7,
+    brand: "FrockStyle",
     sizes: ["S", "M"],
     colors: ["pink"],
     images: [
@@ -269,6 +314,9 @@ export const products = [
     category: "caps",
     subcategory: "outerwear",
     description: "Warm hoodie for winter comfort.",
+    rating: 4.2,
+    numReviews: 9,
+    brand: "CozyKids",
     sizes: ["M", "L"],
     colors: ["green"],
     images: [
@@ -285,6 +333,9 @@ export const products = [
     category: "caps",
     subcategory: "bottoms",
     description: "Stretchable joggers for kids' activewear.",
+    rating: 4.3,
+    numReviews: 11,
+    brand: "ActiveKids",
     sizes: ["S", "M"],
     colors: ["gray"],
     images: [
@@ -303,6 +354,9 @@ export const products = [
     category: "chestbags",
     subcategory: "sports",
     description: "Lightweight running shoes with soft cushioning.",
+    rating: 4.6,
+    numReviews: 14,
+    brand: "RunFast",
     sizes: ["8", "9", "10"],
     colors: ["black"],
     images: [
@@ -319,6 +373,9 @@ export const products = [
     category: "chestbags",
     subcategory: "casual",
     description: "Trendy white sneakers for everyday use.",
+    rating: 4.4,
+    numReviews: 10,
+    brand: "SneakerStyle",
     sizes: ["5", "6", "7"],
     colors: ["white"],
     images: [
@@ -335,6 +392,9 @@ export const products = [
     category: "chestbags",
     subcategory: "kids",
     description: "Comfortable sports shoes for kids.",
+    rating: 4.3,
+    numReviews: 12,
+    brand: "SportyKids",
     sizes: ["3", "4", "5"],
     colors: ["blue"],
     images: [
@@ -351,6 +411,9 @@ export const products = [
     category: "chestbags",
     subcategory: "formal",
     description: "Elegant leather loafers for formal wear.",
+    rating: 4.5,
+    numReviews: 8,
+    brand: "LeatherLux",
     sizes: ["8", "9", "10"],
     colors: ["brown"],
     images: [
