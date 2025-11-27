@@ -3,12 +3,12 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 // import CategoryCard from "../components/CategoryCard";
 
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, Pagination, Navigation } from "swiper/modules";
+// import { Swiper, SwiperSlide } from "swiper/react";
+// import { Autoplay, Pagination, Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
-import HomeHeroCarousel from "../components/HomeHeroCarousel";
+// import HomeHeroCarousel from "../components/HomeHeroCarousel";
 import FeaturedProducts from "../components/FeaturedProducts";
 // import ParallaxWrapper from "../components/ParallaxWrapper";
 
