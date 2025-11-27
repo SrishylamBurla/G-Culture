@@ -115,7 +115,7 @@ export const {
   useCreateProductMutation,
   useUpdateProductMutation,
   useDeleteProductMutation,
+  useCreateReviewMutation,
   useGetFeaturedProductsQuery,
   useGetLatestProductsQuery,
-  useCreateReviewMutation
 } = productApi;

@@ -7,7 +7,7 @@ import toast from "react-hot-toast";
 
 // RTK QUERY
 import { useGetProductByIdQuery } from "../features/products/productApi";
-import { useGetCreateReviewMutation } from "../features/products/productApi";
+import { useCreateReviewMutation } from "../features/products/productApi";
 
 export default function ProductPage() {
   const { id } = useParams();
@@ -16,7 +16,7 @@ export default function ProductPage() {
 
   // RTK Query fetch product
   const { data: product, isLoading, isError } = useGetProductByIdQuery(id);
-  const [createReview] = useGetCreateReviewMutation();
+  const [createReview] = useCreateReviewMutation();
 
   const wishlist = useSelector((state) => state.wishlist.wishlist);
 
