@@ -132,6 +132,53 @@ export const getLatestProducts = async (req, res) => {
   } 
 };
 
+export const createProductReview = async (req, res) => {
+  try {
+    const productId = req.params.id;
+    const { rating, comment } = req.body;
+
+    const product = await Product.findById(productId);
+
+    if (!product) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+
+    // Check if user already reviewed
+    const alreadyReviewed = product.reviews.find(
+      (rev) => rev.user.toString() === req.user._id.toString()
+    );
+
+    if (alreadyReviewed) {
+      return res.status(400).json({ message: "Product already reviewed" });
+    }
+
+    const newReview = {
+      name: req.user.name,
+      rating: Number(rating),
+      comment,
+      user: req.user._id,
+    };
+
+    product.reviews.push(newReview);
+
+    // Update total reviews
+    product.numReviews = product.reviews.length;
+
+    // Recalculate average rating
+    product.rating =
+      product.reviews.reduce((acc, item) => acc + item.rating, 0) /
+      product.reviews.length;
+
+    await product.save();
+
+    res.status(201).json({ message: "Review added successfully" });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Server Error" });
+  }
+};
+
+
 
 export const searchProducts = async (req, res) => {
   try {

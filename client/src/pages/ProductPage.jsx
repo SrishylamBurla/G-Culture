@@ -7,6 +7,7 @@ import toast from "react-hot-toast";
 
 // RTK QUERY
 import { useGetProductByIdQuery } from "../features/products/productApi";
+import useGetCreateReviewMutation from "../features/products/productApi";
 
 export default function ProductPage() {
   const { id } = useParams();
@@ -15,6 +16,7 @@ export default function ProductPage() {
 
   // RTK Query fetch product
   const { data: product, isLoading, isError } = useGetProductByIdQuery(id);
+  const [createReview] = useGetCreateReviewMutation();
 
   const wishlist = useSelector((state) => state.wishlist.wishlist);
 
@@ -22,6 +24,9 @@ export default function ProductPage() {
   const [selectedSize, setSelectedSize] = useState("");
   const [selectedColor, setSelectedColor] = useState("");
   const [selectedImg, setSelectedImg] = useState("");
+
+  const [userRating, setUserRating] = useState("");
+  const [userComment, setUserComment] = useState("");
 
   const isWishlisted = product
     ? wishlist.some((i) => i._id === product._id)
@@ -88,11 +93,31 @@ export default function ProductPage() {
     dispatch(toggleWishlist(product));
   };
 
+  const handleSubmitReview = async () => {
+    if (!userRating || !userComment) {
+      toast.error("Please select rating and write a review");
+      return;
+    }
+    try {
+      await createReview({
+        productId: product._id,
+        rating: userRating,
+        comment: userComment,
+      }).unwrap();
+
+      toast.success("Review added!");
+
+      setUserRating("");
+      setUserComment("");
+    } catch (error) {
+      toast.error(error?.data?.message || "Failed to add review");
+    }
+  };
+
   // UI (same as before)
   return (
     <div className="pt-[6rem] md:pt-[7rem] min-h-screen bg-[#001424] text-white py-6 bg-[url('https://www.transparenttextures.com/patterns/diagmonds.png')] bg-repeat opacity-[0.97]">
-      <div className="max-w-[1400px] mx-auto flex flex-col lg:flex-row gap-12 px-4 md:px-10">
-        
+      <div className="w-full flex flex-col lg:flex-row gap-12 px-4 md:px-6">
         {/* ---- LEFT SECTION (Images) ---- */}
         <div className="w-full lg:w-[52%] flex gap-4">
           <div className="flex flex-col gap-3 w-20 sticky top-32 h-fit">
@@ -101,7 +126,7 @@ export default function ProductPage() {
                 key={i}
                 src={img}
                 onClick={() => setSelectedImg(img)}
-                className={`w-full h-20 rounded-md object-cover cursor-pointer transition-all ${
+                className={`w-full h-20 rounded-sm object-cover cursor-pointer transition-all ${
                   selectedImg === img
                     ? "ring-2 ring-white scale-[1.02]"
                     : "hover:opacity-80"
@@ -113,7 +138,7 @@ export default function ProductPage() {
           <div className="flex-1">
             <img
               src={selectedImg || product.images?.[0]}
-              className="w-full h-[580px] object-cover rounded-xl shadow-md hover:scale-[1.02] transition duration-300"
+              className="w-full h-[580px] object-cover rounded-sm shadow-md hover:scale-[1.02] transition duration-300"
             />
           </div>
         </div>
@@ -246,6 +271,86 @@ export default function ProductPage() {
             <p className="text-sm text-gray-300 leading-relaxed">
               {product.description}
             </p>
+          </div>
+
+          {/* ⭐ REVIEW SECTION */}
+
+          <div className="mt-16 bg-white/5 p-6 rounded-sm border border-white/10 shadow-lg">
+            {/* Overall Rating */}
+            <h2 className="text-2xl font-semibold mb-4 flex items-center gap-2">
+              ⭐ Customer Reviews
+            </h2>
+
+            <div className="flex items-center gap-4 mb-6">
+              <div className="text-4xl font-bold text-yellow-400">
+                {product.rating?.toFixed(1) || "0.0"}
+              </div>
+              <p className="text-gray-300 text-sm">
+                {product.numReviews || 0} reviews
+              </p>
+            </div>
+
+            {/* Divider */}
+            <hr className="border-gray-600 mb-6" />
+
+            {/* REVIEWS LIST */}
+            <div className="space-y-6">
+              {product.reviews && product.reviews.length > 0 ? (
+                product.reviews.map((rev, i) => (
+                  <div
+                    key={i}
+                    className="bg-white/5 p-4 rounded-lg border border-white/10"
+                  >
+                    <div className="flex items-center justify-between">
+                      <p className="font-semibold text-white">{rev.name}</p>
+                      <p className="text-yellow-400 text-sm">⭐ {rev.rating}</p>
+                    </div>
+
+                    <p className="text-gray-300 mt-2 text-sm">{rev.comment}</p>
+
+                    <p className="text-gray-500 text-xs mt-1">
+                      {new Date(rev.createdAt).toLocaleDateString()}
+                    </p>
+                  </div>
+                ))
+              ) : (
+                <p className="text-gray-400">No reviews yet. Be the first!</p>
+              )}
+            </div>
+            {/* ADD REVIEW FORM */}
+            <div className="mt-10">
+              <h3 className="text-xl font-semibold mb-3">Write a Review</h3>
+
+              <div className="flex flex-col gap-4">
+                {/* Rating */}
+                <select
+                  className="bg-white/10 border border-white/20 text-white rounded-lg px-4 py-2"
+                  onChange={(e) => setUserRating(e.target.value)}
+                >
+                  <option value="">Select Rating</option>
+                  <option value="5">⭐ 5 - Excellent</option>
+                  <option value="4">⭐ 4 - Good</option>
+                  <option value="3">⭐ 3 - Average</option>
+                  <option value="2">⭐ 2 - Poor</option>
+                  <option value="1">⭐ 1 - Terrible</option>
+                </select>
+
+                {/* Comment */}
+                <textarea
+                  rows="4"
+                  placeholder="Write your review..."
+                  className="bg-white/10 border border-white/20 text-white rounded-lg px-4 py-2"
+                  onChange={(e) => setUserComment(e.target.value)}
+                />
+
+                <button
+                  onClick={handleSubmitReview}
+                  className="bg-yellow-500 hover:bg-yellow-400 text-black font-semibold py-3 rounded-lg transition"
+                >
+                  Submit Review
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>

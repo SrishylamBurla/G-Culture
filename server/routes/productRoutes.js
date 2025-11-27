@@ -8,7 +8,8 @@ import {
   getProductsByCategory,
   searchProducts,
   getFeaturedProducts,
-  getLatestProducts
+  getLatestProducts,
+  createProductReview,
 } from "../controllers/productController.js";
 import { protect, admin } from "../middleware/authMiddleware.js";
 
@@ -19,6 +20,7 @@ router.get("/search", searchProducts);
 router.get("/category", getProductsByCategory);
 router.get("/featured", getFeaturedProducts);
 router.get("/latest", getLatestProducts);
+router.post("/:id/reviews", protect, createProductReview);
 router.get("/:id", getProductById);
 router.post("/", protect, admin, createProduct);
 router.put("/:id", protect, admin, updateProduct);

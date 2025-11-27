@@ -79,12 +79,20 @@ export const productApi = createApi({
       query: ({ id, data }) => ({
         url: `/products/${id}`,
         method: "PUT",
-        body: data, 
+        body: data,
       }),
       invalidatesTags: (res, err, { id }) => [
         "Products",
         { type: "Product", id },
       ],
+    }),
+
+    createReview: builder.mutation({
+      query: ({ productId, rating, comment }) => ({
+        url: `/products/${productId}/reviews`,
+        method: "POST",
+        body: { rating, comment },
+      }),
     }),
 
     // DELETE PRODUCT (ADMIN)
@@ -109,4 +117,5 @@ export const {
   useDeleteProductMutation,
   useGetFeaturedProductsQuery,
   useGetLatestProductsQuery,
+  useCreateReviewMutation
 } = productApi;
