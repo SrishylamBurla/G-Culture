@@ -10,6 +10,7 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 // import HomeHeroCarousel from "../components/HomeHeroCarousel";
 import FeaturedProducts from "../components/FeaturedProducts";
+import LatestProducts from "../components/LatestProducts";
 // import ParallaxWrapper from "../components/ParallaxWrapper";
 
 export default function HomePage() {
@@ -130,7 +131,7 @@ export default function HomePage() {
                   viewport={{ once: true, amount: 0.4 }}
                   transition={{ duration: 0.8, ease: "easeOut" }}
                   className={`
-              relative w-full h-[70vh] overflow-hidden shadow-xl group cursor-pointer
+              relative w-full h-[50vh] md:h-[70vh] overflow-hidden shadow-xl group cursor-pointer
               ${
                 isEven
                   ? "bg-gradient-to-r from-black/80"
@@ -289,8 +290,12 @@ export default function HomePage() {
         <FeaturedProducts />
       </section>
 
+      <section className="bg-[#07070a]">
+        <LatestProducts />
+      </section>
+
       <section className="pt-24 py-24 bg-[#07070a]">
-        <div className="max-w-[1200px] mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="w-full px-4 md:px-6 grid grid-cols-1 md:grid-cols-3 gap-6">
           <PromoCard
             title="Sustainable Fabrics"
             subtitle="Organic cotton & recycled blends."
@@ -318,7 +323,7 @@ function PromoCard({ title, subtitle }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.6 }}
-      className="bg-gradient-to-br from-white/6 to-white/3 border border-white/6 p-6 rounded-xl text-white"
+      className="bg-gradient-to-br from-white/6 to-white/3 border border-white/6 p-6 rounded-sm text-white"
     >
       <div className="text-sm text-gray-300 uppercase tracking-wider mb-2">
         Why G-Culture

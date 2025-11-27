@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { Star } from "lucide-react";
 
-export default function FeaturedProductCard({ product }) {
+export default function LatestProductCard({ product }) {
   const price = Number(product.price) || 0;
   const offerPrice = Number(product.offerPrice) || 0;
 

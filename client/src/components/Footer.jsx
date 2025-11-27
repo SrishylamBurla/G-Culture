@@ -23,7 +23,7 @@ export default function Footer() {
         initial={{ opacity: 0, y: 25 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7 }}
-        className="relative z-20 max-w-[1400px] mx-auto p-4 md:p-4 lg:p-4"
+        className="relative z-20 w-full p-4 md:p-4 lg:p-4"
       >
 
         {/* GRID */}
