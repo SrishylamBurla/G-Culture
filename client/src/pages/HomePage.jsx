@@ -113,96 +113,103 @@ export default function HomePage() {
       <HomeHeroCarousel />
     </section> */}
       <section className="bg-[#050507]">
-  <div className="w-full">
-    <h2 className="text-center text-4xl md:text-5xl font-bold mb-12 text-white">
-      Shop by <span className="text-yellow-400">Category</span>
-    </h2>
+        <div className="w-full">
+          <h2 className="text-center text-4xl md:text-5xl font-bold mb-12 text-white">
+            Shop by <span className="text-yellow-400">Category</span>
+          </h2>
 
-    <div className="flex flex-col">
-      {categories.map((cat, index) => {
-        const isEven = index % 2 === 0;
+          <div className="flex flex-col">
+            {categories.map((cat, index) => {
+              const isEven = index % 2 === 0;
 
-        return (
-          <motion.div
-            key={index}
-            initial={{ opacity: 0, y: 80 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.4 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-            className={`
+              return (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 80 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.4 }}
+                  transition={{ duration: 0.8, ease: "easeOut" }}
+                  className={`
               relative w-full h-[70vh] overflow-hidden shadow-xl group cursor-pointer
-              ${isEven ? "bg-gradient-to-r from-black/80" : "bg-gradient-to-l from-black/80"}
+              ${
+                isEven
+                  ? "bg-gradient-to-r from-black/80"
+                  : "bg-gradient-to-l from-black/80"
+              }
             `}
-          >
-            {/* Background Image */}
-            <motion.div
-              className="absolute inset-0 bg-center bg-cover"
-              style={{ backgroundImage: `url(${cat.img})` }}
-              initial={{ scale: 1.15 }}
-              whileInView={{ scale: 1 }}
-              transition={{ duration: 2, ease: "easeOut" }}
-            />
+                >
+                  {/* Background Image */}
+                  <motion.div
+                    className="absolute inset-0 bg-center bg-cover"
+                    style={{ backgroundImage: `url(${cat.img})` }}
+                    initial={{ scale: 1.15 }}
+                    whileInView={{ scale: 1 }}
+                    transition={{ duration: 2, ease: "easeOut" }}
+                  />
 
-            {/* Overlay */}
-            <div
-              className={`
+                  {/* Overlay */}
+                  <div
+                    className={`
                 absolute inset-0 
                 ${isEven ? "bg-black/40" : "bg-black/50"}
                 group-hover:bg-black/30 transition-all
               `}
-            />
+                  />
 
-            {/* TEXT BLOCK */}
-            <div
-              className={`
-                absolute z-20 px-6 flex flex-col justify-center text-center max-w-2xl
-                ${isEven ? "left-10 md:left-20 text-left" : "right-10 md:right-20 text-right"}
+                  {/* TEXT BLOCK */}
+                  <div
+                    className={`
+                absolute z-20 px-3 flex flex-col justify-center text-center max-w-2xl
+                ${
+                  isEven
+                    ? "left-1 md:left-5 text-left"
+                    : "right-1 md:right-5 text-right"
+                }
                 top-1/2 -translate-y-1/2
               `}
-            >
-              <motion.h3
-                className="text-3xl md:text-5xl font-extrabold text-white drop-shadow-xl"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2, duration: 0.7 }}
-              >
-                {cat.name}
-              </motion.h3>
+                  >
+                    <motion.h3
+                      className="text-3xl md:text-5xl font-extrabold text-white drop-shadow-xl"
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.2, duration: 0.7 }}
+                    >
+                      {cat.name}
+                    </motion.h3>
 
-              <motion.p
-                className="mt-4 text-lg md:text-2xl text-gray-200"
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3, duration: 0.7 }}
-              >
-                {cat.quote ||
-                  "Discover exclusive new arrivals curated for bold men."}
-              </motion.p>
+                    <motion.p
+                      className="mt-4 text-lg md:text-2xl text-gray-200"
+                      initial={{ opacity: 0, y: 30 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.3, duration: 0.7 }}
+                    >
+                      {cat.quote ||
+                        "Discover exclusive new arrivals curated for bold men."}
+                    </motion.p>
 
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4, duration: 0.7 }}
-                className="mt-8"
-              >
-                <Link
-                  to={cat.path}
-                  className="
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.4, duration: 0.7 }}
+                      className="mt-8"
+                    >
+                      <Link
+                        to={cat.path}
+                        className="
                     px-10 py-3 rounded-sm border text-white bg-black hover:bg-white hover:text-black
                     text-lg font-semibold shadow-lg transition
                   "
-                >
-                  Explore {cat.name}
-                </Link>
-              </motion.div>
-            </div>
-          </motion.div>
-        );
-      })}
-    </div>
-  </div>
-</section>
-
+                      >
+                        Explore {cat.name}
+                      </Link>
+                    </motion.div>
+                  </div>
+                </motion.div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
 
       {/* <section className="relative w-full h-[50vh] md:h-[60vh] bg-black">
         <Swiper
@@ -278,9 +285,9 @@ export default function HomePage() {
       </section> */}
 
       {/* ================ PROMO ROW ================ */}
-    <section className="py-24 bg-[#07070a]">
-      <FeaturedProducts />
-    </section>
+      <section className="bg-[#07070a]">
+        <FeaturedProducts />
+      </section>
 
       <section className="pt-24 py-24 bg-[#07070a]">
         <div className="max-w-[1200px] mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-6">
