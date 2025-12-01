@@ -61,12 +61,9 @@ export default function FeaturedProducts() {
         </h2>
 
         <div className="relative w-full px-4 md:px-6 py-5">
-          {/* gradient masks */}
-          {/* <div className="pointer-events-none absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-[#050507] to-transparent z-10" /> */}
-          {/* <div className="pointer-events-none absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-[#050507] to-transparent z-10" /> */}
 
           <div className="flex gap-4 overflow-hidden py-6 w-full">
-            {Array.from({ length: skeletonCount }).map((_, i) => (
+            {Array.from({ length: 8 }).map((_, i) => (
               <div
                 key={i}
                 className="min-w-[220px] md:min-w-[260px] lg:min-w-[300px] h-[360px] md:h-[420px] bg-white/6 animate-pulse"
@@ -85,7 +82,7 @@ export default function FeaturedProducts() {
   if (isError || featuredProducts.length === 0) return null;
 
   return (
-    <section className="py-10 bg-[#050507] text-white">
+    <section className="py-5 bg-[#050507] text-white">
       <div className="flex justify-between items-center px-4 md:px-6 mb-10">
         <h2 className="text-3xl md:text-5xl font-bold">
           Featured <span className="text-yellow-400">Products</span>
@@ -98,10 +95,10 @@ export default function FeaturedProducts() {
         </Link>
       </div>
 
-      <div className="relative w-full px-4 md:px-6 pb-14">
+      <div className="relative w-full px-4 md:px-6 pb-14 overflow-hidden">
         {/* left / right gradient masks */}
-        <div className="pointer-events-none absolute inset-y-0 left-0 w-16 md:w-24 bg-gradient-to-r from-[#050507] to-transparent z-0" />
-        <div className="pointer-events-none absolute inset-y-0 right-0 w-16 md:w-24 bg-gradient-to-l from-[#050507] to-transparent z-0" />
+        {/* <div className="pointer-events-none absolute inset-y-0 left-0 w-16 md:w-24 bg-gradient-to-r from-[#050507] to-transparent z-0" /> */}
+        {/* <div className="pointer-events-none absolute inset-y-0 right-0 w-16 md:w-24 bg-gradient-to-l from-[#050507] to-transparent z-0" /> */}
 
         <style>{`
   .swiper-button-prev,
@@ -130,7 +127,7 @@ export default function FeaturedProducts() {
 
   /* ⭐ Final Pagination fix */
   .featured-products {
-          overflow: visible !important;
+    overflow: visible !important;
     position: relative !important;
     padding-bottom: 40px !important;
   }
