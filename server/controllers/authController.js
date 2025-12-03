@@ -8,7 +8,7 @@ export const register = async (req, res) => {
   const userExists = await User.findOne({ email });
   if (userExists)
     return res.status(400).json({ message: "User already exists" });
-  const user = await User.create({ name, email, password });
+  const user = await User.create({ name, email, password, isAdmin: false });
   if (user) {
     res.status(201).json({
       _id: user._id,
@@ -79,7 +79,7 @@ export const updateName = async (req, res) => {
 
     // Update user
     const updatedUser = await User.findByIdAndUpdate(
-      req.user.id,
+      req.user._id,
       { name },
       { new: true, runValidators: true }
     );

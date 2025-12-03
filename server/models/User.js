@@ -6,7 +6,7 @@ const userSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
   avatar: { type: String, default: '/images/avatar2.png' },
-  isAdmin: { type: Boolean },
+  isAdmin: { type: Boolean, default: false },
 }, { timestamps: true });
 
 userSchema.methods.matchPassword = async function (enteredPassword) {

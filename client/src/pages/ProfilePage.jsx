@@ -468,7 +468,7 @@ export default function ProfilePage() {
             <h3 className="text-2xl font-semibold text-gray-200">
               {userInfo.name}
             </h3>
-            <p className="text-gray-400 mt-1">{userInfo.email}</p>
+            <p className="text-gray-400 mt-1 text-xl">{userInfo.email}</p>
 
             <div className="mt-4 flex flex-wrap gap-3 justify-center md:justify-start">
               {selectedFile && (
