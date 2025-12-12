@@ -126,33 +126,33 @@ export default function AdminProducts() {
   };
 
   return (
-    <div className="p-4 md:p-6 min-h-screen bg-gray-200">
+    <div className="p-2 min-h-screen bg-gray-200">
 
-      <div className="flex justify-between items-center mb-6 bg-[#043b5b] px-2 py-1">
-        <h1 className="text-2xl font-bold text-white">Products</h1>
+      <div className="flex justify-between items-center mb-2">
+        <h1 className="text-xl font-bold text-black">Products</h1>
 
         <Link
           to="/admin/products/add"
-          className="px-2 py-1 bg-gray-800 text-white rounded-md shadow hover:bg-black transition"
+          className="px-2 py-1 bg-gray-800 text-white rounded-md text-md shadow hover:bg-black transition"
         >
           + Add Product
         </Link>
       </div>
 
-      <div className="bg-white rounded-lg shadow-md overflow-hidden">
+      <div className="bg-white rounded-sm shadow-md overflow-hidden">
         {isLoading ? (
-          <p className="p-4 text-gray-600">Loading products...</p>
+          <p className="p-2 text-gray-600">Loading products...</p>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead className="bg-gray-600 text-gray-200 sticky top-0 shadow">
                 <tr>
-                  <th className="p-3 text-left font-medium">Image</th>
-                  <th className="p-3 text-left font-medium">Product</th>
-                  <th className="p-3 text-left font-medium">Category</th>
-                  <th className="p-3 text-left font-medium">Price</th>
-                  <th className="p-3 text-left font-medium">Stock</th>
-                  <th className="p-3 text-left font-medium">Actions</th>
+                  <th className="p-2 text-left text-md">Image</th>
+                  <th className="p-2 text-left text-md">Product</th>
+                  <th className="p-2 text-left text-md">Category</th>
+                  <th className="p-2 text-left text-md">Price</th>
+                  <th className="p-2 text-left text-md">Stock</th>
+                  <th className="p-2 text-center text-md">Actions</th>
                 </tr>
               </thead>
 
@@ -160,7 +160,7 @@ export default function AdminProducts() {
                 {products.map((product) => (
                   <tr
                     key={product._id}
-                    className="border-b hover:bg-gray-50 transition"
+                    className="border-b hover:bg-gray-200 transition"
                   >
                     <td className="p-3">
                       <img
@@ -195,11 +195,11 @@ export default function AdminProducts() {
                       )}
                     </td>
 
-                    <td className="p-3 flex gap-3">
+                    <td className="p-3 gap-3 text-center">
 
                       <Link
                         to={`/admin/products/${product._id}/edit`}
-                        className="px-3 py-1 text-xs bg-blue-100 text-blue-700 rounded hover:bg-blue-200 transition"
+                        className="px-3 py-1 mr-2 text-xs bg-blue-100 text-blue-700 rounded hover:bg-blue-200 transition"
                       >
                         Edit
                       </Link>

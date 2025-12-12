@@ -3,7 +3,7 @@ import { clearCart } from "../features/cart/cartSlice";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
-import { useCreateOrderMutation } from "../features/order/orderApi"; // ✅ RTK Query hook
+import { useCreateOrderMutation } from "../features/order/orderApi";
 
 export default function CheckoutPage() {
   const { cartItems } = useSelector((state) => state.cart);
@@ -128,3 +128,59 @@ export default function CheckoutPage() {
     </div>
   );
 }
+
+
+// import axios from "axios";
+// import { useSelector } from "react-redux";
+
+// export default function CheckoutPage() {
+//   const { cartItems } = useSelector((state) => state.cart);
+//   const total = cartItems.reduce((sum, item) => sum + item.quantity * (item.offerPrice || item.price), 0);
+
+//   const handlePayment = async () => {
+//     try {
+//       // 1️⃣ Create order from backend
+//       const { data: order } = await axios.post("/api/payment/create-order", {
+//         amount: total,
+//       });
+
+//       // 2️⃣ Open Razorpay popup
+//       const options = {
+//         key: import.meta.env.VITE_RAZORPAY_KEY, // frontend key
+//         amount: order.amount,
+//         currency: "INR",
+//         name: "G-Culture",
+//         description: "Order Payment",
+//         order_id: order.id,
+
+//         handler: async function (response) {
+//           // 3️⃣ Verify payment on backend
+//           const verify = await axios.post("/api/payment/verify-payment", response);
+
+//           if (verify.data.success) {
+//             alert("Payment successful!");
+//             // navigate("/order-success");
+//           }
+//         },
+
+//         theme: { color: "#facc15" },
+//       };
+
+//       const rzp = new window.Razorpay(options);
+//       rzp.open();
+
+//     } catch (error) {
+//       console.error(error);
+//       alert("Payment failed");
+//     }
+//   };
+
+//   return (
+//     <button
+//       className="w-full py-3 bg-amber-500 text-black font-bold rounded pt-50"
+//       onClick={handlePayment}
+//     >
+//       Pay Now ₹{total.toLocaleString("en-IN")}
+//     </button>
+//   );
+// }

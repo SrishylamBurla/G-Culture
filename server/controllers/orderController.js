@@ -126,28 +126,28 @@ export const cancelOrder = async (req, res) => {
   }
 };
 
-// export const createRazorpayOrder = async (req, res) => {
-//   try {
-//     // const razorpay = new Razorpay({
-//     //   key_id: process.env.RAZORPAY_KEY_ID,
-//     //   key_secret: process.env.RAZORPAY_KEY_SECRET,
-//     // });
+export const createRazorpayOrder = async (req, res) => {
+  try {
+    // const razorpay = new Razorpay({
+    //   key_id: process.env.RAZORPAY_KEY_ID,
+    //   key_secret: process.env.RAZORPAY_KEY_SECRET,
+    // });
 
-//     const options = {
-//       amount: req.body.amount * 100,
-//       currency: "INR",
-//       receipt: `receipt_${Date.now()}`,
-//     };
+    const options = {
+      amount: req.body.amount * 100,
+      currency: "INR",
+      receipt: `receipt_${Date.now()}`,
+    };
 
-//     // const response = await razorpay.orders.create(options);
+    // const response = await razorpay.orders.create(options);
 
-//     res.json({
-//       id: "test_order_id",
-//       amount: options.amount,
-//       currency: "INR",
-//       status: "mocked",
-//     });
-//   } catch (error) {
-//     res.status(500).json({ message: "Razorpay order creation failed" });
-//   }
-// };
+    res.json({
+      id: "test_order_id",
+      amount: options.amount,
+      currency: "INR",
+      status: "mocked",
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Razorpay order creation failed" });
+  }
+};

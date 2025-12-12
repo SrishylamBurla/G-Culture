@@ -115,23 +115,23 @@ export default function AdminUsers() {
   };
 
   return (
-    <div className="p-4 md:p-6 bg-gray-100 min-h-screen">
-      <div className="flex justify-between items-center mb-6">
-        <h2 className="text-3xl font-semibold text-black">Users</h2>
+    <div className="p-2 bg-gray-100 min-h-screen">
+      <div className="flex justify-between items-center mb-2">
+        <h2 className="text-xl font-semibold text-black">Users</h2>
       </div>
 
-      <div className="bg-white rounded-lg shadow-md overflow-hidden">
+      <div className="bg-white rounded-sm shadow-md overflow-hidden">
         {isLoading ? (
-          <p className="p-4 text-gray-600">Loading users...</p>
+          <p className="p-2 text-gray-600">Loading users...</p>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead className="bg-gray-600 text-gray-200 sticky top-0 shadow">
                 <tr>
-                  <th className="p-3 text-left font-medium">Name</th>
-                  <th className="p-3 text-left font-medium">Email</th>
-                  <th className="p-3 text-left font-medium">Role</th>
-                  <th className="p-3 text-left font-medium">Actions</th>
+                  <th className="p-2 text-left font-medium">Name</th>
+                  <th className="p-2 text-left font-medium">Email</th>
+                  <th className="p-2 text-left font-medium">Role</th>
+                  <th className="p-2 text-center font-medium">Actions</th>
                 </tr>
               </thead>
 
@@ -156,17 +156,17 @@ export default function AdminUsers() {
                       )}
                     </td>
 
-                    <td className="p-3 flex gap-3">
+                    <td className="p-3 gap-3 text-center">
                       <button
                         onClick={() => handleToggleAdmin(u._id)}
-                        className="px-3 py-1 text-xs bg-blue-100 text-blue-700 rounded hover:bg-blue-200 transition"
+                        className="px-3 py-1 mr-2 text-xs bg-blue-100 text-blue-700 rounded hover:bg-blue-200 transition"
                       >
                         {u.isAdmin ? "Remove Admin" : "Make Admin"}
                       </button>
 
                       <button
                         onClick={() => setEditingUser(u)}
-                        className="px-3 py-1 text-xs bg-yellow-100 text-yellow-700 rounded hover:bg-yellow-200 transition"
+                        className="px-3 py-1 mr-2 text-xs bg-yellow-100 text-yellow-700 rounded hover:bg-yellow-200 transition"
                       >
                         Edit
                       </button>

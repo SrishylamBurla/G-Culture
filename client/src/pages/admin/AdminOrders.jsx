@@ -179,10 +179,10 @@ export default function AdminOrdersCards() {
 
   if (isLoading) {
     return (
-      <div className="p-4 space-y-4">
-        <h1 className="text-2xl font-semibold">Orders</h1>
+      <div className="p-2 space-y-4">
+        <h1 className="text-xl font-semibold text-black">Orders</h1>
         {[...Array(4)].map((_, i) => (
-          <div key={i} className="animate-pulse bg-white/5 rounded-lg p-4">
+          <div key={i} className="animate-pulse bg-white/5 rounded-sm p-2">
             <div className="flex justify-between mb-2">
               <div className="h-4 w-48 bg-gray-600 rounded" />
               <div className="h-4 w-24 bg-gray-600 rounded" />
@@ -197,9 +197,9 @@ export default function AdminOrdersCards() {
 
   if (error) {
     return (
-      <div className="p-4">
-        <h1 className="text-2xl font-semibold mb-2">Orders</h1>
-        <div className="bg-red-50 border border-red-200 text-red-700 p-4 rounded">
+      <div className="p-2">
+        <h1 className="text-xl font-semibold mb-2">Orders</h1>
+        <div className="bg-red-50 border border-red-200 text-red-700 p-2 rounded-sm">
           Failed to load orders. {error?.status && <span>(Status: {String(error.status)})</span>}
         </div>
       </div>
@@ -207,15 +207,15 @@ export default function AdminOrdersCards() {
   }
 
   return (
-    <div className="p-4 space-y-6">
-      <div className="flex items-center justify-between bg-[#043b5b] px-2 py-1">
-        <h1 className="text-2xl font-bold text-white">Orders</h1>
-        <div className="text-sm text-gray-400">
+    <div className="p-2 space-y-1">
+      <div className="flex items-center justify-between">
+        <h1 className="text-xl font-bold text-black">Orders</h1>
+        <div className="text-sm text-gray-600">
           {isFetching ? "Refreshing…" : `${orders.length} order${orders.length !== 1 ? "s" : ""}`}
         </div>
       </div>
 
-      <div className="grid gap-4">
+      <div className="grid gap-2">
         {orders.length === 0 && (
           <div className="text-center text-gray-400 p-8">No orders yet.</div>
         )}
@@ -223,10 +223,10 @@ export default function AdminOrdersCards() {
         {orders.map((order) => (
           <article
             key={order._id}
-            className="bg-white shadow-sm rounded-md border border-gray-200 overflow-hidden"
+            className="bg-white shadow-sm rounded-sm border bg-gradient-to-r from-red-200 to-violet-200 overflow-hidden"
             aria-labelledby={`order-${order._id}`}
           >
-            <div className="p-4 md:p-6 flex flex-col md:flex-row md:items-start md:justify-between">
+            <div className="p-2 flex flex-col md:flex-row md:items-start md:justify-between">
               {/* Left: order meta & item list */}
               <div className="flex-1">
                 <div className="flex items-center justify-between">
@@ -249,9 +249,9 @@ export default function AdminOrdersCards() {
                   </div>
                 </div>
 
-                <div className="mt-3 grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="mt-3 grid grid-cols-1 md:grid-cols-2 gap-2">
                   {/* Items list - no images */}
-                  <div>
+                  <div className="bg-gray-100 p-2 rounded-sm">
                     <h3 className="text-sm font-medium text-gray-600 mb-2">ITEMS:</h3>
                     <ul className="text-sm space-y-1">
                       {order.orderItems.map((it, idx) => (
@@ -268,28 +268,32 @@ export default function AdminOrdersCards() {
 
                   {/* Shipping & Payment */}
                   <div>
-                    <h3 className="text-sm font-medium text-gray-600 mb-2">Shipping</h3>
+                    <div className="bg-gray-100 p-2 rounded-sm mb-2">
+                      <h3 className="text-sm font-medium text-black mb-2">Shipping</h3>
                     <p className="text-sm text-gray-700">
                       {order.shippingAddress?.address || "—"}
                       {order.shippingAddress?.city ? `, ${order.shippingAddress.city}` : ""}
                     </p>
-
-                    <h3 className="mt-3 text-sm font-medium text-gray-600 mb-2">Payment</h3>
-                    <p className="text-sm">
+                    </div>
+                    
+                    <div className="bg-gray-100 p-2 rounded-sm">
+                    <h3 className="text-sm font-medium text-black mb-2">Payment</h3>
+                    <p className="text-sm text-gray-700">
                       <span className="inline-block mr-2">
                         {order.isPaid ? <span className="text-green-600 font-medium">Paid</span> : <span className="text-yellow-600 font-medium">Pending</span>}
                       </span>
                       • {order.paymentMethod || "—"}
                     </p>
-
+                    
                     <div className="mt-3">
                       {order.isCancelled ? (
-                        <span className="inline-block px-2 py-1 text-sm bg-red-50 text-red-600 rounded">Cancelled</span>
+                        <span className="inline-block px-2 py-1 text-sm bg-red-200 text-red-600 rounded">Cancelled</span>
                       ) : order.isDelivered ? (
-                        <span className="inline-block px-2 py-1 text-sm bg-green-50 text-green-600 rounded">Delivered</span>
+                        <span className="inline-block px-2 py-1 text-sm bg-green-200 text-green-600 rounded">Delivered</span>
                       ) : (
-                        <span className="inline-block px-2 py-1 text-sm bg-gray-50 text-gray-700 rounded">Processing</span>
+                        <span className="inline-block px-2 py-1 text-sm bg-gray-200 text-gray-700 rounded">Processing</span>
                       )}
+                    </div>
                     </div>
                   </div>
                 </div>

@@ -50,16 +50,16 @@ export default function AdminDashboard() {
     })) || [];
 
   return (
-    <div className="space-y-6 p-4 text-white">
+    <div className="space-y-3 p-2 text-white">
 
-      <h1 className="text-3xl font-bold mb-4 text-black">Dashboard</h1>
+      <h1 className="text-xl font-bold mb-2 text-black">Dashboard</h1>
 
       {/* Enhanced Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-2">
 
         {/* USERS */}
-        <div className="p-4 rounded-xl shadow bg-gradient-to-br from-blue-600 to-blue-800">
-          <h3 className="text-sm opacity-90">Users</h3>
+        <div className="p-2 rounded-sm shadow bg-gradient-to-br from-blue-600 to-blue-800">
+          <h3 className="text-md opacity-90">Users</h3>
           <p className="text-3xl font-bold">{users.length}</p>
 
           <div className="mt-3 space-y-1 text-sm">
@@ -69,8 +69,8 @@ export default function AdminDashboard() {
         </div>
 
         {/* ORDERS */}
-        <div className="p-4 rounded-xl shadow bg-gradient-to-br from-green-600 to-green-800">
-          <h3 className="text-sm opacity-90">Orders</h3>
+        <div className="p-2 rounded-sm shadow bg-gradient-to-br from-green-600 to-green-800">
+          <h3 className="text-md opacity-90">Orders</h3>
           <p className="text-3xl font-bold">{orders.length}</p>
 
           <div className="mt-3 space-y-1 text-sm">
@@ -81,8 +81,8 @@ export default function AdminDashboard() {
         </div>
 
         {/* PRODUCTS */}
-        <div className="p-4 rounded-xl shadow bg-gradient-to-br from-purple-600 to-purple-800">
-          <h3 className="text-sm opacity-90">Products</h3>
+        <div className="p-2 rounded-sm shadow bg-gradient-to-br from-purple-600 to-purple-800">
+          <h3 className="text-md opacity-90">Products</h3>
           <p className="text-3xl font-bold">{products.length}</p>
 
           <div className="mt-3 text-sm space-y-1">
@@ -95,8 +95,8 @@ export default function AdminDashboard() {
         </div>
 
         {/* REVENUE */}
-        <div className="p-4 rounded-xl shadow bg-gradient-to-br from-orange-500 to-orange-700">
-          <h3 className="text-sm opacity-90">Revenue</h3>
+        <div className="p-2 rounded-sm shadow bg-gradient-to-br from-orange-500 to-orange-700">
+          <h3 className="text-md opacity-90">Revenue</h3>
           <p className="text-3xl font-bold">
             ₹ {totalRevenue.toLocaleString("en-IN")}
           </p>
@@ -110,9 +110,9 @@ export default function AdminDashboard() {
       </div>
 
       {/* Chart */}
-      <div className="bg-white text-gray-800 shadow rounded-lg p-4">
-        <h2 className="text-xl font-semibold mb-2">Sales Overview</h2>
-        <div className="h-64">
+      <div className="bg-white text-gray-800 shadow rounded-sm p-2">
+        <h2 className="text-xl font-semibold mb-4 text-center">Sales Overview</h2>
+        <div className="h-64 text-sm">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={chartData}>
               <XAxis dataKey="date" stroke="#444" />
@@ -125,9 +125,9 @@ export default function AdminDashboard() {
       </div>
 
       {/* Recent Orders */}
-      <div className="bg-white text-gray-800 shadow rounded-lg p-4">
-        <h2 className="text-xl font-semibold mb-4">Recent Orders</h2>
-        <table className="w-full text-left">
+      <div className="bg-white text-gray-800 shadow rounded-sm p-2">
+        <h2 className="text-xl font-semibold mb-4 text-center">Recent Orders</h2>
+        <table className="w-full text-left text-sm">
           <thead>
             <tr className="border-b bg-gray-100">
               <th className="p-2">Order ID</th>

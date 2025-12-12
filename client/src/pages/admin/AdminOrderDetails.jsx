@@ -9,7 +9,7 @@ export default function AdminOrderDetails() {
   if (!order) return <p>No order found</p>;
 
   return (
-    <div className="bg-[#0b3a52] h-screen shadow p-6 space-y-4">
+    <div className="bg-gray-800 h-screen shadow p-6 space-y-4">
 
       <h1 className="text-2xl font-bold">Order #{order._id.slice(-6)}</h1>
 

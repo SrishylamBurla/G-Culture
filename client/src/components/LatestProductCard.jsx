@@ -22,7 +22,7 @@ export default function LatestProductCard({ product }) {
           <img
             src={product.images?.[0]}
             alt={product.name}
-            className="w-full aspect-[4/5] object-cover transition-transform duration-700 group-hover:scale-110"
+            className="w-full aspect-[3/4] object-cover transition-transform duration-700 group-hover:scale-110"
           />
 
           {/* Offer Badge */}

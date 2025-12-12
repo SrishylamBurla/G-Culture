@@ -136,9 +136,9 @@ const headerBackdrop = scrollDir === "down" ? "rgba(10,10,10,0.2)" : "rgba(10,10
       </div>
 
       <div ref={searchRef}>
-        <div className="flex items-center justify-between px-3 py-2 relative">
+        <div className="flex items-center justify-between px-2 py-2 relative">
           {/* LEFT NAV */}
-          <nav className="hidden md:flex items-center space-x-8 font-medium text-md text-gray-800">
+          <nav className="hidden md:flex items-center space-x-6 font-medium text-md text-gray-800">
             <Link to="/">
               <img
                 src="/images/gculture.png"
@@ -200,7 +200,7 @@ const headerBackdrop = scrollDir === "down" ? "rgba(10,10,10,0.2)" : "rgba(10,10
           {/* RIGHT ICONS */}
           <div className="flex items-center space-x-3 text-xl relative pr-2">
             {/* DESKTOP SEARCH */}
-            <div className="hidden md:flex items-center bg-white border rounded-xs border-gray-300 gap-1 px-1 py-1 w-[500px] shadow-sm">
+            <div className="hidden md:flex items-center bg-white border rounded-xs border-gray-300 gap-1 px-1 py-1 w-[400px] shadow-sm">
               <input
                 type="text"
                 placeholder="Search for products..."
@@ -246,7 +246,7 @@ const headerBackdrop = scrollDir === "down" ? "rgba(10,10,10,0.2)" : "rgba(10,10
               <div className="relative">
                 <Link
                   to={"/admin/dashboard"}
-                  className="flex items-center gap-1 border-1 text-white px-2 py-1 rounded text-sm"
+                  className="flex items-center border-1 text-white px-2 py-1 rounded text-sm"
                 >
                   Admin Panel
                 </Link>

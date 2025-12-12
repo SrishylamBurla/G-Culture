@@ -129,7 +129,7 @@ export default function ProductCard({ product }) {
           <img
             src={product.images?.[0] || "/images/tee1.svg"}
             alt={product.name}
-            className="w-full aspect-[8/9] object-cover transition-transform duration-700 group-hover:scale-110"
+            className="w-full aspect-[4/5] object-cover transition-transform duration-700 group-hover:scale-110"
           />
         </div>
 

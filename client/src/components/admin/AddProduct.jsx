@@ -59,7 +59,7 @@ export default function AddProduct() {
 
           {/* NAME */}
           <div>
-            <label className="text-xs font-medium text-gray-600">
+            <label className="text-sm font-medium text-gray-800">
               Product Name
             </label>
             <input
@@ -67,14 +67,13 @@ export default function AddProduct() {
               name="name"
               value={form.name}
               onChange={handleChange}
-              className="w-full mt-1 border p-2 rounded text-sm border border-gray-600"
-              placeholder="Men's Oversized T-shirt"
+              className="w-full mt-1 border p-2 rounded text-sm border border-gray-600 text-gray-600"
             />
           </div>
 
           {/* SLUG */}
           <div>
-            <label className="text-xs font-medium text-gray-600">
+            <label className="text-sm font-medium text-gray-800">
               Product Slug
             </label>
             <input
@@ -82,14 +81,13 @@ export default function AddProduct() {
               name="slug"
               value={form.slug}
               onChange={handleChange}
-              className="w-full mt-1 border p-2 rounded text-sm border border-gray-600"
-              placeholder="mens-oversized-tshirt"
+              className="w-full mt-1 border p-2 rounded text-sm border border-gray-600 text-gray-600"
             />
           </div>
 
           {/* PRICE */}
           <div>
-            <label className="text-xs font-medium text-gray-600">
+            <label className="text-sm font-medium text-gray-800">
               Price
             </label>
             <input
@@ -97,14 +95,13 @@ export default function AddProduct() {
               type="number"
               value={form.price}
               onChange={handleChange}
-              className="w-full mt-1 border p-2 rounded text-sm border border-gray-600"
-              placeholder="999"
+              className="w-full mt-1 border p-2 rounded text-sm border border-gray-600 text-gray-600"
             />
           </div>
 
           {/* OFFER PRICE */}
           <div>
-            <label className="text-xs font-medium text-gray-600">
+            <label className="text-sm font-medium text-gray-800">
               Offer Price
             </label>
             <input
@@ -112,98 +109,91 @@ export default function AddProduct() {
               type="number"
               value={form.offerPrice}
               onChange={handleChange}
-              className="w-full mt-1 border p-2 rounded text-sm border border-gray-600"
-              placeholder="799"
+              className="w-full mt-1 border p-2 rounded text-sm border border-gray-600 text-gray-600"
             />
           </div>
 
           {/* CATEGORY */}
           <div>
-            <label className="text-xs font-medium text-gray-600">
+            <label className="text-sm font-medium text-gray-800">
               Category
             </label>
             <input
               name="category"
               value={form.category}
               onChange={handleChange}
-              className="w-full mt-1 border p-2 rounded text-sm border border-gray-600"
-              placeholder="streetwear / casualwear"
+              className="w-full mt-1 border p-2 rounded text-sm border border-gray-600 text-gray-600"
             />
           </div>
 
           {/* SUBCATEGORY */}
           <div>
-            <label className="text-xs font-medium text-gray-600">
+            <label className="text-sm font-medium text-gray-800">
               Subcategory
             </label>
             <input
               name="subcategory"
               value={form.subcategory}
               onChange={handleChange}
-              className="w-full mt-1 border p-2 rounded text-sm border border-gray-600"
-              placeholder="oversized / slim-fit / cargo"
+              className="w-full mt-1 border p-2 rounded text-sm border border-gray-600 text-gray-600"
             />
           </div>
 
           {/* STOCK */}
           <div>
-            <label className="text-xs font-medium text-gray-600">Stock</label>
+            <label className="text-sm font-medium text-gray-800">Stock</label>
             <input
               name="stock"
               type="number"
               value={form.stock}
               onChange={handleChange}
-              className="w-full mt-1 border p-2 rounded text-sm border border-gray-600"
-              placeholder="50"
+              className="w-full mt-1 border p-2 rounded text-sm border border-gray-600 text-gray-600"
             />
           </div>
 
           {/* SIZES */}
           <div>
-            <label className="text-xs font-medium text-gray-600">
+            <label className="text-sm font-medium text-gray-800">
               Sizes (comma separated)
             </label>
             <input
               name="sizes"
               value={form.sizes}
               onChange={handleChange}
-              className="w-full mt-1 border p-2 rounded text-sm border border-gray-600"
-              placeholder="S, M, L, XL"
+              className="w-full mt-1 border p-2 rounded text-sm border border-gray-600 text-gray-600"
             />
           </div>
 
           {/* COLORS */}
           <div>
-            <label className="text-xs font-medium text-gray-600">
+            <label className="text-sm font-medium text-gray-800">
               Colors (comma separated)
             </label>
             <input
               name="colors"
               value={form.colors}
               onChange={handleChange}
-              className="w-full mt-1 border p-2 rounded text-sm border border-gray-600"
-              placeholder="Black, White, Blue"
+              className="w-full mt-1 border p-2 rounded text-sm border border-gray-600 text-gray-600"
             />
           </div>
 
           {/* IMAGES */}
           <div className="md:col-span-2">
-            <label className="text-xs font-medium text-gray-600">
+            <label className="text-sm font-medium text-gray-800">
               Image URLs (comma separated)
             </label>
             <input
               name="images"
               value={form.images}
               onChange={handleChange}
-              className="w-full mt-1 border p-2 rounded text-sm border border-gray-600"
-              placeholder="https://…, https://…"
+              className="w-full mt-1 border p-2 rounded text-sm border border-gray-600 text-gray-600"
             />
           </div>
         </div>
 
         {/* DESCRIPTION */}
         <div>
-          <label className="text-xs font-medium text-gray-600">
+          <label className="text-sm font-medium text-gray-800">
             Description
           </label>
           <textarea
@@ -212,8 +202,7 @@ export default function AddProduct() {
             value={form.description}
             onChange={handleChange}
             rows={4}
-            className="w-full mt-1 border p-2 rounded text-sm border border-gray-600"
-            placeholder="Write product details here…"
+            className="w-full mt-1 border p-2 rounded text-sm border border-gray-600 text-gray-600"
           />
         </div>
 
