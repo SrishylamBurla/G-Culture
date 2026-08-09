@@ -18,7 +18,7 @@ export default function StreetwearPage() {
   const [filters, setFilters] = useState({
     category: "streetwear",
     subcategory: "",
-    price: 5000,
+    price: 6000,
     size: "",
     color: "",
   });
