@@ -9,7 +9,10 @@ import uploadRoutes from "./routes/uploadRoutes.js";
 import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
 
 dotenv.config();
+<<<<<<< HEAD
 
+=======
+>>>>>>> 0499b58 (ui-updated)
 const app = express();
 
 // 🔐 CORS — allow frontend domain (Vercel)
@@ -45,4 +48,8 @@ app.use(errorHandler);
 
 //  Server listen
 const PORT = process.env.PORT || 5000;
+<<<<<<< HEAD
 app.listen(PORT, () => console.log(`✅ Server running on port ${PORT}`));
+=======
+app.listen(PORT, "0.0.0.0", () => console.log(`✅ Server running on port ${PORT}`));
+>>>>>>> 0499b58 (ui-updated)

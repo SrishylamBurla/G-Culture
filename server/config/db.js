@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import mongoose from 'mongoose';
 
 const connectDB = async () => {
@@ -11,3 +12,55 @@ const connectDB = async () => {
 };
 
 export default connectDB;
+=======
+// import mongoose from 'mongoose';
+
+// const connectDB = async () => {
+//   try {
+//     const conn = await mongoose.connect(process.env.MONGO_URI);
+//     console.log(process.env.MONGO_URI);
+//     console.log(`MongoDB Connected: ${conn.connection.host}`);
+//   } catch (error) {
+//     console.error(`Error: ${error.message}`);
+//     process.exit(1);
+//   }
+// };
+
+// export default connectDB;
+
+
+import mongoose from "mongoose";
+import dns from "node:dns";
+
+dns.setServers([
+  "8.8.8.8",
+  "8.8.4.4",
+]);
+
+let isConnected = false;
+
+export default async function connectDB() {
+  if (isConnected) return;
+
+  const uri = process.env.MONGO_URI;
+
+  if (!uri) {
+    throw new Error("❌ MONGO_URI is missing in environment variables");
+  }
+
+  // console.log("MONGO_URI:", process.env.MONGO_URI);
+  try {
+    const conn = await mongoose.connect(uri, {
+      dbName: "test",
+      serverSelectionTimeoutMS: 5000,
+    });
+
+    isConnected = true;
+    console.log("✅ MongoDB connected:", conn.connection.host);
+    
+  } catch (error) {
+    console.error("❌ MongoDB connection failed:", error.message);
+    throw error;
+  }
+}
+>>>>>>> 0499b58 (ui-updated)
