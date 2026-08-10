@@ -41,9 +41,9 @@ export default function Header({ menuOpen, setMenuOpen }) {
   const [lastY, setLastY] = useState(0);
 
   // Lock body scroll when mobile menu is open
-  useEffect(() => {
-    document.body.style.overflow = menuOpen ? "hidden" : "auto";
-  }, [menuOpen]);
+  // useEffect(() => {
+  //   document.body.style.overflow = menuOpen ? "hidden" : "auto";
+  // }, [menuOpen]);
 
   useEffect(() => {
     let ticking = false;
@@ -78,6 +78,23 @@ export default function Header({ menuOpen, setMenuOpen }) {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+
+  // ✅ KEEP THIS — handles iOS scroll lock properly
+  useEffect(() => {
+    if (menuOpen) {
+      document.body.style.overflow = "hidden";
+      document.body.style.position = "fixed";
+      document.body.style.width = "100%";
+      document.body.style.top = `-${window.scrollY}px`;
+    } else {
+      const scrollY = document.body.style.top;
+      document.body.style.overflow = "";
+      document.body.style.position = "";
+      document.body.style.width = "";
+      document.body.style.top = "";
+      window.scrollTo(0, parseInt(scrollY || "0") * -1);
+    }
+  }, [menuOpen]);
 
   useEffect(() => {
     const fetchSearch = async () => {
@@ -453,6 +470,8 @@ export default function Header({ menuOpen, setMenuOpen }) {
       {/* ═══════════════════════════════════════════════ */}
       {/* MOBILE FULLSCREEN MENU                          */}
       {/* ═══════════════════════════════════════════════ */}
+
+      {/* MOBILE FULLSCREEN MENU */}
       <AnimatePresence>
         {menuOpen && (
           <motion.div
@@ -460,9 +479,10 @@ export default function Header({ menuOpen, setMenuOpen }) {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: "-100%" }}
             transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="fixed inset-0 bg-[#050507] z-[99998] overflow-y-auto pt-24 pb-10"
+            className="fixed inset-0 bg-[#050507] z-[99998] overflow-y-scroll overscroll-contain pt-24 pb-10"
+            style={{ WebkitOverflowScrolling: "touch" }}
           >
-            <nav className="px-6 space-y-1">
+            <nav className="px-6 space-y-1 pb-20">
               {/* SHOP */}
               <MobileNavLink
                 to="/shop"
