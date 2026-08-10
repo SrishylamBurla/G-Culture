@@ -394,8 +394,7 @@ export default function HomePage() {
         {/* Background image with overlay */}
         <div className="absolute inset-0">
           <img
-            // src="/images/HomeImgs/Herosec.png"
-            src=""
+            src="/images/HomeImgs/Herosec1.png"
             alt="Hero"
             className="w-full h-full object-cover"
           />
@@ -426,7 +425,7 @@ export default function HomePage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3, duration: 0.9 }}
-            className="text-[56px] md:text-[90px] lg:text-[90px] font-bold leading-[0.9] tracking-tight"
+            className="text-[56px] md:text-[90px] lg:text-[90px] font-bold text-gray-300 leading-[0.9] tracking-tight"
           >
             G-CULTURE
           </motion.h1>
@@ -450,7 +449,7 @@ export default function HomePage() {
           >
             <Link
               to="/shop"
-              className="inline-flex items-center gap-2 px-8 py-3 rounded-full bg-white text-black text-sm font-medium uppercase tracking-wider hover:bg-gray-200 transition-colors duration-200"
+              className="inline-flex items-center gap-2 px-8 py-3 rounded-full bg-gray-200 text-black text-sm font-medium uppercase tracking-wider hover:bg-gray-200 transition-colors duration-200"
             >
               Explore Collection
               <ArrowRight size={16} />
@@ -483,72 +482,103 @@ export default function HomePage() {
       </section>
 
       {/* ============ CATEGORIES ============ */}
-      <section className="py-24 bg-[#050507]">
-        <div className="max-w-7xl mx-auto px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7 }}
-            className="text-center mb-16"
+      {/* ============ CATEGORIES ============ */}
+<section className="relative py-24 overflow-hidden">
+  {/* Background image */}
+  <div className="absolute inset-0">
+    <img
+      src="/images/HomeImgs/Categories.png"
+      alt=""
+      className="w-full h-full object-cover"
+    />
+    <div className="absolute inset-0 bg-black/40" />
+    <div className="absolute inset-0 bg-[#1F0A2E]/25 mix-blend-multiply" />
+    <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_30%,rgba(5,5,7,0.7)_100%)]" />
+    <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-[#050507] to-transparent" />
+    <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#050507] to-transparent" />
+  </div>
+
+  {/* G-CULTURE watermark */}
+  <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+    <span className="text-[140px] font-bold tracking-[30px] text-white/[0.06] select-none">
+      G-CULTURE
+    </span>
+  </div>
+
+  <div className="relative z-10 max-w-7xl mx-auto px-6">
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.7 }}
+      className="text-center mb-16"
+    >
+      <p className="text-xs uppercase tracking-[0.3em] text-gray-500 mb-3">
+        Browse
+      </p>
+      <h2 className="text-3xl md:text-5xl font-bold tracking-tight">
+        Shop by Category
+      </h2>
+    </motion.div>
+
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      {categories.map((cat, index) => (
+        <motion.div
+          key={index}
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.6, delay: index * 0.1 }}
+        >
+          <Link
+            to={cat.path}
+            className="group relative block h-[40vh] md:h-[50vh] overflow-hidden rounded-lg bg-white/5 border border-white/5 hover:border-white/15 backdrop-blur-sm transition-all duration-500"
           >
-            <p className="text-xs uppercase tracking-[0.3em] text-gray-500 mb-3">
-              Browse
-            </p>
-            <h2 className="text-3xl md:text-5xl font-bold tracking-tight">
-              Shop by Category
-            </h2>
-          </motion.div>
+            {cat.img && (
+              <div
+                className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
+                style={{ backgroundImage: `url(${cat.img})` }}
+              />
+            )}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+            <div className="relative z-10 h-full flex flex-col justify-end p-8">
+              <p className="text-xs uppercase tracking-[0.2em] text-gray-400 mb-2">
+                {String(index + 1).padStart(2, "0")}
+              </p>
+              <h3 className="text-2xl md:text-3xl font-bold text-white mb-2">
+                {cat.name}
+              </h3>
+              <p className="text-sm text-gray-400 mb-4 max-w-xs">
+                {cat.description}
+              </p>
+              <div className="flex items-center gap-2 text-xs uppercase tracking-wider text-gray-300 group-hover:text-white transition-colors duration-200">
+                Explore
+                <ArrowRight size={14} className="transition-transform duration-300 group-hover:translate-x-1" />
+              </div>
+            </div>
+          </Link>
+        </motion.div>
+      ))}
+    </div>
+  </div>
+</section>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {categories.map((cat, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.3 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-              >
-                <Link
-                  to={cat.path}
-                  className="group relative block h-[40vh] md:h-[50vh] overflow-hidden rounded-lg bg-white/5 border border-white/5 hover:border-white/15 transition-all duration-500"
-                >
-                  {/* Background image */}
-                  {cat.img && (
-                    <div
-                      className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
-                      style={{ backgroundImage: `url(${cat.img})` }}
-                    />
-                  )}
+{/* ============ PROMO / WHY G-CULTURE ============ */}
+<section className="relative pt-24 pb-2 overflow-hidden">
+  {/* Background image — MUST be first child */}
+  <div className="absolute inset-0">
+    <img
+      src="/images/HomeImgs/Categories.png"
+      alt=""
+      className="w-full h-full object-cover"
+    />
+    <div className="absolute inset-0 bg-black/60" />
+    <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-[#050507] to-transparent" />
+    <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#050507] to-transparent" />
+  </div>
 
-                  {/* Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+</section>
 
-                  {/* Content */}
-                  <div className="relative z-10 h-full flex flex-col justify-end p-8">
-                    <p className="text-xs uppercase tracking-[0.2em] text-gray-400 mb-2">
-                      {String(index + 1).padStart(2, "0")}
-                    </p>
-                    <h3 className="text-2xl md:text-3xl font-bold text-white mb-2">
-                      {cat.name}
-                    </h3>
-                    <p className="text-sm text-gray-400 mb-4 max-w-xs">
-                      {cat.description}
-                    </p>
-                    <div className="flex items-center gap-2 text-xs uppercase tracking-wider text-gray-300 group-hover:text-white transition-colors duration-200">
-                      Explore
-                      <ArrowRight
-                        size={14}
-                        className="transition-transform duration-300 group-hover:translate-x-1"
-                      />
-                    </div>
-                  </div>
-                </Link>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* ============ FEATURED PRODUCTS ============ */}
       <section className="bg-[#050507]">
@@ -562,6 +592,7 @@ export default function HomePage() {
 
       {/* ============ PROMO / WHY G-CULTURE ============ */}
       <section className="py-24 bg-[#050507]">
+        
         <div className="max-w-7xl mx-auto px-6">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -577,6 +608,7 @@ export default function HomePage() {
               Why G-Culture
             </h2>
           </motion.div>
+          
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <PromoCard
