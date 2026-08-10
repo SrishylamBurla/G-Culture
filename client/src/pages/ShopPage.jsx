@@ -1,201 +1,9 @@
-// import { useEffect, useState } from "react";
-// import { motion, AnimatePresence } from "framer-motion";
-// import { Filter } from "lucide-react";
-
-// import { useGetProductsQuery } from "../features/products/productApi";
-
-// import ProductCard from "../components/ProductCard";
-// import ShopProductFilters from "../components/filters/ShopProductFilters";
-// import SkeletonProducts from "../components/SkeletonProducts";
-
-// export default function ShopPage() {
-//   const [isFilterOpen, setIsFilterOpen] = useState(false);
-
-//   const [filters, setFilters] = useState({
-//     category: "",
-//     subcategory: "",
-//     price: 4000,
-//     size: "",
-//     color: "",
-//   });
-
-//   // 🔥 RTK QUERY FETCH
-//   const {
-//     data: products = [],
-//     isLoading,
-//     isFetching,
-//   } = useGetProductsQuery(filters);
-
-//   // Prevent background scroll when drawer opens
-//   useEffect(() => {
-//     document.body.style.overflow = isFilterOpen ? "hidden" : "auto";
-//   }, [isFilterOpen]);
-
-//   // Local filtering (optional)
-//   const filteredProducts = products.filter((p) => {
-//     return (
-//       (!filters.category || p.category === filters.category) &&
-//       (!filters.subcategory || p.subcategory === filters.subcategory) &&
-//       (!filters.size || p.sizes?.includes(filters.size)) &&
-//       (!filters.color || p.colors?.includes(filters.color)) &&
-//       p.offerPrice <= filters.price
-//     );
-//   });
-
-//   return (
-//     <section
-//       className="w-full min-h-screen bg-[#001424]
-//                  bg-[url('https://www.transparenttextures.com/patterns/skulls.png')]
-//                  pt-[4.5rem] md:pt-[5.8rem]"
-//     >
-//       <div className="flex flex-col md:flex-row w-full">
-
-//         {/* ---------- MOBILE FILTER BUTTON ---------- */}
-//         <button
-//           className="md:hidden flex items-center gap-2 p-3 bg-[#001424] text-gray-200 border-b border-white/10 sticky top-0 z-[50]"
-//           onClick={() => setIsFilterOpen(true)}
-//         >
-//           <Filter size={18} />
-//           Filters
-//         </button>
-
-//         {/* ---------- MOBILE FILTER DRAWER ---------- */}
-//         <AnimatePresence>
-//           {isFilterOpen && (
-//             <>
-//               <motion.div
-//                 initial={{ opacity: 0 }}
-//                 animate={{ opacity: 0.4 }}
-//                 exit={{ opacity: 0 }}
-//                 transition={{ duration: 0.3 }}
-//                 className="fixed inset-0 bg-black/70 z-[90]"
-//                 onClick={() => setIsFilterOpen(false)}
-//               />
-
-//               <motion.div
-//                 initial={{ x: "-100%" }}
-//                 animate={{ x: 0 }}
-//                 exit={{ x: "-100%" }}
-//                 transition={{ duration: 0.35, ease: "easeOut" }}
-//                 className="fixed top-0 left-0 h-full w-[80%] max-w-[270px]
-//                            border-r border-white/10 z-[99999]
-//                            shadow-xl overflow-y-auto bg-[#001424]"
-//               >
-//                 <ShopProductFilters
-//                   filters={filters}
-//                   setFilters={setFilters}
-//                   isMobile={true}
-//                   closeDrawer={() => setIsFilterOpen(false)}
-//                 />
-//               </motion.div>
-//             </>
-//           )}
-//         </AnimatePresence>
-
-//         {/* ---------- DESKTOP SIDEBAR ---------- */}
-//         <aside className="hidden md:block w-64 border-r border-white/10">
-//           <ShopProductFilters filters={filters} setFilters={setFilters} />
-//         </aside>
-
-//         {/* ---------- MAIN GRID ---------- */}
-//         <motion.div
-//           className="flex-1 md:px-3 pb-24 pt-4 overflow-y-auto scrollbar-hover h-[calc(100vh-64px)]"
-//           initial={{ opacity: 0 }}
-//           animate={{ opacity: 1 }}
-//           transition={{ duration: 0.6, ease: "easeOut" }}
-//         >
-//           {/* Section Title */}
-//           <div
-//             className="flex justify-end"
-//             style={{
-//               animation: "fadeInRight 0.9s ease-out forwards",
-//             }}
-//           >
-//             <h1 className="inline text-gray-900 text-lg py-1 px-2 page-tags bg-[#159181]">
-//               #ShopAll
-//             </h1>
-//           </div>
-
-//           <div
-//             className="pt-4 pb-8 mx-3"
-//             style={{ animation: "fadeInLeft 1s ease-out forwards" }}
-//           >
-//             <h1 className="inline text-4xl shop-quote bg-clip-text text-transparent bg-gradient-to-r from-[#907b02] via-[#bfa9c8] to-[#b27006]">
-//               For the Men
-//               <br />
-//               Who Build, Break and Begin Again...
-//             </h1>
-//           </div>
-
-//           {/* Grid */}
-//           <AnimatePresence mode="wait">
-//             {(isLoading || isFetching) ? (
-//               <SkeletonProducts />
-//             ) : filteredProducts.length > 0 ? (
-//               <motion.div
-//                 key="grid"
-//                 className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-1 md:gap-3 pt-6"
-//                 initial="hidden"
-//                 animate="show"
-//                 variants={{
-//                   hidden: { opacity: 0 },
-//                   show: {
-//                     opacity: 1,
-//                     transition: {
-//                       staggerChildren: 0.12,
-//                       delayChildren: 0.1,
-//                     },
-//                   },
-//                 }}
-//               >
-//                 {filteredProducts.map((product) => (
-//                   <motion.div
-//                     key={product._id}
-//                     variants={{
-//                       hidden: { opacity: 0, y: 30, scale: 0.96 },
-//                       show: {
-//                         opacity: 1,
-//                         y: 0,
-//                         scale: 1,
-//                         transition: {
-//                           duration: 0.8,
-//                           ease: [0.16, 1, 0.3, 1],
-//                         },
-//                       },
-//                     }}
-//                     whileHover={{
-//                       scale: 1.02,
-//                       transition: { type: "spring", stiffness: 120, damping: 12 },
-//                     }}
-//                   >
-//                     <ProductCard product={product} />
-//                   </motion.div>
-//                 ))}
-//               </motion.div>
-//             ) : (
-//               <motion.div
-//                 key="empty"
-//                 className="text-center text-gray-400 py-20 text-lg"
-//                 initial={{ opacity: 0 }}
-//                 animate={{ opacity: 1 }}
-//                 exit={{ opacity: 0 }}
-//               >
-//                 No products found.
-//               </motion.div>
-//             )}
-//           </AnimatePresence>
-//         </motion.div>
-//       </div>
-//     </section>
-//   );
-// }
-
 import { useEffect, useState } from "react";
 import { useGetProductsQuery } from "../features/products/productApi";
 import ProductCard from "../components/ProductCard";
 import ShopProductFilters from "../components/filters/ShopProductFilters";
 import { motion, AnimatePresence } from "framer-motion";
-import { Filter } from "lucide-react";
+import { SlidersHorizontal, X } from "lucide-react";
 import SkeletonProducts from "../components/SkeletonProducts";
 
 export default function ShopPage() {
@@ -225,163 +33,176 @@ export default function ShopPage() {
     );
   });
 
+  const activeFilterCount = [
+    filters.category,
+    filters.subcategory,
+    filters.size,
+    filters.color,
+    filters.price < 4000,
+  ].filter(Boolean).length;
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: { staggerChildren: 0.06, delayChildren: 0.05 },
+    },
+  };
+
+  const cardVariants = {
+    hidden: { opacity: 0, y: 16 },
+    show: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.4, ease: [0.16, 1, 0.3, 1] },
+    },
+  };
+
   return (
-    <section
-      className="w-full min-h-screen bg-[#001424]
-                 bg-[url('https://www.transparenttextures.com/patterns/skulls.png')]
-                 pt-[4.5rem] md:pt-[5.8rem]"
-    >
-      <div className="flex flex-col md:flex-row w-full">
-        {/* ---------- MOBILE FILTER BUTTON ---------- */}
-        <button
-          className="md:hidden flex items-center gap-2 p-3 bg-[#001424] text-gray-200 border-b border-white/10 sticky top-0 z-[50]"
-          onClick={() => setIsFilterOpen(true)}
-        >
-          <Filter size={18} />
-          Filters
-        </button>
+    <section className="w-full min-h-screen bg-[#050507] text-white pt-28 md:pt-32">
+      <div className="max-w-[1600px] mx-auto">
+        {/* Page Header */}
+        <div className="px-6 mb-8">
+          <p className="text-xs uppercase tracking-[0.3em] text-[#d4af37]/50 mb-3">
+            Browse
+          </p>
+          <div className="flex items-end justify-between">
+            <div>
+              <h1 className="text-3xl md:text-4xl font-bold tracking-tight">
+                Shop All
+              </h1>
+              <p className="text-sm text-gray-500 mt-2">
+                For the men who build, break and begin again.
+              </p>
+            </div>
+            {!loading && (
+              <span className="text-xs text-gray-600">
+                {filteredProducts.length}{" "}
+                {filteredProducts.length === 1 ? "product" : "products"}
+              </span>
+            )}
+          </div>
+        </div>
 
-        {/* ---------- MOBILE FILTER DRAWER ---------- */}
-        <AnimatePresence>
-          {isFilterOpen && (
-            <>
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 0.4 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.3 }}
-                className="fixed inset-0 bg-black/70 z-[90]"
-                onClick={() => setIsFilterOpen(false)}
-              />
+        <div className="flex w-full">
+          {/* MOBILE FILTER BUTTON */}
+          <div className="md:hidden fixed bottom-6 left-1/2 -translate-x-1/2 z-[50]">
+            <button
+              className="flex items-center gap-2 px-5 py-3 bg-[#d4af37] text-black rounded-full text-xs font-medium uppercase tracking-wider shadow-2xl hover:bg-[#c09b33] transition-colors duration-200"
+              onClick={() => setIsFilterOpen(true)}
+            >
+              <SlidersHorizontal size={14} />
+              Filters
+              {activeFilterCount > 0 && (
+                <span className="bg-black text-[#d4af37] text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center">
+                  {activeFilterCount}
+                </span>
+              )}
+            </button>
+          </div>
 
-              <motion.div
-                initial={{ x: "-100%" }}
-                animate={{ x: 0 }}
-                exit={{ x: "-100%" }}
-                transition={{ duration: 0.35, ease: "easeOut" }}
-                className="fixed top-0 left-0 h-screen w-50 max-w-[300px]
-                           border-r border-white/10 z-[99999]
-                           shadow-xl overflow-y-auto bg-[#001424]"
-              >
-                <ShopProductFilters
-                  filters={filters}
-                  setFilters={setFilters}
-                  isMobile={true}
-                  closeDrawer={() => setIsFilterOpen(false)}
+          {/* MOBILE FILTER DRAWER */}
+          <AnimatePresence>
+            {isFilterOpen && (
+              <>
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                  className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[90]"
+                  onClick={() => setIsFilterOpen(false)}
                 />
-              </motion.div>
-            </>
-          )}
-        </AnimatePresence>
 
-        {/* ---------- DESKTOP SIDEBAR ---------- */}
-        <aside className="hidden md:block w-50 border-r border-white/10">
-          <ShopProductFilters filters={filters} setFilters={setFilters} />
-        </aside>
+                <motion.div
+                  initial={{ x: "-100%" }}
+                  animate={{ x: 0 }}
+                  exit={{ x: "-100%" }}
+                  transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                  className="fixed top-0 left-0 h-screen w-[280px] bg-[#0a0a0c] border-r border-[#d4af37]/10 z-[99999] overflow-y-auto"
+                >
+                  <div className="flex items-center justify-between px-5 py-4 border-b border-[#d4af37]/10">
+                    <h3 className="text-xs font-semibold uppercase tracking-wider text-[#d4af37]">
+                      Filters
+                    </h3>
+                    <button
+                      onClick={() => setIsFilterOpen(false)}
+                      className="p-1.5 rounded-full border border-[#d4af37]/20 text-[#d4af37]/60 hover:text-[#d4af37] hover:border-[#d4af37]/50 transition-all"
+                    >
+                      <X size={14} />
+                    </button>
+                  </div>
 
-        {/* ---------- MAIN GRID AREA ---------- */}
-        <motion.div
-          className="flex-1 md:px-3 pb-24 pt-4 overflow-y-auto scrollbar-hover"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
-        >
-          {/* Section Title */}
-          <div
-            className="flex justify-end"
-            style={{
-              animation: "fadeInRight 0.9s ease-out forwards",
-            }}
-          >
-            <h1 className="inline text-gray-900 text-lg py-1 px-2 page-tags bg-[#159181]">
-              #ShopAll
-            </h1>
-          </div>
-          <div
-            className="py-6 px-3"
-            style={{ animation: "fadeInLeft 1s ease-out forwards" }}
-          >
-            <h1 className="inline text-4xl shop-quote bg-clip-text text-transparent bg-gradient-to-r from-[#907b02] via-[#bfa9c8] to-[#b27006]">
-              For the Men
-              <br />
-              Who Build, Break and Begin Again...
-            </h1>
-          </div>
-
-          <style>{`
-            @keyframes fadeInLeft {
-              0% { opacity: 0; transform: translateX(-40px); }
-              100% { opacity: 1; transform: translateX(0); }
-            }
-
-            @keyframes fadeInRight {
-              0% { opacity: 0; transform: translateX(40px); }
-              100% { opacity: 1; transform: translateX(0); }
-            }
-          `}</style>
-
-          {/* ---------- PRODUCT GRID WITH STREETWEAR ANIMATION ---------- */}
-          <AnimatePresence mode="wait">
-            {loading || items.length === 0 ? (
-              <SkeletonProducts />
-            ) : filteredProducts.length > 0 ? (
-              <motion.div
-                key="grid"
-                className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-1 md:gap-3"
-                initial="hidden"
-                animate="show"
-                variants={{
-                  hidden: { opacity: 0 },
-                  show: {
-                    opacity: 1,
-                    transition: {
-                      staggerChildren: 0.12,
-                      delayChildren: 0.1,
-                    },
-                  },
-                }}
-              >
-                {filteredProducts.map((product) => (
-                  <motion.div
-                    key={product._id}
-                    variants={{
-                      hidden: { opacity: 0, y: 30, scale: 0.96 },
-                      show: {
-                        opacity: 1,
-                        y: 0,
-                        scale: 1,
-                        transition: {
-                          duration: 0.8,
-                          ease: [0.16, 1, 0.3, 1],
-                        },
-                      },
-                    }}
-                    whileHover={{
-                      scale: 1.02,
-                      transition: {
-                        type: "spring",
-                        stiffness: 120,
-                        damping: 12,
-                      },
-                    }}
-                  >
-                    <ProductCard product={product} />
-                  </motion.div>
-                ))}
-              </motion.div>
-            ) : (
-              <motion.div
-                key="empty"
-                className="text-center text-gray-400 py-20 text-lg"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-              >
-                No products found.
-              </motion.div>
+                  <ShopProductFilters
+                    filters={filters}
+                    setFilters={setFilters}
+                    isMobile={true}
+                    closeDrawer={() => setIsFilterOpen(false)}
+                  />
+                </motion.div>
+              </>
             )}
           </AnimatePresence>
-        </motion.div>
+
+          {/* DESKTOP SIDEBAR */}
+          <aside className="hidden md:block w-[240px] flex-shrink-0 px-6">
+            <div className="sticky top-32">
+              <h3 className="text-xs font-semibold uppercase tracking-wider text-[#d4af37]/60 mb-6">
+                Filters
+              </h3>
+              <ShopProductFilters filters={filters} setFilters={setFilters} />
+            </div>
+          </aside>
+
+          {/* MAIN GRID */}
+          <div className="flex-1 px-4 md:px-6 pb-24 md:pb-12">
+            <AnimatePresence mode="wait">
+              {loading || items.length === 0 ? (
+                <SkeletonProducts />
+              ) : filteredProducts.length > 0 ? (
+                <motion.div
+                  key="grid"
+                  className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4"
+                  variants={containerVariants}
+                  initial="hidden"
+                  animate="show"
+                >
+                  {filteredProducts.map((product) => (
+                    <motion.div key={product._id} variants={cardVariants}>
+                      <ProductCard product={product} />
+                    </motion.div>
+                  ))}
+                </motion.div>
+              ) : (
+                <motion.div
+                  key="empty"
+                  className="flex flex-col items-center justify-center py-32 text-center"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0 }}
+                >
+                  <p className="text-sm text-gray-500 mb-4">
+                    No products match your filters.
+                  </p>
+                  <button
+                    onClick={() =>
+                      setFilters({
+                        category: "",
+                        subcategory: "",
+                        price: 4000,
+                        size: "",
+                        color: "",
+                      })
+                    }
+                    className="text-xs uppercase tracking-wider text-[#d4af37] border border-[#d4af37]/30 hover:border-[#d4af37]/60 hover:bg-[#d4af37]/5 px-5 py-2 rounded-full transition-all duration-200"
+                  >
+                    Clear Filters
+                  </button>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        </div>
       </div>
     </section>
   );

@@ -36,172 +36,171 @@ export default function CasualwearProductFilters({
       color: "",
     });
 
+  const hasActiveFilters =
+    filters.subcategory || filters.size || filters.color || filters.price < 3000;
+
   return (
-    <aside
-      className="w-50 flex flex-col bg-gray-200
-                 border-r border-white/10 text-gray-800 sticky
-                 h-[calc(100vh-64px)] overflow-y-scroll scrollbar-hover
-                 px-4 py-2 transition-all duration-300"
-    >
-      {/* HEADER */}
-      <div className="relative">
-        <h3 className="text-lg font-semibold mb-6 uppercase border-b border-white/90 pb-3 tracking-wide">
-          Filters
-        </h3>
-
-        {isMobile && (
-          <button
-            onClick={closeDrawer}
-            className="text-gray-800 hover:text-gray-600 text-xl absolute top-1 right-1"
-          >
-            ✕
-          </button>
-        )}
-      </div>
-
+    <div className="flex flex-col text-white px-1 py-2 space-y-1">
       {/* SUBCATEGORY */}
-      <div className="mb-4">
-        <motion.div
-          initial={false}
-          animate={{
-            height: openSections.subcategory ? "auto" : 0,
-            opacity: openSections.subcategory ? 1 : 0,
-          }}
-          className="overflow-hidden space-y-2 text-sm"
-        >
+      <FilterSection
+        title="Category"
+        isOpen={openSections.subcategory}
+        onToggle={() => toggleSection("subcategory")}
+      >
+        <div className="space-y-1">
           {FILTER_OPTIONS.subcategories.map((sub) => (
-            <label key={sub} className="flex items-center gap-2 cursor-pointer">
-              <input
-                type="radio"
-                name="subcategory"
-                value={sub}
-                checked={filters.subcategory === sub}
-                onChange={(e) => handleChange("subcategory", e.target.value)}
-                className="accent-purple-500"
-              />
-              <span className="capitalize">{sub}</span>
-            </label>
+            <button
+              key={sub}
+              onClick={() =>
+                handleChange(
+                  "subcategory",
+                  filters.subcategory === sub ? "" : sub
+                )
+              }
+              className={`w-full text-left px-3 py-2 rounded-lg text-sm capitalize transition-all duration-200
+                ${
+                  filters.subcategory === sub
+                    ? "bg-[#d4af37] text-black font-medium"
+                    : "text-gray-400 hover:text-white hover:bg-white/[0.04]"
+                }`}
+            >
+              {sub}
+            </button>
           ))}
-        </motion.div>
-      </div>
+        </div>
+      </FilterSection>
 
       {/* PRICE */}
-      <div className="mb-4">
-        <button
-          onClick={() => toggleSection("price")}
-          className="flex justify-between w-full font-medium text-gray-800 hover:text-gray-600"
-        >
-          Price Range
-          <ChevronDown
-            className={`w-4 h-4 transition-transform ${
-              openSections.price ? "rotate-180" : ""
-            }`}
-          />
-        </button>
-
-        <motion.div
-          initial={false}
-          animate={{
-            height: openSections.price ? "auto" : 0,
-            opacity: openSections.price ? 1 : 0,
-          }}
-          className="overflow-hidden mt-3"
-        >
+      <FilterSection
+        title="Price Range"
+        isOpen={openSections.price}
+        onToggle={() => toggleSection("price")}
+      >
+        <div className="px-1">
           <input
             type="range"
             min={500}
             max={3000}
-            step="100"
+            step={100}
             value={filters.price}
             onChange={(e) => handleChange("price", e.target.value)}
-            className="w-full accent-purple-500"
+            className="w-full h-1 bg-white/10 rounded-full appearance-none cursor-pointer
+              [&::-webkit-slider-thumb]:appearance-none
+              [&::-webkit-slider-thumb]:w-4
+              [&::-webkit-slider-thumb]:h-4
+              [&::-webkit-slider-thumb]:rounded-full
+              [&::-webkit-slider-thumb]:bg-[#d4af37]
+              [&::-webkit-slider-thumb]:shadow-md
+              [&::-webkit-slider-thumb]:cursor-pointer
+              [&::-moz-range-thumb]:w-4
+              [&::-moz-range-thumb]:h-4
+              [&::-moz-range-thumb]:rounded-full
+              [&::-moz-range-thumb]:bg-[#d4af37]
+              [&::-moz-range-thumb]:border-0
+              [&::-moz-range-thumb]:cursor-pointer"
           />
-          <p className="text-xs mt-1 text-gray-800">Up to ₹{filters.price}</p>
-        </motion.div>
-      </div>
+          <div className="flex justify-between mt-2">
+            <span className="text-[11px] text-gray-600">₹500</span>
+            <span className="text-xs text-[#d4af37] font-medium">
+              Up to ₹{Number(filters.price).toLocaleString("en-IN")}
+            </span>
+          </div>
+        </div>
+      </FilterSection>
 
       {/* SIZE */}
-      <div className="mb-4">
-        <button
-          onClick={() => toggleSection("size")}
-          className="flex justify-between w-full font-medium text-gray-800 hover:text-gray-600"
-        >
-          Size
-          <ChevronDown
-            className={`w-4 h-4 transition-transform ${
-              openSections.size ? "rotate-180" : ""
-            }`}
-          />
-        </button>
-
-        <motion.div
-          initial={false}
-          animate={{
-            height: openSections.size ? "auto" : 0,
-            opacity: openSections.size ? 1 : 0,
-          }}
-          className="overflow-hidden mt-3 flex flex-wrap gap-2"
-        >
+      <FilterSection
+        title="Size"
+        isOpen={openSections.size}
+        onToggle={() => toggleSection("size")}
+      >
+        <div className="flex flex-wrap gap-2">
           {FILTER_OPTIONS.sizes.map((size) => (
             <button
               key={size}
-              onClick={() => handleChange("size", size)}
-              className={`px-3 py-1 border rounded-md text-sm transition-all duration-200 ${
-                filters.size === size
-                  ? "border-purple-400 bg-purple-400/10 text-gray-800"
-                  : "border-gray-600 text-gray-800 hover:bg-white/10"
-              }`}
+              onClick={() =>
+                handleChange("size", filters.size === size ? "" : size)
+              }
+              className={`min-w-[40px] h-9 px-2 rounded-lg text-xs font-medium transition-all duration-200
+                ${
+                  filters.size === size
+                    ? "bg-[#d4af37] text-black"
+                    : "border border-[#d4af37]/15 text-gray-400 hover:border-[#d4af37]/40 hover:text-white"
+                }`}
             >
               {size}
             </button>
           ))}
-        </motion.div>
-      </div>
+        </div>
+      </FilterSection>
 
       {/* COLOR */}
-      <div className="mb-6">
-        <button
-          onClick={() => toggleSection("color")}
-          className="flex justify-between w-full font-medium text-gray-800 hover:text-gray-600"
-        >
-          Color
-          <ChevronDown
-            className={`w-4 h-4 transition-transform ${
-              openSections.color ? "rotate-180" : ""
-            }`}
-          />
-        </button>
-
-        <motion.div
-          initial={false}
-          animate={{
-            height: openSections.color ? "auto" : 0,
-            opacity: openSections.color ? 1 : 0,
-          }}
-          className="overflow-hidden mt-3 flex gap-3 flex-wrap"
-        >
+      <FilterSection
+        title="Color"
+        isOpen={openSections.color}
+        onToggle={() => toggleSection("color")}
+      >
+        <div className="flex flex-wrap gap-2.5">
           {FILTER_OPTIONS.colors.map((color) => (
             <button
               key={color}
-              onClick={() => handleChange("color", color)}
-              className={`w-6 h-6 rounded-full border-2 transition-transform duration-200 ${
-                filters.color === color
-                  ? "border-purple-400 scale-110"
-                  : "border-gray-600 hover:scale-105"
-              }`}
+              onClick={() =>
+                handleChange("color", filters.color === color ? "" : color)
+              }
+              className={`w-7 h-7 rounded-full transition-all duration-200
+                ${
+                  filters.color === color
+                    ? "ring-2 ring-[#d4af37] ring-offset-2 ring-offset-[#050507]"
+                    : "ring-1 ring-white/10 hover:ring-[#d4af37]/40"
+                }`}
               style={{ backgroundColor: color }}
-            ></button>
+              title={color}
+            />
           ))}
-        </motion.div>
-      </div>
+        </div>
+      </FilterSection>
 
-      {/* CLEAR FILTERS */}
+      {/* CLEAR */}
+      {hasActiveFilters && (
+        <div className="pt-4 px-1">
+          <button
+            onClick={clearFilters}
+            className="w-full py-2.5 border border-[#d4af37]/20 rounded-full text-xs font-medium uppercase tracking-wider text-[#d4af37]/70 hover:text-[#d4af37] hover:border-[#d4af37]/50 hover:bg-[#d4af37]/5 transition-all duration-200"
+          >
+            Clear All Filters
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function FilterSection({ title, isOpen, onToggle, children }) {
+  return (
+    <div className="border-b border-[#d4af37]/10 last:border-0">
       <button
-        onClick={clearFilters}
-        className="text-sm underline text-gray-800 hover:text-purple-300 mb-6"
+        onClick={onToggle}
+        className="flex items-center justify-between w-full py-4 px-1 text-xs font-semibold uppercase tracking-wider text-gray-300 hover:text-[#d4af37] transition-colors duration-200"
       >
-        Clear Filters
+        {title}
+        <ChevronDown
+          size={14}
+          className={`text-[#d4af37]/40 transition-transform duration-200 ${
+            isOpen ? "rotate-180" : ""
+          }`}
+        />
       </button>
-    </aside>
+      <motion.div
+        initial={false}
+        animate={{
+          height: isOpen ? "auto" : 0,
+          opacity: isOpen ? 1 : 0,
+        }}
+        transition={{ duration: 0.2, ease: "easeInOut" }}
+        className="overflow-hidden"
+      >
+        <div className="pb-4 px-1">{children}</div>
+      </motion.div>
+    </div>
   );
 }

@@ -66,11 +66,11 @@ export default function StreetwearPage() {
   ].filter(Boolean).length;
 
   return (
-    <section className="w-full min-h-screen bg-[#050507] text-white pt-28 md:pt-32">
+    <section className="w-full min-h-screen bg-[#050507] text-white pt-25 md:pt-32">
       <div className="max-w-[1600px] mx-auto">
         {/* Page Header */}
         <div className="px-6 mb-8">
-          <p className="text-xs uppercase tracking-[0.3em] text-gray-500 mb-3">
+          <p className="text-xs uppercase tracking-[0.3em] text-[#d4af37]/50 mb-3">
             Collections
           </p>
           <div className="flex items-end justify-between">

@@ -1,14 +1,12 @@
 import { useState, useEffect } from "react";
-import { Filter } from "lucide-react";
+import { SlidersHorizontal, X } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useNavigate, useLocation } from "react-router-dom";
-import toast from "react-hot-toast";
 
 import ProductGrid from "../components/ProductGrid";
 import CasualwearProductFilters from "../components/filters/CasualwearProductFilters";
 import SkeletonProducts from "../components/SkeletonProducts";
 
-// RTK Query
 import { useGetProductsQuery } from "../features/products/productApi";
 
 export default function CasualwearPage() {
@@ -25,15 +23,12 @@ export default function CasualwearPage() {
 
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
-  // Disable scroll when mobile filter drawer is open
   useEffect(() => {
     document.body.style.overflow = isFilterOpen ? "hidden" : "auto";
   }, [isFilterOpen]);
 
-  // Load filters from URL
   useEffect(() => {
     const params = new URLSearchParams(location.search);
-
     setFilters({
       category: "casualwear",
       subcategory: params.get("subcategory") || "",
@@ -43,122 +38,152 @@ export default function CasualwearPage() {
     });
   }, [location.search]);
 
-  // RTK QUERY FETCH 🔥
   const {
     data: products = [],
     isLoading,
     isFetching,
   } = useGetProductsQuery(filters);
 
-  // Sync URL when filters change
   useEffect(() => {
     const params = new URLSearchParams();
-
     params.append("category", "casualwear");
     if (filters.subcategory) params.append("subcategory", filters.subcategory);
     if (filters.size) params.append("size", filters.size);
     if (filters.color) params.append("color", filters.color);
     if (filters.price) params.append("price", filters.price);
-
     navigate(`?${params.toString()}`, { replace: true });
   }, [filters, navigate]);
 
+  const activeFilterCount = [
+    filters.subcategory,
+    filters.size,
+    filters.color,
+    filters.price < 5000,
+  ].filter(Boolean).length;
+
   return (
-    <section
-      className="w-full min-h-screen
-                 pt-[4.5rem] md:pt-[5.8rem]"
-    >
-      <div className="flex flex-col md:flex-row w-full">
+    <section className="w-full min-h-screen bg-[#050507] text-white pt-28 md:pt-32">
+      <div className="max-w-[1600px] mx-auto">
+        {/* Page Header */}
+        <div className="px-6 mb-8">
+          <p className="text-xs uppercase tracking-[0.3em] text-[#d4af37]/50 mb-3">
+            Collections
+          </p>
+          <div className="flex items-end justify-between">
+            <div>
+              <h1 className="text-3xl md:text-4xl font-bold tracking-tight">
+                Casual Wear
+              </h1>
+              <p className="text-sm text-gray-500 mt-2">
+                Effortless style for every moment.
+              </p>
+            </div>
+            {!isLoading && (
+              <span className="text-xs text-gray-600">
+                {products.length} {products.length === 1 ? "product" : "products"}
+              </span>
+            )}
+          </div>
+        </div>
 
-        {/* MOBILE FILTER BUTTON */}
-        <button
-          className="md:hidden flex items-center gap-2 p-3 bg-[#001424]
-                     text-gray-200 border-b border-white/10 sticky top-0 z-[50]"
-          onClick={() => setIsFilterOpen(true)}
-        >
-          <Filter size={18} />
-          Filters
-        </button>
+        <div className="flex w-full">
+          {/* MOBILE FILTER BUTTON */}
+          <div className="md:hidden fixed bottom-6 left-1/2 -translate-x-1/2 z-[50]">
+            <button
+              className="flex items-center gap-2 px-5 py-3 bg-[#d4af37] text-black rounded-full text-xs font-medium uppercase tracking-wider shadow-2xl hover:bg-[#c09b33] transition-colors duration-200"
+              onClick={() => setIsFilterOpen(true)}
+            >
+              <SlidersHorizontal size={14} />
+              Filters
+              {activeFilterCount > 0 && (
+                <span className="bg-black text-[#d4af37] text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center">
+                  {activeFilterCount}
+                </span>
+              )}
+            </button>
+          </div>
 
-        {/* MOBILE FILTER DRAWER */}
-        <AnimatePresence>
-          {isFilterOpen && (
-            <>
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 0.4 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.25 }}
-                className="fixed inset-0 bg-black/70 z-[90]"
-                onClick={() => setIsFilterOpen(false)}
-              />
-
-              <motion.div
-                initial={{ x: "-100%" }}
-                animate={{ x: 0 }}
-                exit={{ x: "-100%" }}
-                transition={{ duration: 0.35, ease: "easeOut" }}
-                className="fixed top-0 left-0 h-screen w-50 max-w-[300px]
-                           border-r border-white/10 z-[99999]
-                           shadow-xl overflow-y-auto"
-              >
-                <CasualwearProductFilters
-                  filters={filters}
-                  setFilters={setFilters}
-                  isMobile={true}
-                  closeDrawer={() => setIsFilterOpen(false)}
+          {/* MOBILE FILTER DRAWER */}
+          <AnimatePresence>
+            {isFilterOpen && (
+              <>
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                  className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[90]"
+                  onClick={() => setIsFilterOpen(false)}
                 />
-              </motion.div>
-            </>
-          )}
-        </AnimatePresence>
 
-        {/* DESKTOP SIDEBAR */}
-        <aside className="hidden md:block w-50">
-          <CasualwearProductFilters filters={filters} setFilters={setFilters} />
-        </aside>
+                <motion.div
+                  initial={{ x: "-100%" }}
+                  animate={{ x: 0 }}
+                  exit={{ x: "-100%" }}
+                  transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                  className="fixed top-0 left-0 h-screen w-[280px] bg-[#0a0a0c] border-r border-[#d4af37]/10 z-[99999] overflow-y-auto"
+                >
+                  <div className="flex items-center justify-between px-5 py-4 border-b border-[#d4af37]/10">
+                    <h3 className="text-xs font-semibold uppercase tracking-wider text-[#d4af37]">
+                      Filters
+                    </h3>
+                    <button
+                      onClick={() => setIsFilterOpen(false)}
+                      className="p-1.5 rounded-full border border-[#d4af37]/20 text-[#d4af37]/60 hover:text-[#d4af37] hover:border-[#d4af37]/50 transition-all"
+                    >
+                      <X size={14} />
+                    </button>
+                  </div>
 
-        {/* MAIN CONTENT */}
-        <div className="flex-1 md:px-3 py-2">
+                  <CasualwearProductFilters
+                    filters={filters}
+                    setFilters={setFilters}
+                    isMobile={true}
+                    closeDrawer={() => setIsFilterOpen(false)}
+                  />
+                </motion.div>
+              </>
+            )}
+          </AnimatePresence>
 
-          {/* TAG */}
-          <div
-            className="flex justify-end"
-            style={{ animation: "fadeInRight 0.9s ease-out forwards" }}
-          >
-            <h1 className="inline text-gray-200 text-lg py-1 px-2 page-tags bg-[#159181]">
-              #CasualWear
-            </h1>
+          {/* DESKTOP SIDEBAR */}
+          <aside className="hidden md:block w-[240px] flex-shrink-0 px-6">
+            <div className="sticky top-32">
+              <h3 className="text-xs font-semibold uppercase tracking-wider text-[#d4af37]/60 mb-6">
+                Filters
+              </h3>
+              <CasualwearProductFilters filters={filters} setFilters={setFilters} />
+            </div>
+          </aside>
+
+          {/* MAIN GRID */}
+          <div className="flex-1 px-4 md:px-6 pb-24 md:pb-12">
+            {isLoading || isFetching ? (
+              <SkeletonProducts />
+            ) : products.length === 0 ? (
+              <div className="flex flex-col items-center justify-center py-32 text-center">
+                <p className="text-sm text-gray-500 mb-4">
+                  No products match your filters.
+                </p>
+                <button
+                  onClick={() =>
+                    setFilters({
+                      category: "casualwear",
+                      subcategory: "",
+                      price: 5000,
+                      size: "",
+                      color: "",
+                    })
+                  }
+                  className="text-xs uppercase tracking-wider text-[#d4af37] border border-[#d4af37]/30 hover:border-[#d4af37]/60 hover:bg-[#d4af37]/5 px-5 py-2 rounded-full transition-all duration-200"
+                >
+                  Clear Filters
+                </button>
+              </div>
+            ) : (
+              <ProductGrid products={products} filters={filters} />
+            )}
           </div>
-
-          {/* HEADING */}
-          <div
-            className="py-6 px-3"
-            style={{ animation: "fadeInLeft 1s ease-out forwards" }}
-          >
-            <h1 className="inline text-4xl shop-quote bg-clip-text text-transparent bg-gradient-to-r from-[#907b02] to-[#b27006]">
-              Not Imported, Just Ignited...
-            </h1>
-          </div>
-
-           <style>{`
-            @keyframes fadeInLeft {
-              0% { opacity: 0; transform: translateX(-40px); }
-              100% { opacity: 1; transform: translateX(0); }
-            }
-
-            @keyframes fadeInRight {
-              0% { opacity: 0; transform: translateX(40px); }
-              100% { opacity: 1; transform: translateX(0); }
-            }
-          `}</style>
-
-          {/* GRID OR LOADER */}
-          {isLoading || isFetching ? (
-            <SkeletonProducts />
-          ) : (
-            <ProductGrid products={products} filters={filters} />
-          )}
         </div>
       </div>
     </section>

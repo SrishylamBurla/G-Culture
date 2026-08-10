@@ -37,6 +37,9 @@ import AddProduct from "./components/admin/AddProduct";
 import EditProduct from "./components/admin/EditProduct";
 import AdminOrderDetails from "./pages/admin/AdminOrderDetails";
 import SmoothScroll from "./components/SmoothScroll";
+import LatestDropsPage from "./pages/LatestDropsPage";
+import AboutPage from "./pages/AboutPage";
+import ContactPage from "./pages/ContactPage";
 
 function App() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -118,7 +121,12 @@ function App() {
             <Route path="/casualwear" element={<CasualwearPage />} />
             <Route path="/caps" element={<CapsPage />} />
             <Route path="/chestbags" element={<ChestbagsPage />} />
+            
 
+            <Route path="/latest-drops" element={<LatestDropsPage />} />
+            <Route path="/about" element={<AboutPage />} />
+            <Route path="/contact" element={<ContactPage />} />
+            
             {/* Wishlist */}
             <Route path="/wishlist" element={<WishlistPage />} />
 
