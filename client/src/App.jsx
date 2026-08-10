@@ -20,7 +20,6 @@ import StreetwearPage from "./pages/StreetwearPage";
 import CasualwearPage from "./pages/CasualwearPage";
 import CapsPage from "./pages/CapsPage";
 import ChestbagsPage from "./pages/ChestbagsPage";
-import MobileMenu from "./components/MobileMenu";
 import { PhoneSignIn } from "./pages/PhoneSignIn";
 import OrdersPage from "./pages/OrdersPage";
 import OrderDetailsPage from "./pages/OrderDetailsPage";
@@ -53,7 +52,7 @@ function App() {
       <div className="flex flex-col min-h-screen text-white">
         <Header menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
 
-        {menuOpen && <MobileMenu setMenuOpen={setMenuOpen} />}
+        
 
         <Toaster
           position="top-right"
@@ -126,7 +125,7 @@ function App() {
             <Route path="/latest-drops" element={<LatestDropsPage />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/contact" element={<ContactPage />} />
-            
+
             {/* Wishlist */}
             <Route path="/wishlist" element={<WishlistPage />} />
 
