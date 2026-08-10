@@ -1,34 +1,3 @@
-<<<<<<< HEAD
-import mongoose from 'mongoose';
-
-const connectDB = async () => {
-  try {
-    const conn = await mongoose.connect(process.env.MONGO_URI);
-    console.log(`MongoDB Connected: ${conn.connection.host}`);
-  } catch (error) {
-    console.error(`Error: ${error.message}`);
-    process.exit(1);
-  }
-};
-
-export default connectDB;
-=======
-// import mongoose from 'mongoose';
-
-// const connectDB = async () => {
-//   try {
-//     const conn = await mongoose.connect(process.env.MONGO_URI);
-//     console.log(process.env.MONGO_URI);
-//     console.log(`MongoDB Connected: ${conn.connection.host}`);
-//   } catch (error) {
-//     console.error(`Error: ${error.message}`);
-//     process.exit(1);
-//   }
-// };
-
-// export default connectDB;
-
-
 import mongoose from "mongoose";
 import dns from "node:dns";
 
@@ -63,4 +32,4 @@ export default async function connectDB() {
     throw error;
   }
 }
->>>>>>> 0499b58 (ui-updated)
+

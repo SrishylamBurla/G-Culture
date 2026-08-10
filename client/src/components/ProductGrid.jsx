@@ -12,7 +12,6 @@ export default function ProductGrid({ products = [], filters = {} }) {
   const { cartItems } = useSelector((state) => state.cart);
   const [quantities, setQuantities] = useState({});
 
-  // 🟢 client-side filtering (optional)
   const filteredProducts = Array.isArray(products)
     ? products.filter(
         (p) =>
@@ -28,7 +27,7 @@ export default function ProductGrid({ products = [], filters = {} }) {
     e.preventDefault();
     const qty = quantities[product._id] || 1;
     dispatch(addToCart({ ...product, quantity: qty }));
-    toast.success(`${product.name} added to cart 🛒`);
+    toast.success(`${product.name} added to cart`);
   };
 
   const handleToggleWishlist = (e, product) => {
@@ -36,42 +35,36 @@ export default function ProductGrid({ products = [], filters = {} }) {
     dispatch(toggleWishlist(product));
   };
 
-  // animations
   const containerVariants = {
     hidden: { opacity: 0 },
     show: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.12,
-        delayChildren: 0.1,
+        staggerChildren: 0.06,
+        delayChildren: 0.05,
       },
     },
   };
 
   const fadeVariants = {
-    hidden: { opacity: 0, y: 30, scale: 0.95 },
+    hidden: { opacity: 0, y: 16 },
     show: {
       opacity: 1,
       y: 0,
-      scale: 1,
-      transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] },
+      transition: { duration: 0.4, ease: [0.16, 1, 0.3, 1] },
     },
   };
 
   return (
     <motion.div
-      className="w-full grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-1 md:gap-3"
+      className="w-full grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4"
       variants={containerVariants}
       initial="hidden"
       animate="show"
     >
       {filteredProducts.length > 0 ? (
         filteredProducts.map((product) => (
-          <motion.div
-            key={product._id}
-            variants={fadeVariants}
-            whileHover={{ scale: 1.02 }}
-          >
+          <motion.div key={product._id} variants={fadeVariants}>
             <ProductCard
               product={product}
               quantities={quantities}
@@ -84,13 +77,13 @@ export default function ProductGrid({ products = [], filters = {} }) {
           </motion.div>
         ))
       ) : (
-        <motion.p
-          className="col-span-full text-center text-gray-500 mt-10"
-          initial={{ opacity: 0, y: 20 }}
+        <motion.div
+          className="col-span-full flex flex-col items-center justify-center py-24 text-center"
+          initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
         >
-          No products found.
-        </motion.p>
+          <p className="text-sm text-gray-500">No products found.</p>
+        </motion.div>
       )}
     </motion.div>
   );
