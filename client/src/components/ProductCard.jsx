@@ -119,19 +119,65 @@ export default function ProductCard({ product }) {
 
           {/* Wishlist button */}
           <button
+            type="button"
+            aria-label={
+              isWishlisted ? "Remove from wishlist" : "Add to wishlist"
+            }
             onClick={handleToggleWishlist}
-            className={`absolute top-3 right-3 p-2.5 rounded-full transition-all duration-300 z-10
-              ${
-                isWishlisted
-                  ? "bg-[#d4af37]/20 backdrop-blur-md border border-[#d4af37]/30"
-                  : "bg-black/30 backdrop-blur-md border border-white/10 opacity-0 group-hover:opacity-100 hover:border-[#d4af37]/30"
-              }`}
+            className={`
+    absolute
+    top-2.5
+    right-2.5
+    sm:top-3
+    sm:right-3
+    z-10
+
+    w-8
+    h-8
+    sm:w-9
+    sm:h-9
+
+    flex
+    items-center
+    justify-center
+
+    rounded-full
+
+    backdrop-blur-md
+
+    border
+
+    transition-all
+    duration-300
+
+    active:scale-90
+
+    ${
+      isWishlisted
+        ? `
+          bg-white
+          border-white
+          shadow-lg
+          shadow-white/10
+        `
+        : `
+          bg-black/45
+          border-white/15
+          hover:bg-white
+          hover:border-white
+        `
+    }
+  `}
           >
             <Heart
               size={14}
-              className={
-                isWishlisted ? "fill-[#d4af37] text-[#d4af37]" : "text-white/80"
-              }
+              strokeWidth={1.8}
+              className={`
+      transition-colors
+      duration-300
+
+      ${isWishlisted ? "fill-black text-black" : "text-white hover:text-black"}
+    `}
             />
           </button>
         </div>
@@ -194,32 +240,90 @@ export default function ProductCard({ product }) {
         </div>
       </Link>
       {/* Action Buttons */}
-      <div className="px-3 md:px-4 pb-3 md:pb-4 pt-1 flex gap-1.5 md:gap-2">
-        <button
-          disabled={stock === 0}
-          onClick={() => handlePopupOpen(product, false)}
-          className={`flex-1 flex items-center justify-center gap-1 py-2 md:py-2.5 rounded-full text-[10px] md:text-[11px] font-semibold uppercase tracking-wider transition-all duration-300
-            ${
-              stock === 0
-                ? "opacity-20 cursor-not-allowed bg-[#d4af37]/10 text-[#d4af37]/40"
-                : "bg-[#d4af37] text-black hover:bg-[#c09b33] hover:shadow-md hover:shadow-[#d4af37]/20"
-            }`}
-        >
-          <ShoppingBag size={11} className="hidden sm:block" />
-          Add to Cart
-        </button>
-        <button
-          disabled={stock === 0}
-          onClick={() => handlePopupOpen(product, true)}
-          className={`flex-1 py-2 md:py-2.5 rounded-full text-[10px] md:text-[11px] font-semibold uppercase tracking-wider transition-all duration-300
-            ${
-              stock === 0
-                ? "opacity-20 cursor-not-allowed border border-[#d4af37]/10 text-[#d4af37]/30"
-                : "border border-[#d4af37]/20 text-[#d4af37]/80 hover:border-[#d4af37]/50 hover:text-[#d4af37] hover:bg-[#d4af37]/5"
-            }`}
-        >
-          Buy Now
-        </button>
+      <div className="px-2.5 sm:px-3 md:px-4 pb-2.5 sm:pb-3 md:pb-4 pt-1">
+        <div className="flex items-center gap-1.5 sm:gap-2">
+          {/* Add to Cart */}
+          <button
+            disabled={stock === 0}
+            onClick={() => handlePopupOpen(product, false)}
+            className={`
+        flex-1
+        min-w-0
+        h-8
+        sm:h-9
+        md:h-10
+        px-2
+        sm:px-3
+        rounded-full
+        flex
+        items-center
+        justify-center
+        gap-1
+        sm:gap-1.5
+        text-[8px]
+        sm:text-[9px]
+        md:text-[11px]
+        font-semibold
+        uppercase
+        tracking-[0.08em]
+        sm:tracking-wider
+        whitespace-nowrap
+        transition-all
+        duration-300
+        active:scale-[0.97]
+        ${
+          stock === 0
+            ? "opacity-30 cursor-not-allowed bg-white/10 text-white/30"
+            : "bg-white text-black hover:bg-gray-200 hover:shadow-lg hover:shadow-white/10"
+        }
+      `}
+          >
+            <ShoppingBag
+              size={11}
+              strokeWidth={2}
+              className="shrink-0 sm:w-3 sm:h-3"
+            />
+
+            <span className="truncate">Add to Cart</span>
+          </button>
+
+          {/* Buy Now */}
+          <button
+            disabled={stock === 0}
+            onClick={() => handlePopupOpen(product, true)}
+            className={`
+        flex-1
+        min-w-0
+        h-8
+        sm:h-9
+        md:h-10
+        px-2
+        sm:px-3
+        rounded-full
+        flex
+        items-center
+        justify-center
+        text-[8px]
+        sm:text-[9px]
+        md:text-[11px]
+        font-semibold
+        uppercase
+        tracking-[0.08em]
+        sm:tracking-wider
+        whitespace-nowrap
+        transition-all
+        duration-300
+        active:scale-[0.97]
+        ${
+          stock === 0
+            ? "opacity-30 cursor-not-allowed border border-white/10 text-white/30"
+            : "border border-white/20 text-white bg-transparent hover:border-white/50 hover:bg-white/5"
+        }
+      `}
+          >
+            Buy Now
+          </button>
+        </div>
       </div>
 
       {/* Size/Color Selection Popup */}

@@ -1514,14 +1514,29 @@ export default function Header({ menuOpen, setMenuOpen }) {
               </button>
 
               {/* MOBILE LOGO */}
-
-              <Link to="/" onClick={closeMobileMenu}>
+              <div
+                    className="
+                      flex
+                      items-center
+                      justify-center
+                      w-10
+                      h-10
+                      rounded-full
+                      bg-white/[0.04]
+                      border
+                      border-white/[0.08]
+                    "
+                  >
+                    <Link to="/" onClick={closeMobileMenu}>
                 <img
                   src="/images/gculture.png"
                   alt="G-Culture"
-                  className="w-8 h-8 object-contain"
+                  className="w-9 h-9 pb-0.5 object-contain"
                 />
               </Link>
+                  </div>
+
+              
             </div>
 
             {/* =================================================
@@ -2004,8 +2019,9 @@ export default function Header({ menuOpen, setMenuOpen }) {
                       src="/images/gculture.png"
                       alt="G-Culture"
                       className="
-                        w-7
-                        h-7
+                        w-9
+                        h-9
+                        pb-0.5
                         object-contain
                       "
                     />
