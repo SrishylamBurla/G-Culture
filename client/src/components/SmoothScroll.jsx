@@ -4,23 +4,12 @@ import Lenis from "lenis";
 export default function SmoothScroll() {
   useEffect(() => {
     const lenis = new Lenis({
-      duration: 0.7,
-      lerp: 0.12,
-
+      duration: 0.5,
+      lerp: 0.18,
       smoothWheel: true,
-
-      // Don't let Lenis interfere with Swiper touch gestures
-      syncTouch: false,
-
+      syncTouch: true,
       wheelMultiplier: 1,
       touchMultiplier: 1,
-
-      prevent: (node) => {
-        return (
-          node instanceof HTMLElement &&
-          node.closest(".swiper")
-        );
-      },
     });
 
     let rafId;
