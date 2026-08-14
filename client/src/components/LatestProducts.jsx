@@ -198,8 +198,6 @@ export default function LatestProducts() {
           loop={enableLoop}
           grabCursor
           watchOverflow
-          observer
-          observeParents
           speed={650}
           resistance
           resistanceRatio={0.72}
