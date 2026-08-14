@@ -1,226 +1,12 @@
-// import { useEffect, useState, useRef } from "react";
-// import { Swiper, SwiperSlide } from "swiper/react";
-// import {
-//   Navigation,
-//   Pagination,
-//   Autoplay,
-//   Keyboard,
-//   EffectCoverflow,
-// } from "swiper/modules";
-// import "swiper/css";
-// import "swiper/css/navigation";
-// import "swiper/css/pagination";
-// import "swiper/css/effect-coverflow";
-
-// import { useGetFeaturedProductsQuery } from "../features/products/productApi";
-// import FeaturedProductCard from "./FeaturedProductCard";
-// import { Link } from "react-router-dom";
-
-// export default function FeaturedProducts() {
-//   const { data, isLoading, isError } = useGetFeaturedProductsQuery();
-//   const featuredProducts = Array.isArray(data) ? data : [];
-
-//   // responsive slidesPerView for skeleton + calculation
-//   const breakpointsConfig = [
-//     { min: 1280, slides: 6.5 },
-//     { min: 1024, slides: 5.5 },
-//     { min: 768, slides: 4.5 },
-//     { min: 640, slides: 2.5 },
-//     { min: 480, slides: 1.6 },
-//     { min: 0, slides: 1.2 },
-//   ];
-
-//   const getSlidesForWidth = (width) => {
-//     for (const bp of breakpointsConfig) {
-//       if (width >= bp.min) return bp.slides;
-//     }
-//     return 1;
-//   };
-
-//   const [slidesPreview, setSlidesPreview] = useState(
-//     getSlidesForWidth(typeof window !== "undefined" ? window.innerWidth : 1024)
-//   );
-
-//   useEffect(() => {
-//     const onResize = () => {
-//       setSlidesPreview(getSlidesForWidth(window.innerWidth));
-//     };
-//     window.addEventListener("resize", onResize);
-//     return () => window.removeEventListener("resize", onResize);
-//   }, []);
-
-//   // skeleton count: round to nearest integer and show at least 1
-//   const skeletonCount = Math.max(1, Math.round(slidesPreview));
-
-//   // loading skeleton
-//   if (isLoading) {
-//     return (
-//       <section className="py-10 bg-[#050507] text-white">
-//         <h2 className="text-center text-4xl md:text-5xl font-bold mb-6">
-//           Featured <span className="text-yellow-400">Products</span>
-//         </h2>
-
-//         <div className="relative w-full px-4 md:px-6 py-5">
-
-//           <div className="flex gap-4 overflow-hidden py-6 w-full">
-//             {Array.from({ length: 8 }).map((_, i) => (
-//               <div
-//                 key={i}
-//                 className="min-w-[220px] md:min-w-[260px] lg:min-w-[300px] h-[360px] md:h-[420px] bg-white/6 animate-pulse"
-//               />
-//             ))}
-//           </div>
-
-//           <div className="mt-6 flex items-center justify-center">
-//             <div className="h-1 w-28 bg-white/8 rounded-full animate-pulse" />
-//           </div>
-//         </div>
-//       </section>
-//     );
-//   }
-
-//   if (isError || featuredProducts.length === 0) return null;
-
-//   return (
-//     <section className="py-5 bg-[#050507] text-white">
-//       <div className="flex justify-between items-center px-4 md:px-6 mb-10">
-//         <h2 className="text-3xl md:text-5xl font-bold">
-//           Featured <span className="text-yellow-400">Products</span>
-//         </h2>
-
-//         <Link to="/shop">
-//           <button className="cursor-pointer text-sm md:text-base border-1 text-white font-semibold px-4 py-2 rounded-md hover:bg-gray-200 hover:text-black transition">
-//             See All →
-//           </button>
-//         </Link>
-//       </div>
-
-//       <div className="relative w-full px-4 md:px-6 pb-14 overflow-hidden">
-//         {/* left / right gradient masks */}
-//         {/* <div className="pointer-events-none absolute inset-y-0 left-0 w-16 md:w-24 bg-gradient-to-r from-[#050507] to-transparent z-0" /> */}
-//         {/* <div className="pointer-events-none absolute inset-y-0 right-0 w-16 md:w-24 bg-gradient-to-l from-[#050507] to-transparent z-0" /> */}
-
-//         <style>{`
-//   .swiper-button-prev,
-//   .swiper-button-next {
-//     width: 36px;
-//     height: 36px;
-//     border-radius: 9999px;
-//     background: rgba(255,255,255,0.95);
-//     color: #000;
-//     box-shadow: 0 6px 20px rgba(2,6,23,0.4);
-//     display: flex;
-//     padding: 8px;
-//     align-items: center;
-//     justify-content: center;
-//     top: 38%;
-//   }
-
-//   @media (max-width: 640px) {
-//     .swiper-button-prev,
-//     .swiper-button-next {
-//       width: 30px;
-//       height: 30px;
-//       top: 40%;
-//     }
-//   }
-
-//   /* ⭐ Final Pagination fix */
-//   .featured-products {
-//     overflow: visible !important;
-//     position: relative !important;
-//     padding-bottom: 40px !important;
-//   }
-//   .featured-products .swiper-wrapper {
-//   overflow: visible !important;
-// }
-
-//   .featured-products .swiper-pagination {
-//     bottom: -32px !important;
-//     position: absolute !important;
-//     width: 100% !important;
-//     left: 0 !important;
-//     right: 0 !important;
-//     text-align: center;
-//     z-index: 9999 !important;
-//     pointer-events: auto !important;
-//   }
-
-//   .featured-products .swiper-pagination-bullet {
-//     width: 10px;
-//     height: 10px;
-//     margin: 0 6px !important;
-//     background: rgba(255,255,255,0.6);
-//     opacity: 0.6;
-//     border-radius: 9999px;
-//     transition: all 220ms ease;
-//   }
-
-//   .featured-products .swiper-pagination-bullet-active {
-//     background: #facc15 !important;
-//     transform: scale(1.2);
-//     opacity: 1 !important;
-//   }
-// `}</style>
-
-//         <Swiper
-//           modules={[
-//             Navigation,
-//             Pagination,
-//             Autoplay,
-//             Keyboard,
-//             EffectCoverflow,
-//           ]}
-//           effect="coverflow"
-//           coverflowEffect={{
-//             rotate: 6,
-//             stretch: 10,
-//             depth: 120,
-//             modifier: 0.9,
-//             slideShadows: false,
-//           }}
-//           spaceBetween={4}
-//           centeredSlides={true}
-//           slidesPerView={1.05}
-//           loop={true}
-//           grabCursor={true}
-//           keyboard={{ enabled: true }}
-//           navigation={true}
-//           pagination={{ clickable: true }}
-//           autoplay={{
-//             delay: 3400,
-//             disableOnInteraction: false,
-//             pauseOnMouseEnter: true,
-//           }}
-//           breakpoints={{
-//             0: { slidesPerView: 1.2 },
-//             480: { slidesPerView: 1.6 },
-//             640: { slidesPerView: 2.5 },
-//             768: { slidesPerView: 3.5 },
-//             1024: { slidesPerView: 4.5 },
-//             1280: { slidesPerView: 4.5 },
-//             1600: { slidesPerView: 5.5 },
-//           }}
-//           className="featured-products pb-6"
-//         >
-//           {featuredProducts.map((product) => (
-//             <SwiperSlide key={product._id}>
-//               <div className="featured-slide-wrap flex justify-center">
-//                 <div className="featured-card">
-//                   <FeaturedProductCard product={product} />
-//                 </div>
-//               </div>
-//             </SwiperSlide>
-//           ))}
-//         </Swiper>
-//       </div>
-//     </section>
-//   );
-// }
-
-import { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Pagination, Autoplay, Keyboard } from "swiper/modules";
+import {
+  Navigation,
+  Pagination,
+  Autoplay,
+  Keyboard,
+  A11y,
+} from "swiper/modules";
+
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
@@ -228,55 +14,64 @@ import "swiper/css/pagination";
 import { useGetFeaturedProductsQuery } from "../features/products/productApi";
 import FeaturedProductCard from "./FeaturedProductCard";
 import { Link } from "react-router-dom";
-import { ArrowRight } from "lucide-react";
+import {
+  ArrowRight,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react";
 
 export default function FeaturedProducts() {
-  const { data, isLoading, isError } = useGetFeaturedProductsQuery();
+  const { data, isLoading, isError } =
+    useGetFeaturedProductsQuery();
+
   const featuredProducts = Array.isArray(data) ? data : [];
 
-  const breakpointsConfig = [
-    { min: 1280, slides: 5.5 },
-    { min: 1024, slides: 4.5 },
-    { min: 768, slides: 3.5 },
-    { min: 640, slides: 2.5 },
-    { min: 480, slides: 1.6 },
-    { min: 0, slides: 1.2 },
-  ];
+  /*
+   * =========================================================
+   * LOADING
+   * =========================================================
+   */
 
-  const getSlidesForWidth = (width) => {
-    for (const bp of breakpointsConfig) {
-      if (width >= bp.min) return bp.slides;
-    }
-    return 1;
-  };
-
-  const [slidesPreview, setSlidesPreview] = useState(
-    getSlidesForWidth(typeof window !== "undefined" ? window.innerWidth : 1024),
-  );
-
-  useEffect(() => {
-    const onResize = () => {
-      setSlidesPreview(getSlidesForWidth(window.innerWidth));
-    };
-    window.addEventListener("resize", onResize);
-    return () => window.removeEventListener("resize", onResize);
-  }, []);
-
-  // Loading skeleton
   if (isLoading) {
     return (
-      <section className="py-16 bg-[#050507] text-white">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center mb-14">
-            <div className="h-3 w-20 bg-white/5 rounded mx-auto mb-4 animate-pulse" />
-            <div className="h-10 w-64 bg-white/5 rounded mx-auto animate-pulse" />
+      <section className="featured-section">
+        <div className="featured-container">
+
+          {/* Header skeleton */}
+
+          <div className="featured-section-header">
+            <div>
+              <div className="featured-loading-eyebrow" />
+
+              <div className="featured-loading-title" />
+
+              <div className="featured-loading-subtitle" />
+            </div>
+
+            <div className="featured-loading-button" />
           </div>
-          <div className="flex gap-4 overflow-hidden">
-            {Array.from({ length: 6 }).map((_, i) => (
+
+        </div>
+
+        {/* Skeleton carousel */}
+
+        <div className="featured-skeleton-wrapper">
+          <div className="featured-skeleton-track">
+            {Array.from({ length: 6 }).map((_, index) => (
               <div
-                key={i}
-                className="min-w-[220px] md:min-w-[240px] h-[380px] bg-white/[0.03] rounded-lg animate-pulse"
-              />
+                key={index}
+                className="featured-skeleton-card"
+              >
+                <div className="featured-skeleton-image" />
+
+                <div className="featured-skeleton-info">
+                  <div className="featured-skeleton-name" />
+
+                  <div className="featured-skeleton-rating" />
+
+                  <div className="featured-skeleton-price" />
+                </div>
+              </div>
             ))}
           </div>
         </div>
@@ -284,160 +79,1449 @@ export default function FeaturedProducts() {
     );
   }
 
-  if (isError || featuredProducts.length === 0) return null;
+  /*
+   * =========================================================
+   * ERROR / EMPTY
+   * =========================================================
+   */
+
+  if (
+    isError ||
+    featuredProducts.length === 0
+  ) {
+    return null;
+  }
+
+  /*
+   * =========================================================
+   * LOOP
+   * =========================================================
+   *
+   * We only loop when enough products exist.
+   */
+
+  const enableLoop =
+    featuredProducts.length >= 7;
 
   return (
-    <section className="py-2 bg-[#050507] text-white">
-      <div className="max-w-7xl mx-auto px-6">
-        {/* Header */}
-        {/* <div className="flex justify-between items-end mb-14">
-          <div>
-            <p className="text-xs uppercase tracking-[0.3em] text-gray-500 mb-3">
-              Curated
-            </p>
-            <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
+    <section className="featured-section">
+
+      {/* =====================================================
+          HEADER
+      ====================================================== */}
+
+      <div className="featured-container">
+
+        <div className="featured-section-header">
+
+          {/* LEFT */}
+
+          <div className="featured-heading">
+
+            <div className="featured-eyebrow-wrapper">
+              <span className="featured-eyebrow-line" />
+
+              <span className="featured-eyebrow">
+                Curated
+              </span>
+            </div>
+
+            <h2 className="featured-title">
               Featured Products
             </h2>
+
+            <p className="featured-subtitle">
+              Selected pieces worth adding to your rotation.
+            </p>
+
           </div>
+
+          {/* RIGHT */}
 
           <Link
             to="/shop"
-            className="hidden md:inline-flex items-center gap-2 text-xs uppercase tracking-wider text-gray-400 hover:text-white border border-white/15 hover:border-white/40 px-5 py-2.5 rounded-full transition-all duration-200"
+            className="featured-see-all group"
           >
-            See All
-            <ArrowRight size={14} />
-          </Link>
-        </div> */}
+            <span>See All</span>
 
-        {/* Header */}
-        <div className="flex justify-between items-end mb-14">
-          <div>
-            <p className="text-xs uppercase tracking-[0.3em] text-gray-500 mb-3">
-              Curated
-            </p>
-            <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
-              Featured Products
-            </h2>
-          </div>
-
-          <Link
-            to="/shop"
-            className="inline-flex items-center gap-2 text-xs uppercase tracking-wider text-gray-400 hover:text-white border border-white/15 hover:border-white/40 px-4 py-2 md:px-5 md:py-2.5 rounded-full transition-all duration-200"
-          >
-            See All
-            <ArrowRight size={14} />
+            <ArrowRight
+              size={16}
+              strokeWidth={1.7}
+              className="
+                transition-transform
+                duration-300
+                group-hover:translate-x-1
+              "
+            />
           </Link>
+
         </div>
+
       </div>
 
-      {/* Swiper */}
-      <div className="relative w-full pl-6 md:pl-[max(1.5rem,calc((100vw-80rem)/2+1.5rem))] pb-14 overflow-hidden">
-        <style>{`
-  .featured-swiper {
-    position: relative !important;
-    overflow: visible !important;
-  }
+      {/* =====================================================
+          CAROUSEL
+      ====================================================== */}
 
-  /* Nav arrows — inside the carousel, vertically centered on cards */
-  .featured-swiper .swiper-button-prev,
-  .featured-swiper .swiper-button-next {
-    width: 36px;
-    height: 36px;
-    border-radius: 9999px;
-    background: rgba(255,255,255,0.1);
-    border: 1px solid rgba(255,255,255,0.15);
-    backdrop-filter: blur(12px);
-    color: #fff;
-    padding: 10px;
-    top: 35%;
-    transform: translateY(-50%);
-    transition: all 200ms ease;
-    z-index: 10;
-  }
-  .featured-swiper .swiper-button-prev {
-    left: 8px;
-  }
-  .featured-swiper .swiper-button-next {
-    right: 8px;
-  }
-  .featured-swiper .swiper-button-prev:hover,
-  .featured-swiper .swiper-button-next:hover {
-    background: rgba(255,255,255,0.2);
-    border-color: rgba(255,255,255,0.3);
-  }
-  .featured-swiper .swiper-button-prev::after,
-  .featured-swiper .swiper-button-next::after {
-    font-size: 13px;
-    font-weight: bold;
-  }
-
-  /* Pagination dots — tucked right below cards */
-  .featured-swiper .swiper-pagination {
-    position: relative !important;
-    bottom: auto !important;
-    margin-top: 20px;
-    display: flex;
-    justify-content: center;
-    gap: 4px;
-  }
-  .featured-swiper .swiper-pagination-bullet {
-    width: 6px;
-    height: 6px;
-    margin: 0 3px !important;
-    background: rgba(255,255,255,0.2);
-    opacity: 1;
-    border-radius: 9999px;
-    transition: all 200ms ease;
-  }
-  .featured-swiper .swiper-pagination-bullet-active {
-    background: #fff !important;
-    width: 20px;
-    border-radius: 9999px;
-  }
-`}</style>
+      <div className="featured-carousel-shell">
 
         <Swiper
-          modules={[Navigation, Pagination, Autoplay, Keyboard]}
-          spaceBetween={16}
-          slidesPerView={1.2}
-          loop={true}
-          grabCursor={true}
-          keyboard={{ enabled: true }}
-          navigation={true}
-          pagination={{ clickable: true }}
+          modules={[
+            Navigation,
+            Pagination,
+            Autoplay,
+            Keyboard,
+            A11y,
+          ]}
+          className="featured-products-swiper"
+          wrapperClass="featured-products-wrapper"
+
+          /*
+           * =================================================
+           * DESKTOP DEFAULT
+           * =================================================
+           */
+
+          slidesPerView={6}
+          spaceBetween={20}
+
+          /*
+           * =================================================
+           * NAVIGATION
+           * =================================================
+           */
+
+          navigation={{
+            prevEl: ".featured-prev",
+            nextEl: ".featured-next",
+          }}
+
+          /*
+           * =================================================
+           * PAGINATION
+           * =================================================
+           *
+           * IMPORTANT:
+           * Let Swiper create its own pagination.
+           * This keeps it perfectly aligned with the
+           * Swiper container.
+           */
+
+          pagination={{
+            clickable: true,
+            dynamicBullets: false,
+          }}
+
+          /*
+           * =================================================
+           * AUTOPLAY
+           * =================================================
+           */
+
           autoplay={{
-            delay: 3500,
-            disableOnInteraction: false,
+            delay: 4200,
+            disableOnInteraction: true,
             pauseOnMouseEnter: true,
           }}
-          breakpoints={{
-            0: { slidesPerView: 1.3, spaceBetween: 12 },
-            480: { slidesPerView: 1.8, spaceBetween: 14 },
-            640: { slidesPerView: 2.5, spaceBetween: 16 },
-            768: { slidesPerView: 3.2, spaceBetween: 16 },
-            1024: { slidesPerView: 4.2, spaceBetween: 16 },
-            1280: { slidesPerView: 4.8, spaceBetween: 18 },
+
+          /*
+           * =================================================
+           * KEYBOARD
+           * =================================================
+           */
+
+          keyboard={{
+            enabled: true,
+            onlyInViewport: true,
           }}
-          className="featured-swiper pb-10"
+
+          /*
+           * =================================================
+           * GENERAL
+           * =================================================
+           */
+
+          loop={enableLoop}
+          grabCursor
+          watchOverflow
+
+          observer
+          observeParents
+
+          speed={650}
+
+          resistance
+          resistanceRatio={0.72}
+
+          threshold={8}
+
+          touchRatio={1}
+
+          touchAngle={45}
+
+          allowTouchMove
+
+          /*
+           * =================================================
+           * RESPONSIVE
+           * =================================================
+           */
+
+          breakpoints={{
+            /*
+             * MOBILE
+             */
+
+            0: {
+              slidesPerView: 2.05,
+              spaceBetween: 10,
+            },
+
+            390: {
+              slidesPerView: 2.15,
+              spaceBetween: 11,
+            },
+
+            480: {
+              slidesPerView: 2.45,
+              spaceBetween: 12,
+            },
+
+            /*
+             * SMALL TABLET
+             */
+
+            640: {
+              slidesPerView: 3.15,
+              spaceBetween: 14,
+            },
+
+            /*
+             * TABLET
+             */
+
+            768: {
+              slidesPerView: 4,
+              spaceBetween: 16,
+            },
+
+            /*
+             * DESKTOP
+             */
+
+            1024: {
+              slidesPerView: 5,
+              spaceBetween: 17,
+            },
+
+            /*
+             * LARGE DESKTOP
+             */
+
+            1280: {
+              slidesPerView: 5.4,
+              spaceBetween: 18,
+            },
+
+            1440: {
+              slidesPerView: 5.7,
+              spaceBetween: 18,
+            },
+
+            1600: {
+              slidesPerView: 6,
+              spaceBetween: 20,
+            },
+          }}
         >
+
           {featuredProducts.map((product) => (
-            <SwiperSlide key={product._id}>
-              <FeaturedProductCard product={product} />
+            <SwiperSlide
+              key={product._id}
+              className="featured-product-slide"
+            >
+              <div className="featured-card-wrapper">
+                <FeaturedProductCard
+                  product={product}
+                />
+              </div>
             </SwiperSlide>
           ))}
+
         </Swiper>
+
+        {/* ===================================================
+            PREVIOUS
+        ==================================================== */}
+
+        <button
+          type="button"
+          aria-label="Previous featured products"
+          className="
+            featured-nav
+            featured-prev
+          "
+        >
+          <ChevronLeft
+            size={19}
+            strokeWidth={1.7}
+          />
+        </button>
+
+        {/* ===================================================
+            NEXT
+        ==================================================== */}
+
+        <button
+          type="button"
+          aria-label="Next featured products"
+          className="
+            featured-nav
+            featured-next
+          "
+        >
+          <ChevronRight
+            size={19}
+            strokeWidth={1.7}
+          />
+        </button>
+
       </div>
 
-      {/* Mobile See All */}
-      {/* <div className="md:hidden flex justify-center mt-4">
-        <Link
-          to="/shop"
-          className="inline-flex items-center gap-2 text-xs uppercase tracking-wider text-gray-400 hover:text-white border border-white/15 hover:border-white/40 px-6 py-2.5 rounded-full transition-all duration-200"
-        >
-          See All Products
-          <ArrowRight size={14} />
-        </Link>
-      </div> */}
+      {/* =====================================================
+          STYLES
+      ====================================================== */}
+
+      <style>{`
+
+        /* =====================================================
+           SECTION
+        ====================================================== */
+
+        .featured-section {
+          position: relative;
+
+          width: 100%;
+
+          overflow: hidden;
+
+          background: #050507;
+
+          color: #fff;
+
+          padding-top: 80px;
+          padding-bottom: 72px;
+        }
+
+
+        /* =====================================================
+           HEADER CONTAINER
+        ====================================================== */
+
+        .featured-container {
+          width: 100%;
+
+          max-width: 1280px;
+
+          margin: 0 auto;
+
+          padding-left: 24px;
+          padding-right: 24px;
+        }
+
+
+        /* =====================================================
+           HEADER
+        ====================================================== */
+
+        .featured-section-header {
+          display: flex;
+
+          align-items: flex-end;
+
+          justify-content: space-between;
+
+          gap: 32px;
+
+          margin-bottom: 42px;
+        }
+
+
+        /* =====================================================
+           HEADING
+        ====================================================== */
+
+        .featured-heading {
+          min-width: 0;
+        }
+
+
+        /* =====================================================
+           EYEBROW
+        ====================================================== */
+
+        .featured-eyebrow-wrapper {
+          display: flex;
+
+          align-items: center;
+
+          gap: 13px;
+
+          margin-bottom: 14px;
+        }
+
+        .featured-eyebrow-line {
+          display: block;
+
+          width: 28px;
+
+          height: 1px;
+
+          background: rgba(255,255,255,0.28);
+        }
+
+        .featured-eyebrow {
+          color: rgba(255,255,255,0.42);
+
+          font-size: 11px;
+
+          font-weight: 500;
+
+          letter-spacing: 0.34em;
+
+          text-transform: uppercase;
+        }
+
+
+        /* =====================================================
+           TITLE
+        ====================================================== */
+
+        .featured-title {
+          margin: 0;
+
+          color: #fff;
+
+          font-size: clamp(
+            32px,
+            3vw,
+            46px
+          );
+
+          font-weight: 400;
+
+          line-height: 1.04;
+
+          letter-spacing: -0.045em;
+        }
+
+
+        /* =====================================================
+           SUBTITLE
+        ====================================================== */
+
+        .featured-subtitle {
+          margin: 13px 0 0;
+
+          color: rgba(255,255,255,0.36);
+
+          font-size: 13px;
+
+          line-height: 1.5;
+
+          letter-spacing: 0.01em;
+        }
+
+
+        /* =====================================================
+           SEE ALL
+        ====================================================== */
+
+        .featured-see-all {
+          display: inline-flex;
+
+          align-items: center;
+
+          justify-content: center;
+
+          gap: 10px;
+
+          flex-shrink: 0;
+
+          min-width: 126px;
+
+          height: 46px;
+
+          padding: 0 18px;
+
+          border: 1px solid rgba(
+            255,
+            255,
+            255,
+            0.12
+          );
+
+          border-radius: 999px;
+
+          color: rgba(
+            255,
+            255,
+            255,
+            0.62
+          );
+
+          background: rgba(
+            255,
+            255,
+            255,
+            0.015
+          );
+
+          font-size: 10px;
+
+          font-weight: 500;
+
+          letter-spacing: 0.18em;
+
+          text-transform: uppercase;
+
+          text-decoration: none;
+
+          transition:
+            color 300ms ease,
+            background 300ms ease,
+            border-color 300ms ease,
+            transform 300ms ease;
+        }
+
+        .featured-see-all:hover {
+          color: #050507;
+
+          background: #fff;
+
+          border-color: #fff;
+
+          transform: translateY(-2px);
+        }
+
+
+        /* =====================================================
+           CAROUSEL SHELL
+        ====================================================== */
+
+        .featured-carousel-shell {
+          position: relative;
+
+          width: 100%;
+
+          overflow: visible;
+        }
+
+
+        /* =====================================================
+           SWIPER
+        ====================================================== */
+
+        .featured-products-swiper {
+          position: relative;
+
+          width: 100%;
+
+          padding:
+            0
+            40px
+            66px
+            40px;
+
+          overflow: hidden;
+        }
+
+
+        /* =====================================================
+           WRAPPER
+        ====================================================== */
+
+        .featured-products-wrapper {
+          align-items: stretch;
+        }
+
+
+        /* =====================================================
+           SLIDE
+        ====================================================== */
+
+        /*
+         * IMPORTANT:
+         *
+         * DO NOT set width here.
+         *
+         * Swiper calculates the width from
+         * slidesPerView.
+         */
+
+        .featured-products-swiper
+        .swiper-slide {
+          height: auto;
+
+          min-width: 0;
+
+          box-sizing: border-box;
+        }
+
+
+        /* =====================================================
+           CARD WRAPPER
+        ====================================================== */
+
+        .featured-card-wrapper {
+          width: 100%;
+
+          height: 100%;
+
+          min-width: 0;
+
+          transition:
+            transform 400ms
+            cubic-bezier(.2,.8,.2,1);
+        }
+
+
+        @media (
+          hover: hover
+        ) and (
+          pointer: fine
+        ) {
+
+          .featured-card-wrapper:hover {
+            transform:
+              translateY(-5px);
+          }
+
+        }
+
+
+        /* =====================================================
+           NAVIGATION
+        ====================================================== */
+
+        .featured-nav {
+          position: absolute;
+
+          top: 40%;
+
+          z-index: 60;
+
+          display: flex;
+
+          align-items: center;
+
+          justify-content: center;
+
+          width: 44px;
+
+          height: 44px;
+
+          padding: 0;
+
+          border: 1px solid rgba(
+            255,
+            255,
+            255,
+            0.14
+          );
+
+          border-radius: 50%;
+
+          color: #fff;
+
+          background:
+            rgba(
+              8,
+              8,
+              10,
+              0.84
+            );
+
+          backdrop-filter:
+            blur(18px);
+
+          -webkit-backdrop-filter:
+            blur(18px);
+
+          box-shadow:
+            0 8px 30px
+            rgba(0,0,0,0.38);
+
+          cursor: pointer;
+
+          transform:
+            translateY(-50%);
+
+          transition:
+            color 250ms ease,
+            background 250ms ease,
+            border-color 250ms ease,
+            transform 250ms ease,
+            opacity 250ms ease;
+        }
+
+
+        .featured-prev {
+          left: 16px;
+        }
+
+
+        .featured-next {
+          right: 16px;
+        }
+
+
+        .featured-nav:hover {
+          color: #050507;
+
+          background: #fff;
+
+          border-color: #fff;
+
+          transform:
+            translateY(-50%)
+            scale(1.04);
+        }
+
+
+        .featured-nav:active {
+          transform:
+            translateY(-50%)
+            scale(0.94);
+        }
+
+
+        /* =====================================================
+           SWIPER PAGINATION
+        ====================================================== */
+
+        /*
+         * IMPORTANT:
+         *
+         * We are using Swiper's own pagination element.
+         * This makes centering reliable.
+         */
+
+        .featured-products-swiper
+        .swiper-pagination {
+
+          position: absolute;
+
+          left: 50% !important;
+
+          right: auto !important;
+
+          bottom: 17px !important;
+
+          width: auto !important;
+
+          height: 6px;
+
+          display: flex;
+
+          align-items: center;
+
+          justify-content: center;
+
+          gap: 8px;
+
+          padding: 0;
+
+          margin: 0;
+
+          transform:
+            translateX(-50%) !important;
+
+          z-index: 40;
+        }
+
+
+        /* =====================================================
+           PAGINATION DOT
+        ====================================================== */
+
+        .featured-products-swiper
+        .swiper-pagination-bullet {
+
+          display: block;
+
+          flex-shrink: 0;
+
+          width: 5px;
+
+          height: 5px;
+
+          padding: 0;
+
+          margin: 0 !important;
+
+          border: 0;
+
+          border-radius: 999px;
+
+          background:
+            rgba(
+              255,
+              255,
+              255,
+              0.22
+            );
+
+          opacity: 1;
+
+          cursor: pointer;
+
+          transition:
+            width 350ms
+            cubic-bezier(.2,.8,.2,1),
+
+            background 300ms ease,
+
+            opacity 300ms ease;
+        }
+
+
+        /* =====================================================
+           ACTIVE PAGINATION
+        ====================================================== */
+
+        .featured-products-swiper
+        .swiper-pagination-bullet-active {
+
+          width: 30px;
+
+          height: 5px;
+
+          background: #fff;
+
+          opacity: 1;
+        }
+
+
+        /* =====================================================
+           EDGE FADE
+        ====================================================== */
+
+        .featured-carousel-shell::before,
+        .featured-carousel-shell::after {
+
+          content: "";
+
+          position: absolute;
+
+          top: 0;
+
+          bottom: 60px;
+
+          z-index: 20;
+
+          width: 52px;
+
+          pointer-events: none;
+        }
+
+
+        .featured-carousel-shell::before {
+
+          left: 0;
+
+          background:
+            linear-gradient(
+              90deg,
+              #050507 0%,
+              rgba(5,5,7,0) 100%
+            );
+        }
+
+
+        .featured-carousel-shell::after {
+
+          right: 0;
+
+          background:
+            linear-gradient(
+              270deg,
+              #050507 0%,
+              rgba(5,5,7,0) 100%
+            );
+        }
+
+
+        /* =====================================================
+           LOADING
+        ====================================================== */
+
+        .featured-loading-eyebrow {
+
+          width: 82px;
+
+          height: 10px;
+
+          margin-bottom: 14px;
+
+          border-radius: 999px;
+
+          background:
+            rgba(
+              255,
+              255,
+              255,
+              0.06
+            );
+
+          animation:
+            featuredPulse
+            1.6s ease-in-out
+            infinite;
+        }
+
+
+        .featured-loading-title {
+
+          width: 290px;
+
+          height: 42px;
+
+          border-radius: 10px;
+
+          background:
+            rgba(
+              255,
+              255,
+              255,
+              0.06
+            );
+
+          animation:
+            featuredPulse
+            1.6s ease-in-out
+            infinite;
+        }
+
+
+        .featured-loading-subtitle {
+
+          width: 270px;
+
+          height: 12px;
+
+          margin-top: 14px;
+
+          border-radius: 999px;
+
+          background:
+            rgba(
+              255,
+              255,
+              255,
+              0.04
+            );
+
+          animation:
+            featuredPulse
+            1.6s ease-in-out
+            infinite;
+        }
+
+
+        .featured-loading-button {
+
+          width: 126px;
+
+          height: 46px;
+
+          border-radius: 999px;
+
+          background:
+            rgba(
+              255,
+              255,
+              255,
+              0.06
+            );
+
+          animation:
+            featuredPulse
+            1.6s ease-in-out
+            infinite;
+        }
+
+
+        /* =====================================================
+           SKELETON
+        ====================================================== */
+
+        .featured-skeleton-wrapper {
+
+          width: 100%;
+
+          padding:
+            0 40px;
+
+          overflow: hidden;
+        }
+
+
+        .featured-skeleton-track {
+
+          display: grid;
+
+          grid-template-columns:
+            repeat(
+              6,
+              minmax(0,1fr)
+            );
+
+          gap: 20px;
+        }
+
+
+        .featured-skeleton-card {
+
+          overflow: hidden;
+
+          min-width: 0;
+
+          border:
+            1px solid
+            rgba(
+              255,
+              255,
+              255,
+              0.05
+            );
+
+          border-radius: 12px;
+
+          background:
+            rgba(
+              255,
+              255,
+              255,
+              0.018
+            );
+        }
+
+
+        .featured-skeleton-image {
+
+          width: 100%;
+
+          aspect-ratio: 0.78;
+
+          background:
+            rgba(
+              255,
+              255,
+              255,
+              0.035
+            );
+
+          animation:
+            featuredPulse
+            1.6s ease-in-out
+            infinite;
+        }
+
+
+        .featured-skeleton-info {
+
+          padding: 14px;
+        }
+
+
+        .featured-skeleton-name {
+
+          width: 75%;
+
+          height: 12px;
+
+          border-radius: 999px;
+
+          background:
+            rgba(
+              255,
+              255,
+              255,
+              0.06
+            );
+
+          animation:
+            featuredPulse
+            1.6s ease-in-out
+            infinite;
+        }
+
+
+        .featured-skeleton-rating {
+
+          width: 45%;
+
+          height: 8px;
+
+          margin-top: 12px;
+
+          border-radius: 999px;
+
+          background:
+            rgba(
+              255,
+              255,
+              255,
+              0.04
+            );
+
+          animation:
+            featuredPulse
+            1.6s ease-in-out
+            infinite;
+        }
+
+
+        .featured-skeleton-price {
+
+          width: 32%;
+
+          height: 14px;
+
+          margin-top: 14px;
+
+          border-radius: 999px;
+
+          background:
+            rgba(
+              255,
+              255,
+              255,
+              0.06
+            );
+
+          animation:
+            featuredPulse
+            1.6s ease-in-out
+            infinite;
+        }
+
+
+        @keyframes featuredPulse {
+
+          0%,
+          100% {
+            opacity: 0.45;
+          }
+
+          50% {
+            opacity: 0.8;
+          }
+
+        }
+
+
+        /* =====================================================
+           TABLET
+        ====================================================== */
+
+        @media (
+          max-width: 1023px
+        ) {
+
+          .featured-section {
+            padding-top: 64px;
+
+            padding-bottom: 60px;
+          }
+
+
+          .featured-container {
+            padding-left: 24px;
+
+            padding-right: 24px;
+          }
+
+
+          .featured-section-header {
+            margin-bottom: 32px;
+          }
+
+
+          .featured-title {
+            font-size: 34px;
+          }
+
+
+          .featured-products-swiper {
+
+            padding-left: 24px;
+
+            padding-right: 24px;
+          }
+
+
+          .featured-nav {
+
+            width: 40px;
+
+            height: 40px;
+          }
+
+
+          .featured-prev {
+
+            left: 10px;
+          }
+
+
+          .featured-next {
+
+            right: 10px;
+          }
+
+
+          .featured-skeleton-track {
+
+            grid-template-columns:
+              repeat(
+                4,
+                minmax(0,1fr)
+              );
+          }
+
+        }
+
+
+        /* =====================================================
+           MOBILE
+        ====================================================== */
+
+        @media (
+          max-width: 767px
+        ) {
+
+          .featured-section {
+
+            padding-top: 52px;
+
+            padding-bottom: 48px;
+          }
+
+
+          .featured-container {
+
+            padding-left: 16px;
+
+            padding-right: 16px;
+          }
+
+
+          .featured-section-header {
+
+            align-items: flex-end;
+
+            gap: 18px;
+
+            margin-bottom: 26px;
+          }
+
+
+          .featured-eyebrow-wrapper {
+
+            gap: 9px;
+
+            margin-bottom: 11px;
+          }
+
+
+          .featured-eyebrow-line {
+
+            width: 18px;
+          }
+
+
+          .featured-eyebrow {
+
+            font-size: 9px;
+
+            letter-spacing: 0.30em;
+          }
+
+
+          .featured-title {
+
+            font-size: 30px;
+
+            letter-spacing: -0.04em;
+          }
+
+
+          .featured-subtitle {
+
+            display: none;
+          }
+
+
+          .featured-see-all {
+
+            min-width: auto;
+
+            height: 38px;
+
+            padding:
+              0 13px;
+
+            font-size: 9px;
+
+            letter-spacing: 0.14em;
+          }
+
+
+          .featured-see-all svg {
+
+            width: 13px;
+
+            height: 13px;
+          }
+
+
+          /* Carousel */
+
+          .featured-products-swiper {
+
+            padding:
+              0
+              16px
+              54px
+              16px;
+
+            overflow: hidden !important;
+          }
+
+
+          /* Hide desktop arrows */
+
+          .featured-nav {
+
+            display: none;
+          }
+
+
+          /* Remove edge masks */
+
+          .featured-carousel-shell::before,
+          .featured-carousel-shell::after {
+
+            display: none;
+          }
+
+
+          /* Mobile pagination */
+
+          .featured-products-swiper
+          .swiper-pagination {
+
+            bottom: 10px !important;
+          }
+
+
+          /* Skeleton */
+
+          .featured-skeleton-wrapper {
+
+            padding:
+              0 16px;
+          }
+
+
+          .featured-skeleton-track {
+
+            grid-template-columns:
+              repeat(
+                2,
+                minmax(0,1fr)
+              );
+
+            gap: 10px;
+          }
+
+        }
+
+
+        /* =====================================================
+           SMALL PHONES
+        ====================================================== */
+
+        @media (
+          max-width: 389px
+        ) {
+
+          .featured-title {
+
+            font-size: 27px;
+          }
+
+
+          .featured-see-all span {
+
+            display: none;
+          }
+
+
+          .featured-see-all {
+
+            width: 38px;
+
+            padding: 0;
+          }
+
+
+          .featured-products-swiper {
+
+            padding-left: 12px;
+
+            padding-right: 12px;
+          }
+
+        }
+
+
+        /* =====================================================
+           REDUCED MOTION
+        ====================================================== */
+
+        @media (
+          prefers-reduced-motion: reduce
+        ) {
+
+          .featured-card-wrapper,
+          .featured-see-all,
+          .featured-nav,
+          .featured-products-swiper
+          .swiper-pagination-bullet {
+
+            transition: none !important;
+          }
+
+
+          .featured-loading-eyebrow,
+          .featured-loading-title,
+          .featured-loading-subtitle,
+          .featured-loading-button,
+          .featured-skeleton-image,
+          .featured-skeleton-name,
+          .featured-skeleton-rating,
+          .featured-skeleton-price {
+
+            animation: none !important;
+          }
+
+        }
+
+      `}</style>
+
     </section>
   );
 }

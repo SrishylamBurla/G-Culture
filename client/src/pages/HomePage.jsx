@@ -392,14 +392,14 @@ export default function HomePage() {
         className="relative w-full overflow-hidden h-[100vh] flex items-center justify-center"
       >
         {/* Background image with overlay */}
-        <div className="absolute inset-0">
+        {/* <div className="absolute inset-0">
           <img
             src="/images/HomeImgs/Herosec1.png"
             alt="Hero"
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-[#050507]" />
-        </div>
+        </div> */}
 
         {/* Subtle ambient glow */}
         <div className="pointer-events-none absolute top-1/3 left-1/2 -translate-x-1/2 w-[600px] h-[600px] rounded-full blur-[200px] bg-white/5" />
@@ -483,9 +483,10 @@ export default function HomePage() {
 
       {/* ============ CATEGORIES ============ */}
       {/* ============ CATEGORIES ============ */}
-<section className="relative py-24 overflow-hidden">
+<section className="relative py-24 overflow-hidden bg-[#c0aecf]">
+
   {/* Background image */}
-  <div className="absolute inset-0">
+  {/* <div className="absolute inset-0">
     <img
       src="/images/HomeImgs/Categories.png"
       alt=""
@@ -496,7 +497,7 @@ export default function HomePage() {
     <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_30%,rgba(5,5,7,0.7)_100%)]" />
     <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-[#050507] to-transparent" />
     <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#050507] to-transparent" />
-  </div>
+  </div> */}
 
   {/* G-CULTURE watermark */}
   <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
@@ -564,8 +565,7 @@ export default function HomePage() {
 </section>
 
 {/* ============ PROMO / WHY G-CULTURE ============ */}
-<section className="relative pt-24 pb-2 overflow-hidden">
-  {/* Background image — MUST be first child */}
+{/* <section className="relative pt-24 pb-2 overflow-hidden">
   <div className="absolute inset-0">
     <img
       src="/images/HomeImgs/Categories.png"
@@ -577,7 +577,7 @@ export default function HomePage() {
     <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#050507] to-transparent" />
   </div>
 
-</section>
+</section> */}
 
 
       {/* ============ FEATURED PRODUCTS ============ */}

@@ -1,170 +1,308 @@
-// import { Link } from "react-router-dom";
-// import { Star } from "lucide-react";
-
-// export default function LatestProductCard({ product }) {
-//   const price = Number(product.price) || 0;
-//   const offerPrice = Number(product.offerPrice) || 0;
-
-//   const offerPercentage =
-//     product.offerPercentage ||
-//     (offerPrice && price > offerPrice
-//       ? Math.round(((price - offerPrice) / price) * 100)
-//       : 0);
-
-//   return (
-//     <div className="relative bg-white overflow-hidden group transition-all duration-500 shadow-xl hover:shadow-[0_15px_40px_rgba(0,0,0,0.2)] hover:scale-[1.02] cursor-pointer">
-
-//       {/* LINK WRAPPER */}
-//       <Link to={`/product/${product._id}`} className="block">
-
-//         {/* Product Image */}
-//         <div className="relative overflow-hidden">
-//           <img
-//             src={product.images?.[0]}
-//             alt={product.name}
-//             className="w-full aspect-[3/4] object-cover transition-transform duration-700 group-hover:scale-110"
-//           />
-
-//           {/* Offer Badge */}
-//           {offerPercentage > 0 && (
-//             <span className="absolute left-2 top-2 bg-gradient-to-r from-[#0f6ed4] via-[#a01cb2] to-[#de8328] text-white px-2 py-1 text-xs font-bold shadow-md">
-//               {offerPercentage}% Off
-//             </span>
-//           )}
-//         </div>
-
-//         {/* Info Section */}
-//         <div className="p-2 text-center bg-amber-50">
-
-//           {/* Product Name */}
-//           <h4
-//             className="text-sm font-semibold uppercase tracking-wide text-gray-800 truncate"
-//             title={product.name}
-//           >
-//             {product.name}
-//           </h4>
-
-//           {/* Price */}
-//           <div className="mt-1">
-//             {offerPrice && offerPrice < price ? (
-//               <p className="text-sm font-semibold text-gray-900">
-//                 <span className="line-through text-gray-400 mr-2">
-//                   ₹{price.toLocaleString("en-IN")}
-//                 </span>
-//                 <span className="text-amber-600 font-bold">
-//                   ₹{offerPrice.toLocaleString("en-IN")}
-//                 </span>
-//               </p>
-//             ) : (
-//               <p className="text-sm font-semibold text-gray-900">
-//                 ₹{price.toLocaleString("en-IN")}
-//               </p>
-//             )}
-//           </div>
-
-//           {/* ⭐ Rating & Reviews */}
-//           <div className="flex justify-center items-center gap-1 mt-1 text-yellow-500">
-//             <Star size={14} className="fill-yellow-500" />
-//             <span className="text-xs text-gray-700">{product.rating}</span>
-//             <span className="text-[11px] text-gray-500">({product.numReviews})</span>
-//           </div>
-
-//         </div>
-//       </Link>
-//     </div>
-//   );
-// }
-
 import { Link } from "react-router-dom";
-import { Star } from "lucide-react";
+import { Star, ArrowUpRight } from "lucide-react";
 
 export default function LatestProductCard({ product }) {
   const price = Number(product.price) || 0;
   const offerPrice = Number(product.offerPrice) || 0;
 
   const offerPercentage =
-    product.offerPercentage ||
-    (offerPrice && price > offerPrice
+    Number(product.offerPercentage) ||
+    (offerPrice > 0 && price > offerPrice
       ? Math.round(((price - offerPrice) / price) * 100)
       : 0);
 
+  const rating = Number(product.rating) || 0;
+  const reviews = Number(product.numReviews) || 0;
+
+  const image =
+    product.images?.[0] ||
+    "/images/product-placeholder.webp";
+
+  const productName =
+    product.name || "Product";
+
   return (
-    <Link
-      to={`/product/${product._id}`}
-      className="group block overflow-hidden rounded-lg bg-white/[0.03] border border-white/[0.06] hover:border-white/15 transition-all duration-300"
-    >
-      {/* Product Image */}
-      <div className="relative overflow-hidden">
-        <img
-          src={product.images?.[0]}
-          alt={product.name}
-          className="w-full aspect-[3/4] object-cover transition-transform duration-700 group-hover:scale-105"
-        />
+    <article className="latest-product-card group">
+      <Link
+        to={`/product/${product._id}`}
+        className="block w-full"
+      >
+        {/* =====================================================
+            PRODUCT IMAGE
+        ====================================================== */}
 
-        {/* New badge */}
-        <span className="absolute right-3 top-3 bg-white/10 backdrop-blur-md text-white text-[10px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded-full border border-white/10">
-          New
-        </span>
+        <div className="relative w-full overflow-hidden rounded-xl border border-white/[0.07] bg-[#111113] aspect-[0.78]">
 
-        {/* Offer Badge */}
-        {offerPercentage > 0 && (
-          <span className="absolute left-3 top-3 bg-white text-black text-[10px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded-full">
-            {offerPercentage}% Off
+          <img
+            src={image}
+            alt={productName}
+            loading="lazy"
+            onError={(event) => {
+              event.currentTarget.src =
+                "/images/product-placeholder.webp";
+            }}
+            className="
+              absolute
+              inset-0
+              h-full
+              w-full
+              object-cover
+              transition-transform
+              duration-700
+              ease-[cubic-bezier(.2,.8,.2,1)]
+              group-hover:scale-[1.045]
+            "
+          />
+
+          {/* Subtle image gradient */}
+
+          <div
+            className="
+              pointer-events-none
+              absolute
+              inset-0
+              bg-gradient-to-t
+              from-black/20
+              via-transparent
+              to-transparent
+              opacity-70
+            "
+          />
+
+          {/* =================================================
+              NEW BADGE
+          ================================================== */}
+
+          <span
+            className="
+              absolute
+              right-3
+              top-3
+              z-10
+              rounded-full
+              border
+              border-white/15
+              bg-black/45
+              px-2.5
+              py-1
+              text-[9px]
+              font-semibold
+              uppercase
+              tracking-[0.12em]
+              text-white
+              backdrop-blur-md
+            "
+          >
+            New
           </span>
-        )}
 
-        {/* Hover overlay */}
-        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300" />
-      </div>
+          {/* =================================================
+              DISCOUNT BADGE
+          ================================================== */}
 
-      {/* Info Section */}
-      <div className="p-4">
-        {/* Product Name */}
-        <h4
-          className="text-sm font-medium text-gray-200 truncate group-hover:text-white transition-colors duration-200"
-          title={product.name}
-        >
-          {product.name}
-        </h4>
-
-        {/* Rating */}
-        <div className="flex items-center gap-1.5 mt-2">
-          <div className="flex items-center gap-0.5">
-            {[...Array(5)].map((_, i) => (
-              <Star
-                key={i}
-                size={11}
-                className={
-                  i < Math.round(product.rating)
-                    ? "fill-white text-white"
-                    : "fill-transparent text-gray-600"
-                }
-              />
-            ))}
-          </div>
-          <span className="text-[11px] text-gray-500">
-            ({product.numReviews})
-          </span>
-        </div>
-
-        {/* Price */}
-        <div className="mt-3">
-          {offerPrice && offerPrice < price ? (
-            <div className="flex items-baseline gap-2">
-              <span className="text-base font-semibold text-white">
-                ₹{offerPrice.toLocaleString("en-IN")}
-              </span>
-              <span className="text-xs text-gray-500 line-through">
-                ₹{price.toLocaleString("en-IN")}
-              </span>
-            </div>
-          ) : (
-            <span className="text-base font-semibold text-white">
-              ₹{price.toLocaleString("en-IN")}
+          {offerPercentage > 0 && (
+            <span
+              className="
+                absolute
+                left-3
+                top-3
+                z-10
+                rounded-full
+                bg-white
+                px-2.5
+                py-1
+                text-[9px]
+                font-semibold
+                uppercase
+                tracking-[0.12em]
+                text-black
+                shadow-lg
+              "
+            >
+              {offerPercentage}% OFF
             </span>
           )}
+
+          {/* =================================================
+              HOVER VIEW BUTTON
+          ================================================== */}
+
+          <span
+            className="
+              absolute
+              bottom-3
+              right-3
+              z-10
+              flex
+              h-8
+              w-8
+              items-center
+              justify-center
+              rounded-full
+              border
+              border-white/20
+              bg-black/45
+              text-white
+              opacity-0
+              backdrop-blur-md
+              translate-y-2
+              transition-all
+              duration-300
+              group-hover:translate-y-0
+              group-hover:opacity-100
+            "
+          >
+            <ArrowUpRight
+              size={14}
+              strokeWidth={1.7}
+            />
+          </span>
         </div>
-      </div>
-    </Link>
+
+        {/* =====================================================
+            PRODUCT INFORMATION
+        ====================================================== */}
+
+        <div className="px-1 pb-1 pt-3">
+
+          {/* Product name */}
+
+          <h3
+            title={productName}
+            className="
+              overflow-hidden
+              text-ellipsis
+              whitespace-nowrap
+              text-[13px]
+              font-medium
+              tracking-[-0.01em]
+              text-white/85
+              transition-colors
+              duration-300
+              group-hover:text-white
+            "
+          >
+            {productName}
+          </h3>
+
+          {/* =================================================
+              RATING
+          ================================================== */}
+
+          <div className="mt-2 flex items-center gap-2">
+
+            <div className="flex items-center gap-[2px]">
+
+              {[0, 1, 2, 3, 4].map((index) => {
+                const filled =
+                  index < Math.round(rating);
+
+                return (
+                  <Star
+                    key={index}
+                    size={10}
+                    strokeWidth={1.5}
+                    className={
+                      filled
+                        ? "fill-white text-white"
+                        : "fill-transparent text-white/20"
+                    }
+                  />
+                );
+              })}
+
+            </div>
+
+            <span className="text-[10px] text-white/35">
+              {reviews > 0
+                ? `(${reviews})`
+                : "(0)"}
+            </span>
+
+          </div>
+
+          {/* =================================================
+              PRICE
+          ================================================== */}
+
+          <div className="mt-2.5 flex items-baseline gap-2">
+
+            {offerPrice > 0 &&
+            offerPrice < price ? (
+              <>
+                <span
+                  className="
+                    text-[14px]
+                    font-semibold
+                    tracking-tight
+                    text-white
+                  "
+                >
+                  ₹
+                  {offerPrice.toLocaleString(
+                    "en-IN"
+                  )}
+                </span>
+
+                <span
+                  className="
+                    text-[10px]
+                    text-white/30
+                    line-through
+                  "
+                >
+                  ₹
+                  {price.toLocaleString(
+                    "en-IN"
+                  )}
+                </span>
+              </>
+            ) : (
+              <span
+                className="
+                  text-[14px]
+                  font-semibold
+                  tracking-tight
+                  text-white
+                "
+              >
+                ₹
+                {price.toLocaleString(
+                  "en-IN"
+                )}
+              </span>
+            )}
+
+          </div>
+
+        </div>
+      </Link>
+
+      {/* =====================================================
+          CARD HOVER
+      ====================================================== */}
+
+      <style>{`
+
+        .latest-product-card {
+          width: 100%;
+          min-width: 0;
+        }
+
+        .latest-product-card > a {
+          width: 100%;
+        }
+
+        @media (hover: hover) and (pointer: fine) {
+
+          .latest-product-card:hover
+          .latest-product-card-image {
+            transform: scale(1.045);
+          }
+
+        }
+
+      `}</style>
+    </article>
   );
 }
