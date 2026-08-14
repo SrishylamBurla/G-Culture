@@ -137,7 +137,6 @@ export default function FeaturedProducts() {
 
       <div
         className="featured-carousel-shell"
-        data-lenis-prevent
       >
         <Swiper
           modules={[Navigation, Pagination, Autoplay, Keyboard, A11y]}

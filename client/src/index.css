@@ -222,12 +222,3 @@ html.lenis body {
   overflow: hidden;
 }
 
-/* Swiper should own horizontal gestures */
-.swiper {
-  touch-action: pan-y;
-}
-
-/* Don't allow horizontal overscroll to affect the page */
-.swiper {
-  overscroll-behavior-x: contain;
-}
