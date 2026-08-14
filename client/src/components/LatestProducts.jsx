@@ -132,7 +132,6 @@ export default function LatestProducts() {
 
       <div
         className="latest-carousel-shell"
-        data-lenis-prevent-wheel
       >
         <Swiper
           modules={[Navigation, Pagination, Autoplay, Keyboard, A11y]}
