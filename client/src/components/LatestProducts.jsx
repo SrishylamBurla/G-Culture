@@ -18,11 +18,9 @@ import { useGetLatestProductsQuery } from "../features/products/productApi";
 import LatestProductCard from "./LatestProductCard";
 
 export default function LatestProducts() {
-  const { data, isLoading, isError } =
-    useGetLatestProductsQuery();
+  const { data, isLoading, isError } = useGetLatestProductsQuery();
 
-  const latestProducts =
-    Array.isArray(data) ? data : [];
+  const latestProducts = Array.isArray(data) ? data : [];
 
   /*
    * =========================================================
@@ -34,9 +32,7 @@ export default function LatestProducts() {
     return (
       <section className="latest-section">
         <div className="latest-container">
-
           <div className="latest-section-header">
-
             <div>
               <div className="latest-loading-eyebrow" />
 
@@ -46,19 +42,13 @@ export default function LatestProducts() {
             </div>
 
             <div className="latest-loading-button" />
-
           </div>
-
         </div>
 
         <div className="latest-skeleton-wrapper">
           <div className="latest-skeleton-track">
-
             {Array.from({ length: 6 }).map((_, index) => (
-              <div
-                key={index}
-                className="latest-skeleton-card"
-              >
+              <div key={index} className="latest-skeleton-card">
                 <div className="latest-skeleton-image" />
 
                 <div className="latest-skeleton-info">
@@ -70,7 +60,6 @@ export default function LatestProducts() {
                 </div>
               </div>
             ))}
-
           </div>
         </div>
       </section>
@@ -83,10 +72,7 @@ export default function LatestProducts() {
    * =========================================================
    */
 
-  if (
-    isError ||
-    latestProducts.length === 0
-  ) {
+  if (isError || latestProducts.length === 0) {
     return null;
   }
 
@@ -96,53 +82,36 @@ export default function LatestProducts() {
    * =========================================================
    */
 
-  const enableLoop =
-    latestProducts.length >= 7;
+  const enableLoop = latestProducts.length >= 7;
 
   return (
     <section className="latest-section">
-
       {/* =====================================================
           HEADER
       ====================================================== */}
 
       <div className="latest-container">
-
         <div className="latest-section-header">
-
           {/* LEFT */}
 
           <div className="latest-heading">
-
             <div className="latest-eyebrow-wrapper">
-
               <span className="latest-eyebrow-line" />
 
-              <span className="latest-eyebrow">
-                New Arrivals
-              </span>
-
+              <span className="latest-eyebrow">New Arrivals</span>
             </div>
 
-            <h2 className="latest-title">
-              Latest Products
-            </h2>
+            <h2 className="latest-title">Latest Products</h2>
 
             <p className="latest-subtitle">
               Fresh pieces just added to the collection.
             </p>
-
           </div>
 
           {/* RIGHT */}
 
-          <Link
-            to="/shop"
-            className="latest-see-all group"
-          >
-            <span>
-              See All
-            </span>
+          <Link to="/shop" className="latest-see-all group">
+            <span>See All</span>
 
             <ArrowRight
               size={16}
@@ -154,28 +123,22 @@ export default function LatestProducts() {
               "
             />
           </Link>
-
         </div>
-
       </div>
 
       {/* =====================================================
           CAROUSEL
       ====================================================== */}
 
-      <div className="latest-carousel-shell">
-
+      <div
+        className="latest-carousel-shell"
+        data-lenis-prevent-wheel
+        data-lenis-prevent-touch
+      >
         <Swiper
-          modules={[
-            Navigation,
-            Pagination,
-            Autoplay,
-            Keyboard,
-            A11y,
-          ]}
+          modules={[Navigation, Pagination, Autoplay, Keyboard, A11y]}
           className="latest-products-swiper"
           wrapperClass="latest-products-wrapper"
-
           /*
            * =================================================
            * DESKTOP
@@ -184,7 +147,6 @@ export default function LatestProducts() {
 
           slidesPerView={5}
           spaceBetween={20}
-
           /*
            * =================================================
            * NAVIGATION
@@ -195,7 +157,6 @@ export default function LatestProducts() {
             prevEl: ".latest-prev",
             nextEl: ".latest-next",
           }}
-
           /*
            * =================================================
            * PAGINATION
@@ -208,7 +169,6 @@ export default function LatestProducts() {
             clickable: true,
             dynamicBullets: false,
           }}
-
           /*
            * =================================================
            * AUTOPLAY
@@ -220,7 +180,6 @@ export default function LatestProducts() {
             disableOnInteraction: true,
             pauseOnMouseEnter: true,
           }}
-
           /*
            * =================================================
            * KEYBOARD
@@ -231,7 +190,6 @@ export default function LatestProducts() {
             enabled: true,
             onlyInViewport: true,
           }}
-
           /*
            * =================================================
            * BEHAVIOR
@@ -239,29 +197,17 @@ export default function LatestProducts() {
            */
 
           loop={enableLoop}
-
           grabCursor
-
           watchOverflow
-
           observer
-
           observeParents
-
           speed={650}
-
           resistance
-
           resistanceRatio={0.72}
-
           threshold={8}
-
           touchRatio={1}
-
           touchAngle={45}
-
           allowTouchMove
-
           /*
            * =================================================
            * RESPONSIVE
@@ -269,7 +215,6 @@ export default function LatestProducts() {
            */
 
           breakpoints={{
-
             /* PHONE */
 
             0: {
@@ -328,20 +273,13 @@ export default function LatestProducts() {
             },
           }}
         >
-
           {latestProducts.map((product) => (
-            <SwiperSlide
-              key={product._id}
-              className="latest-product-slide"
-            >
+            <SwiperSlide key={product._id} className="latest-product-slide">
               <div className="latest-card-wrapper">
-                <LatestProductCard
-                  product={product}
-                />
+                <LatestProductCard product={product} />
               </div>
             </SwiperSlide>
           ))}
-
         </Swiper>
 
         {/* ===================================================
@@ -356,10 +294,7 @@ export default function LatestProducts() {
             latest-prev
           "
         >
-          <ChevronLeft
-            size={19}
-            strokeWidth={1.7}
-          />
+          <ChevronLeft size={19} strokeWidth={1.7} />
         </button>
 
         {/* ===================================================
@@ -374,12 +309,8 @@ export default function LatestProducts() {
             latest-next
           "
         >
-          <ChevronRight
-            size={19}
-            strokeWidth={1.7}
-          />
+          <ChevronRight size={19} strokeWidth={1.7} />
         </button>
-
       </div>
 
       {/* =====================================================
@@ -1587,7 +1518,6 @@ export default function LatestProducts() {
         }
 
       `}</style>
-
     </section>
   );
 }

@@ -14,15 +14,10 @@ import "swiper/css/pagination";
 import { useGetFeaturedProductsQuery } from "../features/products/productApi";
 import FeaturedProductCard from "./FeaturedProductCard";
 import { Link } from "react-router-dom";
-import {
-  ArrowRight,
-  ChevronLeft,
-  ChevronRight,
-} from "lucide-react";
+import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 
 export default function FeaturedProducts() {
-  const { data, isLoading, isError } =
-    useGetFeaturedProductsQuery();
+  const { data, isLoading, isError } = useGetFeaturedProductsQuery();
 
   const featuredProducts = Array.isArray(data) ? data : [];
 
@@ -36,7 +31,6 @@ export default function FeaturedProducts() {
     return (
       <section className="featured-section">
         <div className="featured-container">
-
           {/* Header skeleton */}
 
           <div className="featured-section-header">
@@ -50,7 +44,6 @@ export default function FeaturedProducts() {
 
             <div className="featured-loading-button" />
           </div>
-
         </div>
 
         {/* Skeleton carousel */}
@@ -58,10 +51,7 @@ export default function FeaturedProducts() {
         <div className="featured-skeleton-wrapper">
           <div className="featured-skeleton-track">
             {Array.from({ length: 6 }).map((_, index) => (
-              <div
-                key={index}
-                className="featured-skeleton-card"
-              >
+              <div key={index} className="featured-skeleton-card">
                 <div className="featured-skeleton-image" />
 
                 <div className="featured-skeleton-info">
@@ -85,10 +75,7 @@ export default function FeaturedProducts() {
    * =========================================================
    */
 
-  if (
-    isError ||
-    featuredProducts.length === 0
-  ) {
+  if (isError || featuredProducts.length === 0) {
     return null;
   }
 
@@ -100,48 +87,35 @@ export default function FeaturedProducts() {
    * We only loop when enough products exist.
    */
 
-  const enableLoop =
-    featuredProducts.length >= 7;
+  const enableLoop = featuredProducts.length >= 7;
 
   return (
     <section className="featured-section">
-
       {/* =====================================================
           HEADER
       ====================================================== */}
 
       <div className="featured-container">
-
         <div className="featured-section-header">
-
           {/* LEFT */}
 
           <div className="featured-heading">
-
             <div className="featured-eyebrow-wrapper">
               <span className="featured-eyebrow-line" />
 
-              <span className="featured-eyebrow">
-                Curated
-              </span>
+              <span className="featured-eyebrow">Curated</span>
             </div>
 
-            <h2 className="featured-title">
-              Featured Products
-            </h2>
+            <h2 className="featured-title">Featured Products</h2>
 
             <p className="featured-subtitle">
               Selected pieces worth adding to your rotation.
             </p>
-
           </div>
 
           {/* RIGHT */}
 
-          <Link
-            to="/shop"
-            className="featured-see-all group"
-          >
+          <Link to="/shop" className="featured-see-all group">
             <span>See All</span>
 
             <ArrowRight
@@ -154,28 +128,22 @@ export default function FeaturedProducts() {
               "
             />
           </Link>
-
         </div>
-
       </div>
 
       {/* =====================================================
           CAROUSEL
       ====================================================== */}
 
-      <div className="featured-carousel-shell">
-
+      <div
+        className="featured-carousel-shell"
+        data-lenis-prevent-wheel
+        data-lenis-prevent-touch
+      >
         <Swiper
-          modules={[
-            Navigation,
-            Pagination,
-            Autoplay,
-            Keyboard,
-            A11y,
-          ]}
+          modules={[Navigation, Pagination, Autoplay, Keyboard, A11y]}
           className="featured-products-swiper"
           wrapperClass="featured-products-wrapper"
-
           /*
            * =================================================
            * DESKTOP DEFAULT
@@ -184,7 +152,6 @@ export default function FeaturedProducts() {
 
           slidesPerView={6}
           spaceBetween={20}
-
           /*
            * =================================================
            * NAVIGATION
@@ -195,7 +162,6 @@ export default function FeaturedProducts() {
             prevEl: ".featured-prev",
             nextEl: ".featured-next",
           }}
-
           /*
            * =================================================
            * PAGINATION
@@ -211,7 +177,6 @@ export default function FeaturedProducts() {
             clickable: true,
             dynamicBullets: false,
           }}
-
           /*
            * =================================================
            * AUTOPLAY
@@ -223,7 +188,6 @@ export default function FeaturedProducts() {
             disableOnInteraction: true,
             pauseOnMouseEnter: true,
           }}
-
           /*
            * =================================================
            * KEYBOARD
@@ -234,7 +198,6 @@ export default function FeaturedProducts() {
             enabled: true,
             onlyInViewport: true,
           }}
-
           /*
            * =================================================
            * GENERAL
@@ -244,23 +207,15 @@ export default function FeaturedProducts() {
           loop={enableLoop}
           grabCursor
           watchOverflow
-
           observer
           observeParents
-
           speed={650}
-
           resistance
           resistanceRatio={0.72}
-
           threshold={8}
-
           touchRatio={1}
-
           touchAngle={45}
-
           allowTouchMove
-
           /*
            * =================================================
            * RESPONSIVE
@@ -334,20 +289,13 @@ export default function FeaturedProducts() {
             },
           }}
         >
-
           {featuredProducts.map((product) => (
-            <SwiperSlide
-              key={product._id}
-              className="featured-product-slide"
-            >
+            <SwiperSlide key={product._id} className="featured-product-slide">
               <div className="featured-card-wrapper">
-                <FeaturedProductCard
-                  product={product}
-                />
+                <FeaturedProductCard product={product} />
               </div>
             </SwiperSlide>
           ))}
-
         </Swiper>
 
         {/* ===================================================
@@ -362,10 +310,7 @@ export default function FeaturedProducts() {
             featured-prev
           "
         >
-          <ChevronLeft
-            size={19}
-            strokeWidth={1.7}
-          />
+          <ChevronLeft size={19} strokeWidth={1.7} />
         </button>
 
         {/* ===================================================
@@ -380,12 +325,8 @@ export default function FeaturedProducts() {
             featured-next
           "
         >
-          <ChevronRight
-            size={19}
-            strokeWidth={1.7}
-          />
+          <ChevronRight size={19} strokeWidth={1.7} />
         </button>
-
       </div>
 
       {/* =====================================================
@@ -1521,7 +1462,6 @@ export default function FeaturedProducts() {
         }
 
       `}</style>
-
     </section>
   );
 }

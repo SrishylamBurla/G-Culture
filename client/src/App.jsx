@@ -35,7 +35,7 @@ import AdminUsers from "./pages/admin/AdminUsers";
 import AddProduct from "./components/admin/AddProduct";
 import EditProduct from "./components/admin/EditProduct";
 import AdminOrderDetails from "./pages/admin/AdminOrderDetails";
-// import SmoothScroll from "./components/SmoothScroll";
+import SmoothScroll from "./components/SmoothScroll";
 import LatestDropsPage from "./pages/LatestDropsPage";
 import AboutPage from "./pages/AboutPage";
 import ContactPage from "./pages/ContactPage";
@@ -48,7 +48,7 @@ function App() {
 
   return (
     <BrowserRouter>
-    {/* <SmoothScroll /> */}
+    <SmoothScroll />
       <div className="flex flex-col min-h-screen text-white">
         <Header menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
 
