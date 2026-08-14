@@ -208,3 +208,26 @@ body::-webkit-scrollbar {
     opacity: 1;
   }
 }
+/* Lenis */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+/* Swiper should own horizontal gestures */
+.swiper {
+  touch-action: pan-y;
+}
+
+/* Don't allow horizontal overscroll to affect the page */
+.swiper {
+  overscroll-behavior-x: contain;
+}

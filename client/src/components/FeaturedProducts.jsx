@@ -137,6 +137,7 @@ export default function FeaturedProducts() {
 
       <div
         className="featured-carousel-shell"
+        data-lenis-prevent
       >
         <Swiper
           modules={[Navigation, Pagination, Autoplay, Keyboard, A11y]}
@@ -212,7 +213,7 @@ export default function FeaturedProducts() {
           resistanceRatio={0.72}
           threshold={8}
           touchRatio={1}
-          touchAngle={45}
+          touchAngle={30}
           allowTouchMove
           /*
            * =================================================

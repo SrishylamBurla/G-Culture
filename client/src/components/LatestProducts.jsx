@@ -132,6 +132,7 @@ export default function LatestProducts() {
 
       <div
         className="latest-carousel-shell"
+        data-lenis-prevent
       >
         <Swiper
           modules={[Navigation, Pagination, Autoplay, Keyboard, A11y]}
@@ -204,7 +205,7 @@ export default function LatestProducts() {
           resistanceRatio={0.72}
           threshold={8}
           touchRatio={1}
-          touchAngle={45}
+          touchAngle={30}
           allowTouchMove
           /*
            * =================================================
