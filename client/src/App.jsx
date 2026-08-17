@@ -39,25 +39,38 @@ import SmoothScroll from "./components/SmoothScroll";
 import LatestDropsPage from "./pages/LatestDropsPage";
 import AboutPage from "./pages/AboutPage";
 import ContactPage from "./pages/ContactPage";
+import BlogPage from "./pages/BlogPage";
+import BlogPostPage from "./pages/BlogPostPage";
+import TermsPage from "./pages/TermsPage";
+import ScrollToTop from "./components/ScrollToTop";
 
 function App() {
   const [menuOpen, setMenuOpen] = useState(false);
-  
-  useEffect(() => {
-  document.body.style.overflow = menuOpen ? "hidden" : "";
 
-  return () => {
-    document.body.style.overflow = "";
-  };
-}, [menuOpen]);
+  // useEffect(() => {
+  //   document.body.style.overflow = menuOpen ? "hidden" : "";
+
+  //   return () => {
+  //     document.body.style.overflow = "";
+  //   };
+  // }, [menuOpen]);
+
+  useEffect(() => {
+    document.body.style.overflow = menuOpen
+      ? "hidden"
+      : "auto";
+
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [menuOpen]);
 
   return (
     <BrowserRouter>
-    <SmoothScroll />
+    <ScrollToTop />
+      <SmoothScroll />
       <div className="flex flex-col min-h-screen text-white">
         <Header menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
-
-        
 
         <Toaster
           position="top-right"
@@ -125,12 +138,13 @@ function App() {
             <Route path="/casualwear" element={<CasualwearPage />} />
             <Route path="/caps" element={<CapsPage />} />
             <Route path="/chestbags" element={<ChestbagsPage />} />
-            
 
             <Route path="/latest-drops" element={<LatestDropsPage />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/contact" element={<ContactPage />} />
-
+            <Route path="/blog" element={<BlogPage />} />
+            <Route path="/blog/:slug" element={<BlogPostPage />} />
+            <Route path="/terms" element={<TermsPage />} />
             {/* Wishlist */}
             <Route path="/wishlist" element={<WishlistPage />} />
 
@@ -162,4 +176,3 @@ function App() {
 }
 
 export default App;
-

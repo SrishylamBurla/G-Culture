@@ -1,357 +1,843 @@
-// import { Link } from "react-router-dom";
-// import { motion } from "framer-motion";
-// import ParallaxWrapper from "./ParallaxWrapper";
-
-// export default function Footer() {
-//   return (
-//     // <ParallaxWrapper speed={0.1}>
-//     <footer
-//       className="
-//         font-sans bg-[#0a0a0c]
-//         text-gray-300
-//         border-t border-white/10
-//         backdrop-blur-xl
-//         relative overflow-hidden py-6
-//       "
-//     >
-
-//       {/* glowing gradients */}
-//       <div className="pointer-events-none absolute -top-40 left-0 w-[380px] h-[380px] bg-[#d4af37]/15 blur-[150px]"></div>
-//       <div className="pointer-events-none absolute -bottom-40 right-0 w-[380px] h-[380px] bg-[#bb8f30]/10 blur-[150px]"></div>
-
-//       <motion.div
-//         initial={{ opacity: 0, y: 25 }}
-//         whileInView={{ opacity: 1, y: 0 }}
-//         transition={{ duration: 0.7 }}
-//         className="relative z-20 w-full p-4 md:p-4 lg:p-4"
-//       >
-
-//         {/* GRID */}
-//         <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-
-//           {/* BRAND SECTION */}
-//           <div>
-//             <Link to="/">
-//               <img
-//                 src="/images/gculture.png"
-//                 alt="Logo"
-//                 className="w-24 mb-4 opacity-90 hover:opacity-100 transition"
-//               />
-//             </Link>
-
-//             <p className="text-sm text-gray-400 leading-relaxed">
-//               A pioneering force in Indian fashion — crafting identity through
-//               design, culture & confidence.
-//             </p>
-
-//             {/* <Link
-//               to="/about-us"
-//               className="inline-block mt-3 text-sm text-gray-300 hover:text-white underline underline-offset-4"
-//             >
-//               Learn More
-//             </Link> */}
-//           </div>
-//     <div className="grid grid-cols-2 md:grid-cols-2">
-//           {/* COMPANY LINKS */}
-//           <div>
-//             <h4 className="text-white text-sm font-semibold tracking-widest mb-5 uppercase">
-//               Company
-//             </h4>
-
-//             <ul className="space-y-2 text-sm">
-//               <li><Link to="/my-account" className="hover:text-white">My Account</Link></li>
-//               <li><Link to="/returns" className="hover:text-white">Returns & Exchanges</Link></li>
-//               <li><Link to="/order-tracking" className="hover:text-white">Order Tracking</Link></li>
-//               <li><Link to="/blog" className="hover:text-white">Blog</Link></li>
-//               <li><Link to="/terms" className="hover:text-white">Terms & Conditions</Link></li>
-//             </ul>
-//           </div>
-
-//           {/* CUSTOMER CARE */}
-//           <div>
-//             <h4 className="text-white text-sm font-semibold tracking-widest mb-5 uppercase">
-//               Support
-//             </h4>
-
-//             <ul className="space-y-2 text-sm">
-//               <li>
-//                 <a
-//                   href="mailto:support@gculture.in"
-//                   className="hover:text-white"
-//                 >
-//                   Contact Support
-//                 </a>
-//               </li>
-//               <li><Link to="/shipping" className="hover:text-white">Shipping Policy</Link></li>
-//               <li><Link to="/faq" className="hover:text-white">FAQs</Link></li>
-//               <li><Link to="/privacy" className="hover:text-white">Privacy Policy</Link></li>
-//             </ul>
-//           </div>
-// </div>
-//           {/* NEWSLETTER */}
-//           <div>
-//             <h4 className="text-white text-sm font-semibold tracking-widest mb-5 uppercase">
-//               Stay Updated
-//             </h4>
-
-//             <form
-//               onSubmit={(e) => e.preventDefault()}
-//               className="flex flex-col gap-3"
-//             >
-//               <input
-//                 type="email"
-//                 placeholder="Enter your email"
-//                 className="
-//                   px-4 py-2 text-sm
-//                   bg-white/5 border border-white/15
-//                   rounded-md text-gray-200
-//                   placeholder-gray-400
-//                   focus:ring-2 focus:ring-[#d4af37]/30
-//                   outline-none
-//                 "
-//               />
-
-//               <button
-//                 type="submit"
-//                 className="
-//                   bg-[#d4af37]
-//                   text-black font-semibold text-sm
-//                   px-5 py-2 rounded-md
-//                   hover:bg-[#c09b33] transition
-//                 "
-//               >
-//                 Subscribe
-//               </button>
-//             </form>
-
-//             {/* SOCIALS */}
-//             <div className="mt-6 flex space-x-5 text-gray-300 text-xl">
-//               <a href="https://instagram.com" target="_blank" className="hover:text-white">
-//                 <i className="fa-brands fa-instagram"></i>
-//               </a>
-//               <a href="https://facebook.com" target="_blank" className="hover:text-white">
-//                 <i className="fa-brands fa-facebook"></i>
-//               </a>
-//               <a href="https://linkedin.com" target="_blank" className="hover:text-white">
-//                 <i className="fa-brands fa-linkedin"></i>
-//               </a>
-//             </div>
-//           </div>
-//         </div>
-
-//         {/* BOTTOM LINE */}
-//         <div className="border-t border-white/10 mt-10 pt-5 text-center text-xs text-gray-400">
-//           <p>© {new Date().getFullYear()} G-Culture. All Rights Reserved.</p>
-//           <p className="mt-1 opacity-70">
-//             Fashion for creators. Built with intention — worn with confidence.
-//           </p>
-//         </div>
-//       </motion.div>
-//     </footer>
-//     // </ParallaxWrapper> 
-//   );
-// }
-
-
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import {
+  ArrowUpRight,
+  Check,
+  Instagram,
+  Facebook,
+  Linkedin,
+  Mail,
+  Loader2,
+} from "lucide-react";
+import toast from "react-hot-toast";
 
 export default function Footer() {
+  const [email, setEmail] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleSubscribe = async (event) => {
+    event.preventDefault();
+
+    const trimmedEmail = email.trim().toLowerCase();
+
+    if (!trimmedEmail) {
+      toast.error("Please enter your email address.");
+      return;
+    }
+
+    const emailRegex =
+      /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!emailRegex.test(trimmedEmail)) {
+      toast.error("Please enter a valid email address.");
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      /*
+       * Temporary frontend subscription storage.
+       *
+       * This prevents duplicate subscriptions on the same browser.
+       * Later this can be connected directly to your MongoDB API.
+       */
+
+      const existingSubscribers =
+        JSON.parse(
+          localStorage.getItem(
+            "gculture_newsletter_subscribers"
+          ) || "[]"
+        );
+
+      if (
+        existingSubscribers.includes(trimmedEmail)
+      ) {
+        toast("You're already subscribed.", {
+          icon: "✓",
+        });
+
+        setEmail("");
+        return;
+      }
+
+      existingSubscribers.push(trimmedEmail);
+
+      localStorage.setItem(
+        "gculture_newsletter_subscribers",
+        JSON.stringify(existingSubscribers)
+      );
+
+      await new Promise((resolve) =>
+        setTimeout(resolve, 600)
+      );
+
+      toast.success(
+        "You're on the list. Welcome to G-Culture."
+      );
+
+      setEmail("");
+    } catch (error) {
+      console.error(
+        "Newsletter subscription error:",
+        error
+      );
+
+      toast.error(
+        "Something went wrong. Please try again."
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
   return (
-    <footer
-      className="
-        font-sans bg-[#0a0a0c]
-        text-gray-300
-        border-t border-white/10
-        backdrop-blur-xl
-        relative overflow-hidden
-      "
-    >
-      {/* Subtle glowing gradients */}
-      <div className="pointer-events-none absolute -top-40 left-0 w-[380px] h-[380px] bg-white/5 blur-[150px]"></div>
-      <div className="pointer-events-none absolute -bottom-40 right-0 w-[380px] h-[380px] bg-white/5 blur-[150px]"></div>
+    <footer className="relative overflow-hidden border-t border-white/[0.08] bg-[#050507] text-white">
+
+      {/* =====================================================
+          BACKGROUND
+      ====================================================== */}
+
+      <div
+        className="
+          pointer-events-none
+          absolute
+          -left-40
+          -top-40
+          h-[420px]
+          w-[420px]
+          rounded-full
+          bg-white/[0.035]
+          blur-[140px]
+        "
+      />
+
+      <div
+        className="
+          pointer-events-none
+          absolute
+          -bottom-40
+          -right-40
+          h-[420px]
+          w-[420px]
+          rounded-full
+          bg-white/[0.025]
+          blur-[140px]
+        "
+      />
 
       <motion.div
-        initial={{ opacity: 0, y: 25 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.7 }}
-        className="relative z-20 max-w-7xl mx-auto px-6 py-14"
+        initial={{
+          opacity: 0,
+          y: 25,
+        }}
+        whileInView={{
+          opacity: 1,
+          y: 0,
+        }}
+        viewport={{
+          once: true,
+          amount: 0.1,
+        }}
+        transition={{
+          duration: 0.7,
+        }}
+        className="
+          relative
+          z-10
+          mx-auto
+          max-w-[1280px]
+          px-5
+          py-16
+          sm:px-6
+          lg:px-8
+        "
       >
-        {/* GRID */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
-          {/* BRAND SECTION */}
-          <div className="md:col-span-1">
-            <Link to="/">
+
+        {/* ===================================================
+            TOP BRAND / NEWSLETTER
+        ==================================================== */}
+
+        <div
+          className="
+            mb-16
+            grid
+            grid-cols-1
+            gap-12
+            border-b
+            border-white/[0.08]
+            pb-14
+            lg:grid-cols-[1fr_1fr]
+            lg:gap-20
+          "
+        >
+
+          {/* BRAND */}
+
+          <div>
+
+            <Link
+              to="/"
+              onClick={scrollToTop}
+              className="inline-block"
+            >
               <img
                 src="/images/gculture.png"
-                alt="Logo"
-                className="w-20 h-20 mb-5 opacity-90 hover:opacity-100 transition"
+                alt="G-Culture"
+                className="
+                  mb-6
+                  h-16
+                  w-16
+                  object-contain
+                  opacity-90
+                  transition-opacity
+                  duration-300
+                  hover:opacity-100
+                "
               />
             </Link>
 
-            <p className="text-sm text-gray-500 leading-relaxed">
-              A pioneering force in Indian fashion — crafting identity through
-              design, culture & confidence.
+            <p
+              className="
+                max-w-md
+                text-sm
+                leading-7
+                text-white/40
+              "
+            >
+              A pioneering force in Indian fashion —
+              crafting identity through design, culture
+              and confidence.
             </p>
 
-            {/* Socials */}
-            <div className="mt-6 flex space-x-4 text-gray-500">
-              <a
-                href="https://instagram.com"
-                target="_blank"
-                rel="noreferrer"
-                className="hover:text-white transition-colors duration-200"
-              >
-                <i className="fa-brands fa-instagram text-lg"></i>
-              </a>
-              <a
-                href="https://facebook.com"
-                target="_blank"
-                rel="noreferrer"
-                className="hover:text-white transition-colors duration-200"
-              >
-                <i className="fa-brands fa-facebook text-lg"></i>
-              </a>
-              <a
-                href="https://linkedin.com"
-                target="_blank"
-                rel="noreferrer"
-                className="hover:text-white transition-colors duration-200"
-              >
-                <i className="fa-brands fa-linkedin text-lg"></i>
-              </a>
-            </div>
+            <Link
+              to="/about"
+              className="
+                mt-6
+                inline-flex
+                items-center
+                gap-2
+                text-[10px]
+                font-medium
+                uppercase
+                tracking-[0.18em]
+                text-white/60
+                transition-colors
+                hover:text-white
+              "
+            >
+              Discover G-Culture
+
+              <ArrowUpRight
+                size={13}
+                strokeWidth={1.6}
+              />
+            </Link>
+
           </div>
 
-          {/* COMPANY LINKS */}
-          <div>
-            <h4 className="text-white text-xs font-medium tracking-widest mb-5 uppercase">
-              Company
-            </h4>
-
-            <ul className="space-y-3 text-sm">
-              <li>
-                <Link to="/about" className="text-gray-500 hover:text-white transition-colors duration-200">
-                  About Us
-                </Link>
-              </li>
-              <li>
-                <Link to="/blog" className="text-gray-500 hover:text-white transition-colors duration-200">
-                  Blog
-                </Link>
-              </li>
-              <li>
-                <Link to="/latest-drops" className="text-gray-500 hover:text-white transition-colors duration-200">
-                  Latest Drops
-                </Link>
-              </li>
-              <li>
-                <Link to="/terms" className="text-gray-500 hover:text-white transition-colors duration-200">
-                  Terms & Conditions
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* CUSTOMER CARE */}
-          <div>
-            <h4 className="text-white text-xs font-medium tracking-widest mb-5 uppercase">
-              Support
-            </h4>
-
-            <ul className="space-y-3 text-sm">
-              <li>
-                <a
-                  href="mailto:support@gculture.in"
-                  className="text-gray-500 hover:text-white transition-colors duration-200"
-                >
-                  Contact Support
-                </a>
-              </li>
-              <li>
-                <Link to="/my-account" className="text-gray-500 hover:text-white transition-colors duration-200">
-                  My Account
-                </Link>
-              </li>
-              <li>
-                <Link to="/order-tracking" className="text-gray-500 hover:text-white transition-colors duration-200">
-                  Order Tracking
-                </Link>
-              </li>
-              <li>
-                <Link to="/returns" className="text-gray-500 hover:text-white transition-colors duration-200">
-                  Returns & Exchanges
-                </Link>
-              </li>
-              <li>
-                <Link to="/shipping" className="text-gray-500 hover:text-white transition-colors duration-200">
-                  Shipping Policy
-                </Link>
-              </li>
-              <li>
-                <Link to="/faq" className="text-gray-500 hover:text-white transition-colors duration-200">
-                  FAQs
-                </Link>
-              </li>
-              <li>
-                <Link to="/privacy" className="text-gray-500 hover:text-white transition-colors duration-200">
-                  Privacy Policy
-                </Link>
-              </li>
-            </ul>
-          </div>
 
           {/* NEWSLETTER */}
+
           <div>
-            <h4 className="text-white text-xs font-medium tracking-widest mb-5 uppercase">
-              Stay Updated
-            </h4>
 
-            <p className="text-sm text-gray-500 mb-4">
-              Get early access to drops, exclusives & more.
-            </p>
-
-            <form
-              onSubmit={(e) => e.preventDefault()}
-              className="flex flex-col gap-3"
+            <div
+              className="
+                mb-3
+                flex
+                items-center
+                gap-3
+              "
             >
-              <input
-                type="email"
-                placeholder="Enter your email"
+              <span
                 className="
-                  px-4 py-2.5 text-sm
-                  bg-white/5 border border-white/10
-                  rounded-full text-gray-200
-                  placeholder-gray-500
-                  focus:border-white/30
-                  outline-none transition-colors duration-200
+                  h-px
+                  w-4
+                  bg-white/30
                 "
               />
 
-              <button
-                type="submit"
+              <span
                 className="
-                  bg-white text-black
-                  font-medium text-xs
-                  uppercase tracking-wider
-                  px-5 py-2.5 rounded-full
-                  hover:bg-gray-200 transition-colors duration-200
+                  text-[10px]
+                  font-medium
+                  uppercase
+                  tracking-[0.3em]
+                  text-white/40
                 "
               >
-                Subscribe
+                Get in touch
+              </span>
+            </div>
+
+            <h3
+              className="
+                text-2xl
+                font-normal
+                tracking-[-0.03em]
+                text-white
+                sm:text-3xl
+              "
+            >
+              Be the first to know.
+            </h3>
+
+            <p
+              className="
+                mt-3
+                max-w-md
+                text-sm
+                leading-6
+                text-white/35
+              "
+            >
+              Get early access to new drops,
+              exclusive pieces and G-Culture updates.
+            </p>
+
+            <form
+              onSubmit={handleSubscribe}
+              className="
+                mt-6
+                flex
+                max-w-lg
+                flex-col
+                gap-3
+                sm:flex-row
+              "
+            >
+
+              <div
+                className="
+                  relative
+                  flex-1
+                "
+              >
+                <Mail
+                  size={15}
+                  strokeWidth={1.5}
+                  className="
+                    pointer-events-none
+                    absolute
+                    left-4
+                    top-1/2
+                    -translate-y-1/2
+                    text-white/25
+                  "
+                />
+
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(event) =>
+                    setEmail(event.target.value)
+                  }
+                  placeholder="Enter your email"
+                  disabled={isSubmitting}
+                  autoComplete="email"
+                  className="
+                    h-11
+                    w-full
+                    rounded-full
+                    border
+                    border-white/[0.10]
+                    bg-white/[0.035]
+                    pl-11
+                    pr-4
+                    text-sm
+                    text-white
+                    outline-none
+                    placeholder:text-white/25
+                    transition-all
+                    duration-300
+                    focus:border-white/25
+                    focus:bg-white/[0.05]
+                    disabled:cursor-not-allowed
+                    disabled:opacity-50
+                  "
+                />
+              </div>
+
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="
+                  flex
+                  h-11
+                  items-center
+                  justify-center
+                  gap-2
+                  rounded-full
+                  bg-white
+                  px-6
+                  text-[10px]
+                  font-semibold
+                  uppercase
+                  tracking-[0.16em]
+                  text-black
+                  transition-all
+                  duration-300
+                  hover:bg-white/90
+                  hover:shadow-[0_8px_30px_rgba(255,255,255,0.08)]
+                  disabled:cursor-not-allowed
+                  disabled:opacity-60
+                "
+              >
+                {isSubmitting ? (
+                  <>
+                    <Loader2
+                      size={14}
+                      className="animate-spin"
+                    />
+
+                    Joining
+                  </>
+                ) : (
+                  <>
+                    Subscribe
+
+                    <ArrowUpRight
+                      size={13}
+                      strokeWidth={1.7}
+                    />
+                  </>
+                )}
               </button>
+
             </form>
+
+            <p
+              className="
+                mt-3
+                text-[10px]
+                text-white/20
+              "
+            >
+              No spam. Just G-Culture.
+            </p>
+
           </div>
+
         </div>
 
-        {/* BOTTOM LINE */}
-        <div className="border-t border-white/10 mt-12 pt-6 flex flex-col md:flex-row items-center justify-between text-xs text-gray-600">
-          <p>© {new Date().getFullYear()} G-Culture. All Rights Reserved.</p>
-          <p className="mt-2 md:mt-0">
-            Fashion for creators. Built with intention — worn with confidence.
-          </p>
+
+        {/* ===================================================
+            MAIN FOOTER GRID
+        ==================================================== */}
+
+        <div
+          className="
+            grid
+            grid-cols-2
+            gap-x-8
+            gap-y-12
+            sm:grid-cols-3
+            lg:grid-cols-4
+          "
+        >
+
+          {/* SHOP */}
+
+          <div>
+            <h4 className="footer-heading">
+              Explore
+            </h4>
+
+            <ul className="footer-list">
+
+              <li>
+                <Link to="/shop">
+                  Shop
+                </Link>
+              </li>
+
+              <li>
+                <Link to="/latest-drops">
+                  Latest Drops
+                </Link>
+              </li>
+
+              <li>
+                <Link to="/streetwear">
+                  Streetwear
+                </Link>
+              </li>
+
+              <li>
+                <Link to="/casualwear">
+                  Casualwear
+                </Link>
+              </li>
+
+              <li>
+                <Link to="/caps">
+                  Caps
+                </Link>
+              </li>
+
+              <li>
+                <Link to="/chestbags">
+                  Chest Bags
+                </Link>
+              </li>
+
+            </ul>
+          </div>
+
+
+          {/* COMPANY */}
+
+          <div>
+            <h4 className="footer-heading">
+              Company
+            </h4>
+
+            <ul className="footer-list">
+
+              <li>
+                <Link to="/about">
+                  About G-Culture
+                </Link>
+              </li>
+
+              <li>
+                <Link to="/blog">
+                  Journal
+                </Link>
+              </li>
+
+              <li>
+                <Link to="/latest-drops">
+                  Latest Drops
+                </Link>
+              </li>
+
+              <li>
+                <Link to="/terms">
+                  Terms & Conditions
+                </Link>
+              </li>
+
+            </ul>
+          </div>
+
+
+          {/* ACCOUNT */}
+
+          <div>
+            <h4 className="footer-heading">
+              Account
+            </h4>
+
+            <ul className="footer-list">
+
+              <li>
+                <Link to="/profile">
+                  My Account
+                </Link>
+              </li>
+
+              <li>
+                <Link to="/orders">
+                  My Orders
+                </Link>
+              </li>
+
+              <li>
+                <Link to="/wishlist">
+                  Wishlist
+                </Link>
+              </li>
+
+              <li>
+                <Link to="/cart">
+                  Shopping Bag
+                </Link>
+              </li>
+
+            </ul>
+          </div>
+
+
+          {/* SUPPORT */}
+
+          <div>
+            <h4 className="footer-heading">
+              Support
+            </h4>
+
+            <ul className="footer-list">
+
+              <li>
+                <a href="mailto:customersupport@gculture.in">
+                  Contact Support
+                </a>
+              </li>
+
+              <li>
+                <a href="mailto:customersupport@gculture.in?subject=G-Culture%20Support">
+                  Customer Care
+                </a>
+              </li>
+
+              <li>
+                <Link to="/terms">
+                  Terms & Conditions
+                </Link>
+              </li>
+
+            </ul>
+          </div>
+
         </div>
+
+
+        {/* ===================================================
+            SOCIALS + BOTTOM
+        ==================================================== */}
+
+        <div
+          className="
+            mt-14
+            flex
+            flex-col
+            gap-6
+            border-t
+            border-white/[0.08]
+            pt-7
+            sm:flex-row
+            sm:items-center
+            sm:justify-between
+          "
+        >
+
+          <div
+            className="
+              flex
+              items-center
+              gap-3
+            "
+          >
+
+            <span
+              className="
+                mr-2
+                text-[9px]
+                uppercase
+                tracking-[0.2em]
+                text-white/25
+              "
+            >
+              Follow
+            </span>
+
+            <a
+              href="https://www.instagram.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="G-Culture on Instagram"
+              className="social-link"
+            >
+              <Instagram size={15} />
+            </a>
+
+            <a
+              href="https://www.facebook.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="G-Culture on Facebook"
+              className="social-link"
+            >
+              <Facebook size={15} />
+            </a>
+
+            <a
+              href="https://www.linkedin.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="G-Culture on LinkedIn"
+              className="social-link"
+            >
+              <Linkedin size={15} />
+            </a>
+
+          </div>
+
+
+          <div
+            className="
+              flex
+              flex-col
+              gap-2
+              text-[12px]
+              text-white/25
+              sm:flex-row
+              sm:items-center
+              sm:gap-5
+            "
+          >
+
+            <span>
+              © {new Date().getFullYear()} G-Culture
+            </span>
+
+            <span className="hidden sm:block">
+              •
+            </span>
+
+            <span>
+              Fashion for creators.
+            </span>
+
+            <Link
+              to="/terms"
+              className="
+                transition-colors
+                hover:text-white/60
+              "
+            >
+              Terms
+            </Link>
+
+          </div>
+
+        </div>
+
+
+        {/* BACK TO TOP */}
+
+        <button
+          type="button"
+          onClick={scrollToTop}
+          className="
+            absolute
+            bottom-7
+            right-5
+            hidden
+            h-9
+            w-9
+            items-center
+            justify-center
+            rounded-full
+            border
+            border-white/[0.10]
+            bg-white/[0.025]
+            text-white/40
+            transition-all
+            duration-300
+            hover:border-white/20
+            hover:bg-white
+            hover:text-black
+            sm:flex
+            lg:right-8
+          "
+          aria-label="Back to top"
+        >
+          ↑
+        </button>
+
       </motion.div>
+
+
+      {/* =====================================================
+          FOOTER STYLES
+      ====================================================== */}
+
+      <style>{`
+
+        .footer-heading {
+          margin-bottom: 20px;
+
+          color: rgba(255,255,255,0.75);
+
+          font-size: 10px;
+
+          font-weight: 600;
+
+          letter-spacing: 0.2em;
+
+          text-transform: uppercase;
+        }
+
+        .footer-list {
+          display: flex;
+
+          flex-direction: column;
+
+          gap: 12px;
+
+          font-size: 14px;
+        }
+
+        .footer-list a {
+          color: rgba(255,255,255,0.36);
+
+          transition:
+            color 200ms ease;
+        }
+
+        .footer-list a:hover {
+          color: rgba(255,255,255,0.9);
+        }
+
+        .social-link {
+          display: flex;
+
+          align-items: center;
+
+          justify-content: center;
+
+          width: 34px;
+
+          height: 34px;
+
+          border:
+            1px solid
+            rgba(255,255,255,0.08);
+
+          border-radius: 50%;
+
+          color:
+            rgba(255,255,255,0.38);
+
+          background:
+            rgba(255,255,255,0.02);
+
+          transition:
+            color 250ms ease,
+            background 250ms ease,
+            border-color 250ms ease,
+            transform 250ms ease;
+        }
+
+        .social-link:hover {
+          color: #050507;
+
+          background: #fff;
+
+          border-color: #fff;
+
+          transform:
+            translateY(-2px);
+        }
+
+        @media (max-width: 640px) {
+          .footer-list {
+            gap: 10px;
+            font-size: 12px;
+          }
+        }
+
+      `}</style>
+
     </footer>
   );
 }
