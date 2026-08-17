@@ -17,9 +17,12 @@ import { Link } from "react-router-dom";
 import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 
 export default function FeaturedProducts() {
-  const { data, isLoading, isError } = useGetFeaturedProductsQuery();
+  const { data, isLoading, isError } =
+    useGetFeaturedProductsQuery();
 
-  const featuredProducts = Array.isArray(data) ? data : [];
+  const featuredProducts = Array.isArray(data)
+    ? data
+    : [];
 
   /*
    * =========================================================
@@ -31,7 +34,6 @@ export default function FeaturedProducts() {
     return (
       <section className="featured-section">
         <div className="featured-container">
-          {/* Header skeleton */}
 
           <div className="featured-section-header">
             <div>
@@ -44,30 +46,44 @@ export default function FeaturedProducts() {
 
             <div className="featured-loading-button" />
           </div>
+
         </div>
 
-        {/* Skeleton carousel */}
+        {/* Skeleton */}
 
-        <div className="featured-skeleton-wrapper">
-          <div className="featured-skeleton-track">
-            {Array.from({ length: 6 }).map((_, index) => (
-              <div key={index} className="featured-skeleton-card">
-                <div className="featured-skeleton-image" />
+        <div className="featured-carousel-container">
+          <div className="featured-skeleton-wrapper">
 
-                <div className="featured-skeleton-info">
-                  <div className="featured-skeleton-name" />
+            <div className="featured-skeleton-track">
 
-                  <div className="featured-skeleton-rating" />
+              {Array.from({ length: 6 }).map(
+                (_, index) => (
+                  <div
+                    key={index}
+                    className="featured-skeleton-card"
+                  >
+                    <div className="featured-skeleton-image" />
 
-                  <div className="featured-skeleton-price" />
-                </div>
-              </div>
-            ))}
+                    <div className="featured-skeleton-info">
+                      <div className="featured-skeleton-name" />
+
+                      <div className="featured-skeleton-rating" />
+
+                      <div className="featured-skeleton-price" />
+                    </div>
+                  </div>
+                )
+              )}
+
+            </div>
+
           </div>
         </div>
+
       </section>
     );
   }
+
 
   /*
    * =========================================================
@@ -75,48 +91,71 @@ export default function FeaturedProducts() {
    * =========================================================
    */
 
-  if (isError || featuredProducts.length === 0) {
+  if (
+    isError ||
+    featuredProducts.length === 0
+  ) {
     return null;
   }
+
 
   /*
    * =========================================================
    * LOOP
    * =========================================================
-   *
-   * We only loop when enough products exist.
    */
 
-  const enableLoop = featuredProducts.length >= 7;
+  const enableLoop =
+    featuredProducts.length >= 7;
+
 
   return (
     <section className="featured-section">
+
       {/* =====================================================
           HEADER
       ====================================================== */}
 
       <div className="featured-container">
+
         <div className="featured-section-header">
+
           {/* LEFT */}
 
           <div className="featured-heading">
+
             <div className="featured-eyebrow-wrapper">
+
               <span className="featured-eyebrow-line" />
 
-              <span className="featured-eyebrow">Curated</span>
+              <span className="featured-eyebrow">
+                Curated
+              </span>
+
             </div>
 
-            <h2 className="featured-title">Featured Products</h2>
+
+            <h2 className="featured-title">
+              Featured Products
+            </h2>
+
 
             <p className="featured-subtitle">
               Selected pieces worth adding to your rotation.
             </p>
+
           </div>
+
 
           {/* RIGHT */}
 
-          <Link to="/shop" className="featured-see-all group">
-            <span>See All</span>
+          <Link
+            to="/shop"
+            className="featured-see-all group"
+          >
+            <span>
+              See All
+            </span>
 
             <ArrowRight
               size={16}
@@ -128,202 +167,207 @@ export default function FeaturedProducts() {
               "
             />
           </Link>
+
         </div>
+
       </div>
+
 
       {/* =====================================================
           CAROUSEL
       ====================================================== */}
 
-      <div
-        className="featured-carousel-shell"
-      >
-        <Swiper
-          modules={[Navigation, Pagination, Autoplay, Keyboard, A11y]}
-          className="featured-products-swiper"
-          wrapperClass="featured-products-wrapper"
-          /*
-           * =================================================
-           * DESKTOP DEFAULT
-           * =================================================
-           */
+      <div className="featured-carousel-container">
 
-          slidesPerView={6}
-          spaceBetween={20}
-          /*
-           * =================================================
-           * NAVIGATION
-           * =================================================
-           */
+        <div className="featured-carousel-shell">
 
-          navigation={{
-            prevEl: ".featured-prev",
-            nextEl: ".featured-next",
-          }}
-          /*
-           * =================================================
-           * PAGINATION
-           * =================================================
-           *
-           * IMPORTANT:
-           * Let Swiper create its own pagination.
-           * This keeps it perfectly aligned with the
-           * Swiper container.
-           */
+          <Swiper
+            modules={[
+              Navigation,
+              Pagination,
+              Autoplay,
+              Keyboard,
+              A11y,
+            ]}
+            className="featured-products-swiper"
+            wrapperClass="featured-products-wrapper"
 
-          pagination={{
-            clickable: true,
-            dynamicBullets: false,
-          }}
-          /*
-           * =================================================
-           * AUTOPLAY
-           * =================================================
-           */
+            slidesPerView={6}
+            spaceBetween={20}
 
-          autoplay={{
-            delay: 4200,
-            disableOnInteraction: true,
-            pauseOnMouseEnter: true,
-          }}
-          /*
-           * =================================================
-           * KEYBOARD
-           * =================================================
-           */
+            navigation={{
+              prevEl: ".featured-prev",
+              nextEl: ".featured-next",
+            }}
 
-          keyboard={{
-            enabled: true,
-            onlyInViewport: true,
-          }}
-          /*
-           * =================================================
-           * GENERAL
-           * =================================================
-           */
+            pagination={{
+              clickable: true,
+              dynamicBullets: false,
+            }}
 
-          loop={enableLoop}
-          grabCursor
-          watchOverflow
-          speed={650}
-          resistance
-          resistanceRatio={0.72}
-          threshold={8}
-          touchRatio={1}
-          touchAngle={30}
-          allowTouchMove
-          /*
-           * =================================================
-           * RESPONSIVE
-           * =================================================
-           */
+            autoplay={{
+              delay: 4200,
+              disableOnInteraction: true,
+              pauseOnMouseEnter: true,
+            }}
 
-          breakpoints={{
-            /*
-             * MOBILE
-             */
+            keyboard={{
+              enabled: true,
+              onlyInViewport: true,
+            }}
 
-            0: {
-              slidesPerView: 2.05,
-              spaceBetween: 10,
-            },
+            loop={enableLoop}
 
-            390: {
-              slidesPerView: 2.15,
-              spaceBetween: 11,
-            },
+            grabCursor
 
-            480: {
-              slidesPerView: 2.45,
-              spaceBetween: 12,
-            },
+            watchOverflow
 
-            /*
-             * SMALL TABLET
-             */
+            speed={650}
 
-            640: {
-              slidesPerView: 3.15,
-              spaceBetween: 14,
-            },
+            resistance
 
-            /*
-             * TABLET
-             */
+            resistanceRatio={0.72}
 
-            768: {
-              slidesPerView: 4,
-              spaceBetween: 16,
-            },
+            threshold={8}
 
-            /*
-             * DESKTOP
-             */
+            touchRatio={1}
 
-            1024: {
-              slidesPerView: 5,
-              spaceBetween: 17,
-            },
+            touchAngle={30}
 
-            /*
-             * LARGE DESKTOP
-             */
+            allowTouchMove
 
-            1280: {
-              slidesPerView: 5.4,
-              spaceBetween: 18,
-            },
+            breakpoints={{
 
-            1440: {
-              slidesPerView: 5.7,
-              spaceBetween: 18,
-            },
+              /* ===============================================
+                 MOBILE
+              =============================================== */
 
-            1600: {
-              slidesPerView: 6,
-              spaceBetween: 20,
-            },
-          }}
-        >
-          {featuredProducts.map((product) => (
-            <SwiperSlide key={product._id} className="featured-product-slide">
-              <div className="featured-card-wrapper">
-                <FeaturedProductCard product={product} />
-              </div>
-            </SwiperSlide>
-          ))}
-        </Swiper>
+              0: {
+                slidesPerView: 2.05,
+                spaceBetween: 10,
+              },
 
-        {/* ===================================================
-            PREVIOUS
-        ==================================================== */}
+              390: {
+                slidesPerView: 2.15,
+                spaceBetween: 11,
+              },
 
-        <button
-          type="button"
-          aria-label="Previous featured products"
-          className="
-            featured-nav
-            featured-prev
-          "
-        >
-          <ChevronLeft size={19} strokeWidth={1.7} />
-        </button>
+              480: {
+                slidesPerView: 2.45,
+                spaceBetween: 12,
+              },
 
-        {/* ===================================================
-            NEXT
-        ==================================================== */}
 
-        <button
-          type="button"
-          aria-label="Next featured products"
-          className="
-            featured-nav
-            featured-next
-          "
-        >
-          <ChevronRight size={19} strokeWidth={1.7} />
-        </button>
+              /* ===============================================
+                 SMALL TABLET
+              =============================================== */
+
+              640: {
+                slidesPerView: 3.15,
+                spaceBetween: 14,
+              },
+
+
+              /* ===============================================
+                 TABLET
+              =============================================== */
+
+              768: {
+                slidesPerView: 4,
+                spaceBetween: 16,
+              },
+
+
+              /* ===============================================
+                 DESKTOP
+              =============================================== */
+
+              1024: {
+                slidesPerView: 5,
+                spaceBetween: 17,
+              },
+
+              1280: {
+                slidesPerView: 5.4,
+                spaceBetween: 18,
+              },
+
+              1440: {
+                slidesPerView: 5.7,
+                spaceBetween: 18,
+              },
+
+              1600: {
+                slidesPerView: 6,
+                spaceBetween: 20,
+              },
+
+            }}
+          >
+
+            {featuredProducts.map(
+              (product) => (
+
+                <SwiperSlide
+                  key={product._id}
+                  className="featured-product-slide"
+                >
+
+                  <div className="featured-card-wrapper">
+                    <FeaturedProductCard
+                      product={product}
+                    />
+                  </div>
+
+                </SwiperSlide>
+
+              )
+            )}
+
+          </Swiper>
+
+
+          {/* =================================================
+              PREVIOUS
+          ================================================== */}
+
+          <button
+            type="button"
+            aria-label="Previous featured products"
+            className="
+              featured-nav
+              featured-prev
+            "
+          >
+            <ChevronLeft
+              size={19}
+              strokeWidth={1.7}
+            />
+          </button>
+
+
+          {/* =================================================
+              NEXT
+          ================================================== */}
+
+          <button
+            type="button"
+            aria-label="Next featured products"
+            className="
+              featured-nav
+              featured-next
+            "
+          >
+            <ChevronRight
+              size={19}
+              strokeWidth={1.7}
+            />
+          </button>
+
+        </div>
+
       </div>
+
 
       {/* =====================================================
           STYLES
@@ -346,8 +390,9 @@ export default function FeaturedProducts() {
 
           color: #fff;
 
-          padding-top: 80px;
-          padding-bottom: 72px;
+          padding-top: 84px;
+
+          padding-bottom: 76px;
         }
 
 
@@ -356,14 +401,18 @@ export default function FeaturedProducts() {
         ====================================================== */
 
         .featured-container {
+
           width: 100%;
 
-          max-width: 1280px;
+          max-width: 1380px;
 
           margin: 0 auto;
 
-          padding-left: 24px;
-          padding-right: 24px;
+          padding-left: 40px;
+
+          padding-right: 40px;
+
+          box-sizing: border-box;
         }
 
 
@@ -372,6 +421,7 @@ export default function FeaturedProducts() {
         ====================================================== */
 
         .featured-section-header {
+
           display: flex;
 
           align-items: flex-end;
@@ -380,7 +430,7 @@ export default function FeaturedProducts() {
 
           gap: 32px;
 
-          margin-bottom: 42px;
+          margin-bottom: 44px;
         }
 
 
@@ -398,6 +448,7 @@ export default function FeaturedProducts() {
         ====================================================== */
 
         .featured-eyebrow-wrapper {
+
           display: flex;
 
           align-items: center;
@@ -407,18 +458,34 @@ export default function FeaturedProducts() {
           margin-bottom: 14px;
         }
 
+
         .featured-eyebrow-line {
+
           display: block;
 
           width: 28px;
 
           height: 1px;
 
-          background: rgba(255,255,255,0.28);
+          background:
+            rgba(
+              255,
+              255,
+              255,
+              0.28
+            );
         }
 
+
         .featured-eyebrow {
-          color: rgba(255,255,255,0.42);
+
+          color:
+            rgba(
+              255,
+              255,
+              255,
+              0.42
+            );
 
           font-size: 11px;
 
@@ -435,15 +502,17 @@ export default function FeaturedProducts() {
         ====================================================== */
 
         .featured-title {
+
           margin: 0;
 
           color: #fff;
 
-          font-size: clamp(
-            32px,
-            3vw,
-            46px
-          );
+          font-size:
+            clamp(
+              32px,
+              3vw,
+              46px
+            );
 
           font-weight: 400;
 
@@ -458,9 +527,16 @@ export default function FeaturedProducts() {
         ====================================================== */
 
         .featured-subtitle {
+
           margin: 13px 0 0;
 
-          color: rgba(255,255,255,0.36);
+          color:
+            rgba(
+              255,
+              255,
+              255,
+              0.36
+            );
 
           font-size: 13px;
 
@@ -475,6 +551,7 @@ export default function FeaturedProducts() {
         ====================================================== */
 
         .featured-see-all {
+
           display: inline-flex;
 
           align-items: center;
@@ -491,28 +568,32 @@ export default function FeaturedProducts() {
 
           padding: 0 18px;
 
-          border: 1px solid rgba(
-            255,
-            255,
-            255,
-            0.12
-          );
+          border:
+            1px solid
+            rgba(
+              255,
+              255,
+              255,
+              0.12
+            );
 
           border-radius: 999px;
 
-          color: rgba(
-            255,
-            255,
-            255,
-            0.62
-          );
+          color:
+            rgba(
+              255,
+              255,
+              255,
+              0.62
+            );
 
-          background: rgba(
-            255,
-            255,
-            255,
-            0.015
-          );
+          background:
+            rgba(
+              255,
+              255,
+              255,
+              0.02
+            );
 
           font-size: 10px;
 
@@ -524,6 +605,10 @@ export default function FeaturedProducts() {
 
           text-decoration: none;
 
+          backdrop-filter: blur(12px);
+
+          -webkit-backdrop-filter: blur(12px);
+
           transition:
             color 300ms ease,
             background 300ms ease,
@@ -531,14 +616,37 @@ export default function FeaturedProducts() {
             transform 300ms ease;
         }
 
+
         .featured-see-all:hover {
+
           color: #050507;
 
           background: #fff;
 
           border-color: #fff;
 
-          transform: translateY(-2px);
+          transform:
+            translateY(-2px);
+        }
+
+
+        /* =====================================================
+           CAROUSEL CONTAINER
+        ====================================================== */
+
+        .featured-carousel-container {
+
+          width: 100%;
+
+          max-width: 1380px;
+
+          margin: 0 auto;
+
+          padding-left: 40px;
+
+          padding-right: 40px;
+
+          box-sizing: border-box;
         }
 
 
@@ -547,6 +655,7 @@ export default function FeaturedProducts() {
         ====================================================== */
 
         .featured-carousel-shell {
+
           position: relative;
 
           width: 100%;
@@ -560,25 +669,23 @@ export default function FeaturedProducts() {
         ====================================================== */
 
         .featured-products-swiper {
+
           position: relative;
 
           width: 100%;
 
           padding:
             0
-            40px
+            46px
             66px
-            40px;
+            46px;
 
           overflow: hidden;
         }
 
 
-        /* =====================================================
-           WRAPPER
-        ====================================================== */
-
         .featured-products-wrapper {
+
           align-items: stretch;
         }
 
@@ -587,17 +694,9 @@ export default function FeaturedProducts() {
            SLIDE
         ====================================================== */
 
-        /*
-         * IMPORTANT:
-         *
-         * DO NOT set width here.
-         *
-         * Swiper calculates the width from
-         * slidesPerView.
-         */
-
         .featured-products-swiper
         .swiper-slide {
+
           height: auto;
 
           min-width: 0;
@@ -607,10 +706,11 @@ export default function FeaturedProducts() {
 
 
         /* =====================================================
-           CARD WRAPPER
+           CARD
         ====================================================== */
 
         .featured-card-wrapper {
+
           width: 100%;
 
           height: 100%;
@@ -618,8 +718,14 @@ export default function FeaturedProducts() {
           min-width: 0;
 
           transition:
-            transform 400ms
-            cubic-bezier(.2,.8,.2,1);
+            transform
+            400ms
+            cubic-bezier(
+              .2,
+              .8,
+              .2,
+              1
+            );
         }
 
 
@@ -630,6 +736,7 @@ export default function FeaturedProducts() {
         ) {
 
           .featured-card-wrapper:hover {
+
             transform:
               translateY(-5px);
           }
@@ -642,6 +749,7 @@ export default function FeaturedProducts() {
         ====================================================== */
 
         .featured-nav {
+
           position: absolute;
 
           top: 40%;
@@ -654,18 +762,20 @@ export default function FeaturedProducts() {
 
           justify-content: center;
 
-          width: 44px;
+          width: 42px;
 
-          height: 44px;
+          height: 42px;
 
           padding: 0;
 
-          border: 1px solid rgba(
-            255,
-            255,
-            255,
-            0.14
-          );
+          border:
+            1px solid
+            rgba(
+              255,
+              255,
+              255,
+              0.14
+            );
 
           border-radius: 50%;
 
@@ -676,7 +786,7 @@ export default function FeaturedProducts() {
               8,
               8,
               10,
-              0.84
+              0.88
             );
 
           backdrop-filter:
@@ -686,8 +796,15 @@ export default function FeaturedProducts() {
             blur(18px);
 
           box-shadow:
-            0 8px 30px
-            rgba(0,0,0,0.38);
+            0
+            8px
+            30px
+            rgba(
+              0,
+              0,
+              0,
+              0.38
+            );
 
           cursor: pointer;
 
@@ -698,22 +815,22 @@ export default function FeaturedProducts() {
             color 250ms ease,
             background 250ms ease,
             border-color 250ms ease,
-            transform 250ms ease,
-            opacity 250ms ease;
+            transform 250ms ease;
         }
 
 
         .featured-prev {
-          left: 16px;
+          left: 7px;
         }
 
 
         .featured-next {
-          right: 16px;
+          right: 7px;
         }
 
 
         .featured-nav:hover {
+
           color: #050507;
 
           background: #fff;
@@ -722,11 +839,12 @@ export default function FeaturedProducts() {
 
           transform:
             translateY(-50%)
-            scale(1.04);
+            scale(1.05);
         }
 
 
         .featured-nav:active {
+
           transform:
             translateY(-50%)
             scale(0.94);
@@ -734,15 +852,8 @@ export default function FeaturedProducts() {
 
 
         /* =====================================================
-           SWIPER PAGINATION
+           PAGINATION
         ====================================================== */
-
-        /*
-         * IMPORTANT:
-         *
-         * We are using Swiper's own pagination element.
-         * This makes centering reliable.
-         */
 
         .featured-products-swiper
         .swiper-pagination {
@@ -778,10 +889,6 @@ export default function FeaturedProducts() {
         }
 
 
-        /* =====================================================
-           PAGINATION DOT
-        ====================================================== */
-
         .featured-products-swiper
         .swiper-pagination-bullet {
 
@@ -814,18 +921,18 @@ export default function FeaturedProducts() {
           cursor: pointer;
 
           transition:
-            width 350ms
-            cubic-bezier(.2,.8,.2,1),
-
+            width
+            350ms
+            cubic-bezier(
+              .2,
+              .8,
+              .2,
+              1
+            ),
             background 300ms ease,
-
             opacity 300ms ease;
         }
 
-
-        /* =====================================================
-           ACTIVE PAGINATION
-        ====================================================== */
 
         .featured-products-swiper
         .swiper-pagination-bullet-active {
@@ -857,7 +964,7 @@ export default function FeaturedProducts() {
 
           z-index: 20;
 
-          width: 52px;
+          width: 45px;
 
           pointer-events: none;
         }
@@ -871,7 +978,12 @@ export default function FeaturedProducts() {
             linear-gradient(
               90deg,
               #050507 0%,
-              rgba(5,5,7,0) 100%
+              rgba(
+                5,
+                5,
+                7,
+                0
+              ) 100%
             );
         }
 
@@ -884,7 +996,12 @@ export default function FeaturedProducts() {
             linear-gradient(
               270deg,
               #050507 0%,
-              rgba(5,5,7,0) 100%
+              rgba(
+                5,
+                5,
+                7,
+                0
+              ) 100%
             );
         }
 
@@ -913,7 +1030,8 @@ export default function FeaturedProducts() {
 
           animation:
             featuredPulse
-            1.6s ease-in-out
+            1.6s
+            ease-in-out
             infinite;
         }
 
@@ -936,7 +1054,8 @@ export default function FeaturedProducts() {
 
           animation:
             featuredPulse
-            1.6s ease-in-out
+            1.6s
+            ease-in-out
             infinite;
         }
 
@@ -961,7 +1080,8 @@ export default function FeaturedProducts() {
 
           animation:
             featuredPulse
-            1.6s ease-in-out
+            1.6s
+            ease-in-out
             infinite;
         }
 
@@ -984,7 +1104,8 @@ export default function FeaturedProducts() {
 
           animation:
             featuredPulse
-            1.6s ease-in-out
+            1.6s
+            ease-in-out
             infinite;
         }
 
@@ -998,9 +1119,11 @@ export default function FeaturedProducts() {
           width: 100%;
 
           padding:
-            0 40px;
+            0 46px;
 
           overflow: hidden;
+
+          box-sizing: border-box;
         }
 
 
@@ -1011,7 +1134,10 @@ export default function FeaturedProducts() {
           grid-template-columns:
             repeat(
               6,
-              minmax(0,1fr)
+              minmax(
+                0,
+                1fr
+              )
             );
 
           gap: 20px;
@@ -1061,7 +1187,8 @@ export default function FeaturedProducts() {
 
           animation:
             featuredPulse
-            1.6s ease-in-out
+            1.6s
+            ease-in-out
             infinite;
         }
 
@@ -1090,7 +1217,8 @@ export default function FeaturedProducts() {
 
           animation:
             featuredPulse
-            1.6s ease-in-out
+            1.6s
+            ease-in-out
             infinite;
         }
 
@@ -1115,7 +1243,8 @@ export default function FeaturedProducts() {
 
           animation:
             featuredPulse
-            1.6s ease-in-out
+            1.6s
+            ease-in-out
             infinite;
         }
 
@@ -1140,7 +1269,8 @@ export default function FeaturedProducts() {
 
           animation:
             featuredPulse
-            1.6s ease-in-out
+            1.6s
+            ease-in-out
             infinite;
         }
 
@@ -1168,6 +1298,7 @@ export default function FeaturedProducts() {
         ) {
 
           .featured-section {
+
             padding-top: 64px;
 
             padding-bottom: 60px;
@@ -1175,6 +1306,15 @@ export default function FeaturedProducts() {
 
 
           .featured-container {
+
+            padding-left: 24px;
+
+            padding-right: 24px;
+          }
+
+
+          .featured-carousel-container {
+
             padding-left: 24px;
 
             padding-right: 24px;
@@ -1182,20 +1322,22 @@ export default function FeaturedProducts() {
 
 
           .featured-section-header {
+
             margin-bottom: 32px;
           }
 
 
           .featured-title {
+
             font-size: 34px;
           }
 
 
           .featured-products-swiper {
 
-            padding-left: 24px;
+            padding-left: 38px;
 
-            padding-right: 24px;
+            padding-right: 38px;
           }
 
 
@@ -1209,13 +1351,21 @@ export default function FeaturedProducts() {
 
           .featured-prev {
 
-            left: 10px;
+            left: 5px;
           }
 
 
           .featured-next {
 
-            right: 10px;
+            right: 5px;
+          }
+
+
+          .featured-skeleton-wrapper {
+
+            padding-left: 38px;
+
+            padding-right: 38px;
           }
 
 
@@ -1224,7 +1374,10 @@ export default function FeaturedProducts() {
             grid-template-columns:
               repeat(
                 4,
-                minmax(0,1fr)
+                minmax(
+                  0,
+                  1fr
+                )
               );
           }
 
@@ -1248,6 +1401,14 @@ export default function FeaturedProducts() {
 
 
           .featured-container {
+
+            padding-left: 16px;
+
+            padding-right: 16px;
+          }
+
+
+          .featured-carousel-container {
 
             padding-left: 16px;
 
@@ -1324,29 +1485,24 @@ export default function FeaturedProducts() {
           }
 
 
-          /* Carousel */
-
           .featured-products-swiper {
 
             padding:
               0
-              16px
+              0
               54px
-              16px;
+              0;
 
-            overflow: hidden !important;
+            overflow:
+              hidden !important;
           }
 
-
-          /* Hide desktop arrows */
 
           .featured-nav {
 
             display: none;
           }
 
-
-          /* Remove edge masks */
 
           .featured-carousel-shell::before,
           .featured-carousel-shell::after {
@@ -1355,21 +1511,18 @@ export default function FeaturedProducts() {
           }
 
 
-          /* Mobile pagination */
-
           .featured-products-swiper
           .swiper-pagination {
 
-            bottom: 10px !important;
+            bottom:
+              10px !important;
           }
 
-
-          /* Skeleton */
 
           .featured-skeleton-wrapper {
 
             padding:
-              0 16px;
+              0;
           }
 
 
@@ -1378,7 +1531,10 @@ export default function FeaturedProducts() {
             grid-template-columns:
               repeat(
                 2,
-                minmax(0,1fr)
+                minmax(
+                  0,
+                  1fr
+                )
               );
 
             gap: 10px;
@@ -1394,6 +1550,22 @@ export default function FeaturedProducts() {
         @media (
           max-width: 389px
         ) {
+
+          .featured-container {
+
+            padding-left: 12px;
+
+            padding-right: 12px;
+          }
+
+
+          .featured-carousel-container {
+
+            padding-left: 12px;
+
+            padding-right: 12px;
+          }
+
 
           .featured-title {
 
@@ -1414,14 +1586,6 @@ export default function FeaturedProducts() {
             padding: 0;
           }
 
-
-          .featured-products-swiper {
-
-            padding-left: 12px;
-
-            padding-right: 12px;
-          }
-
         }
 
 
@@ -1439,7 +1603,8 @@ export default function FeaturedProducts() {
           .featured-products-swiper
           .swiper-pagination-bullet {
 
-            transition: none !important;
+            transition:
+              none !important;
           }
 
 
@@ -1452,12 +1617,14 @@ export default function FeaturedProducts() {
           .featured-skeleton-rating,
           .featured-skeleton-price {
 
-            animation: none !important;
+            animation:
+              none !important;
           }
 
         }
 
       `}</style>
+
     </section>
   );
 }

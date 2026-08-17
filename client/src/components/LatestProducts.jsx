@@ -12,15 +12,33 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 
 import { Link } from "react-router-dom";
-import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
+import {
+  ArrowRight,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react";
 
-import { useGetLatestProductsQuery } from "../features/products/productApi";
+import {
+  useGetLatestProductsQuery,
+} from "../features/products/productApi";
+
 import LatestProductCard from "./LatestProductCard";
 
-export default function LatestProducts() {
-  const { data, isLoading, isError } = useGetLatestProductsQuery();
 
-  const latestProducts = Array.isArray(data) ? data : [];
+export default function LatestProducts() {
+
+  const {
+    data,
+    isLoading,
+    isError,
+  } = useGetLatestProductsQuery();
+
+
+  const latestProducts =
+    Array.isArray(data)
+      ? data
+      : [];
+
 
   /*
    * =========================================================
@@ -29,42 +47,77 @@ export default function LatestProducts() {
    */
 
   if (isLoading) {
+
     return (
       <section className="latest-section">
+
+        {/* HEADER */}
+
         <div className="latest-container">
+
           <div className="latest-section-header">
+
             <div>
+
               <div className="latest-loading-eyebrow" />
 
               <div className="latest-loading-title" />
 
               <div className="latest-loading-subtitle" />
+
             </div>
 
+
             <div className="latest-loading-button" />
+
           </div>
+
         </div>
 
-        <div className="latest-skeleton-wrapper">
-          <div className="latest-skeleton-track">
-            {Array.from({ length: 6 }).map((_, index) => (
-              <div key={index} className="latest-skeleton-card">
-                <div className="latest-skeleton-image" />
 
-                <div className="latest-skeleton-info">
-                  <div className="latest-skeleton-name" />
+        {/* SKELETON */}
 
-                  <div className="latest-skeleton-rating" />
+        <div className="latest-carousel-container">
 
-                  <div className="latest-skeleton-price" />
+          <div className="latest-skeleton-wrapper">
+
+            <div className="latest-skeleton-track">
+
+              {Array.from({
+                length: 6,
+              }).map((_, index) => (
+
+                <div
+                  key={index}
+                  className="latest-skeleton-card"
+                >
+
+                  <div className="latest-skeleton-image" />
+
+                  <div className="latest-skeleton-info">
+
+                    <div className="latest-skeleton-name" />
+
+                    <div className="latest-skeleton-rating" />
+
+                    <div className="latest-skeleton-price" />
+
+                  </div>
+
                 </div>
-              </div>
-            ))}
+
+              ))}
+
+            </div>
+
           </div>
+
         </div>
+
       </section>
     );
   }
+
 
   /*
    * =========================================================
@@ -72,9 +125,13 @@ export default function LatestProducts() {
    * =========================================================
    */
 
-  if (isError || latestProducts.length === 0) {
+  if (
+    isError ||
+    latestProducts.length === 0
+  ) {
     return null;
   }
+
 
   /*
    * =========================================================
@@ -82,36 +139,59 @@ export default function LatestProducts() {
    * =========================================================
    */
 
-  const enableLoop = latestProducts.length >= 7;
+  const enableLoop =
+    latestProducts.length >= 7;
+
 
   return (
+
     <section className="latest-section">
+
       {/* =====================================================
           HEADER
       ====================================================== */}
 
       <div className="latest-container">
+
         <div className="latest-section-header">
+
           {/* LEFT */}
 
           <div className="latest-heading">
+
             <div className="latest-eyebrow-wrapper">
+
               <span className="latest-eyebrow-line" />
 
-              <span className="latest-eyebrow">New Arrivals</span>
+              <span className="latest-eyebrow">
+                New Arrivals
+              </span>
+
             </div>
 
-            <h2 className="latest-title">Latest Products</h2>
+
+            <h2 className="latest-title">
+              Latest Products
+            </h2>
+
 
             <p className="latest-subtitle">
               Fresh pieces just added to the collection.
             </p>
+
           </div>
+
 
           {/* RIGHT */}
 
-          <Link to="/shop" className="latest-see-all group">
-            <span>See All</span>
+          <Link
+            to="/shop"
+            className="latest-see-all group"
+          >
+
+            <span>
+              See All
+            </span>
 
             <ArrowRight
               size={16}
@@ -122,192 +202,265 @@ export default function LatestProducts() {
                 group-hover:translate-x-1
               "
             />
+
           </Link>
+
         </div>
+
       </div>
+
 
       {/* =====================================================
           CAROUSEL
       ====================================================== */}
 
-      <div
-        className="latest-carousel-shell"
-      >
-        <Swiper
-          modules={[Navigation, Pagination, Autoplay, Keyboard, A11y]}
-          className="latest-products-swiper"
-          wrapperClass="latest-products-wrapper"
-          /*
-           * =================================================
-           * DESKTOP
-           * =================================================
-           */
+      <div className="latest-carousel-container">
 
-          slidesPerView={5}
-          spaceBetween={20}
-          /*
-           * =================================================
-           * NAVIGATION
-           * =================================================
-           */
+        <div className="latest-carousel-shell">
 
-          navigation={{
-            prevEl: ".latest-prev",
-            nextEl: ".latest-next",
-          }}
-          /*
-           * =================================================
-           * PAGINATION
-           * =================================================
-           *
-           * Swiper manages the pagination itself.
-           */
+          {/* PREMIUM EDGE RAIL */}
 
-          pagination={{
-            clickable: true,
-            dynamicBullets: false,
-          }}
-          /*
-           * =================================================
-           * AUTOPLAY
-           * =================================================
-           */
+          <div
+            className="latest-edge latest-edge-left"
+            aria-hidden="true"
+          />
 
-          autoplay={{
-            delay: 4200,
-            disableOnInteraction: true,
-            pauseOnMouseEnter: true,
-          }}
-          /*
-           * =================================================
-           * KEYBOARD
-           * =================================================
-           */
+          <div
+            className="latest-edge latest-edge-right"
+            aria-hidden="true"
+          />
 
-          keyboard={{
-            enabled: true,
-            onlyInViewport: true,
-          }}
-          /*
-           * =================================================
-           * BEHAVIOR
-           * =================================================
-           */
 
-          loop={enableLoop}
-          grabCursor
-          watchOverflow
-          speed={650}
-          resistance
-          resistanceRatio={0.72}
-          threshold={8}
-          touchRatio={1}
-          touchAngle={30}
-          allowTouchMove
-          /*
-           * =================================================
-           * RESPONSIVE
-           * =================================================
-           */
+          <Swiper
+            modules={[
+              Navigation,
+              Pagination,
+              Autoplay,
+              Keyboard,
+              A11y,
+            ]}
+            className="latest-products-swiper"
+            wrapperClass="latest-products-wrapper"
 
-          breakpoints={{
-            /* PHONE */
 
-            0: {
-              slidesPerView: 2.05,
-              spaceBetween: 10,
-            },
+            /* =================================================
+               DESKTOP
+            ================================================== */
 
-            /* LARGE PHONE */
+            slidesPerView={5}
+            spaceBetween={20}
 
-            390: {
-              slidesPerView: 2.15,
-              spaceBetween: 11,
-            },
 
-            /* SMALL TABLET */
+            /* =================================================
+               NAVIGATION
+            ================================================== */
 
-            480: {
-              slidesPerView: 2.45,
-              spaceBetween: 12,
-            },
+            navigation={{
+              prevEl: ".latest-prev",
+              nextEl: ".latest-next",
+            }}
 
-            /* TABLET */
 
-            640: {
-              slidesPerView: 3.15,
-              spaceBetween: 14,
-            },
+            /* =================================================
+               PAGINATION
+            ================================================== */
 
-            768: {
-              slidesPerView: 4,
-              spaceBetween: 16,
-            },
+            pagination={{
+              clickable: true,
+              dynamicBullets: false,
+            }}
 
-            /* DESKTOP */
 
-            1024: {
-              slidesPerView: 5,
-              spaceBetween: 17,
-            },
+            /* =================================================
+               AUTOPLAY
+            ================================================== */
 
-            /* LARGE DESKTOP */
+            autoplay={{
+              delay: 4200,
+              disableOnInteraction: true,
+              pauseOnMouseEnter: true,
+            }}
 
-            1280: {
-              slidesPerView: 5.4,
-              spaceBetween: 18,
-            },
 
-            1440: {
-              slidesPerView: 5.7,
-              spaceBetween: 18,
-            },
+            /* =================================================
+               KEYBOARD
+            ================================================== */
 
-            1600: {
-              slidesPerView: 6,
-              spaceBetween: 20,
-            },
-          }}
-        >
-          {latestProducts.map((product) => (
-            <SwiperSlide key={product._id} className="latest-product-slide">
-              <div className="latest-card-wrapper">
-                <LatestProductCard product={product} />
-              </div>
-            </SwiperSlide>
-          ))}
-        </Swiper>
+            keyboard={{
+              enabled: true,
+              onlyInViewport: true,
+            }}
 
-        {/* ===================================================
-            PREVIOUS
-        ==================================================== */}
 
-        <button
-          type="button"
-          aria-label="Previous latest products"
-          className="
-            latest-nav
-            latest-prev
-          "
-        >
-          <ChevronLeft size={19} strokeWidth={1.7} />
-        </button>
+            /* =================================================
+               BEHAVIOR
+            ================================================== */
 
-        {/* ===================================================
-            NEXT
-        ==================================================== */}
+            loop={enableLoop}
 
-        <button
-          type="button"
-          aria-label="Next latest products"
-          className="
-            latest-nav
-            latest-next
-          "
-        >
-          <ChevronRight size={19} strokeWidth={1.7} />
-        </button>
+            grabCursor
+
+            watchOverflow
+
+            speed={650}
+
+            resistance
+
+            resistanceRatio={0.72}
+
+            threshold={8}
+
+            touchRatio={1}
+
+            touchAngle={30}
+
+            allowTouchMove
+
+
+            /* =================================================
+               RESPONSIVE
+            ================================================== */
+
+            breakpoints={{
+
+              /* PHONE */
+
+              0: {
+                slidesPerView: 2.05,
+                spaceBetween: 10,
+              },
+
+
+              /* LARGE PHONE */
+
+              390: {
+                slidesPerView: 2.15,
+                spaceBetween: 11,
+              },
+
+
+              /* SMALL TABLET */
+
+              480: {
+                slidesPerView: 2.45,
+                spaceBetween: 12,
+              },
+
+
+              /* TABLET */
+
+              640: {
+                slidesPerView: 3.15,
+                spaceBetween: 14,
+              },
+
+
+              768: {
+                slidesPerView: 4,
+                spaceBetween: 16,
+              },
+
+
+              /* DESKTOP */
+
+              1024: {
+                slidesPerView: 5,
+                spaceBetween: 17,
+              },
+
+
+              /* LARGE DESKTOP */
+
+              1280: {
+                slidesPerView: 5.4,
+                spaceBetween: 18,
+              },
+
+
+              1440: {
+                slidesPerView: 5.7,
+                spaceBetween: 18,
+              },
+
+
+              1600: {
+                slidesPerView: 6,
+                spaceBetween: 20,
+              },
+
+            }}
+
+          >
+
+            {latestProducts.map(
+              (product) => (
+
+                <SwiperSlide
+                  key={product._id}
+                  className="latest-product-slide"
+                >
+
+                  <div className="latest-card-wrapper">
+
+                    <LatestProductCard
+                      product={product}
+                    />
+
+                  </div>
+
+                </SwiperSlide>
+
+              )
+            )}
+
+          </Swiper>
+
+
+          {/* =================================================
+              PREVIOUS
+          ================================================== */}
+
+          <button
+            type="button"
+            aria-label="Previous latest products"
+            className="
+              latest-nav
+              latest-prev
+            "
+          >
+
+            <ChevronLeft
+              size={19}
+              strokeWidth={1.7}
+            />
+
+          </button>
+
+
+          {/* =================================================
+              NEXT
+          ================================================== */}
+
+          <button
+            type="button"
+            aria-label="Next latest products"
+            className="
+              latest-nav
+              latest-next
+            "
+          >
+
+            <ChevronRight
+              size={19}
+              strokeWidth={1.7}
+            />
+
+          </button>
+
+        </div>
+
       </div>
+
 
       {/* =====================================================
           STYLES
@@ -331,27 +484,29 @@ export default function LatestProducts() {
 
           color: #fff;
 
-          padding-top: 72px;
+          padding-top: 84px;
 
-          padding-bottom: 72px;
+          padding-bottom: 76px;
         }
 
 
         /* =====================================================
-           CONTAINER
+           MAIN CONTAINER
         ====================================================== */
 
         .latest-container {
 
           width: 100%;
 
-          max-width: 1280px;
+          max-width: 1380px;
 
           margin: 0 auto;
 
-          padding-left: 24px;
+          padding-left: 40px;
 
-          padding-right: 24px;
+          padding-right: 40px;
+
+          box-sizing: border-box;
         }
 
 
@@ -369,7 +524,7 @@ export default function LatestProducts() {
 
           gap: 32px;
 
-          margin-bottom: 42px;
+          margin-bottom: 44px;
         }
 
 
@@ -447,11 +602,12 @@ export default function LatestProducts() {
 
           color: #fff;
 
-          font-size: clamp(
-            32px,
-            3vw,
-            46px
-          );
+          font-size:
+            clamp(
+              32px,
+              3vw,
+              46px
+            );
 
           font-weight: 400;
 
@@ -531,7 +687,7 @@ export default function LatestProducts() {
               255,
               255,
               255,
-              0.015
+              0.02
             );
 
           font-size: 10px;
@@ -543,6 +699,12 @@ export default function LatestProducts() {
           text-transform: uppercase;
 
           text-decoration: none;
+
+          backdrop-filter:
+            blur(12px);
+
+          -webkit-backdrop-filter:
+            blur(12px);
 
           transition:
             color 300ms ease,
@@ -566,6 +728,26 @@ export default function LatestProducts() {
 
 
         /* =====================================================
+           CAROUSEL CONTAINER
+        ====================================================== */
+
+        .latest-carousel-container {
+
+          width: 100%;
+
+          max-width: 1380px;
+
+          margin: 0 auto;
+
+          padding-left: 40px;
+
+          padding-right: 40px;
+
+          box-sizing: border-box;
+        }
+
+
+        /* =====================================================
            CAROUSEL SHELL
         ====================================================== */
 
@@ -576,6 +758,173 @@ export default function LatestProducts() {
           width: 100%;
 
           overflow: visible;
+        }
+
+
+        /* =====================================================
+           PREMIUM EDGE RAILS
+           
+           Instead of the old black blur:
+           - thin architectural lines
+           - subtle white ambient glow
+           - no visual darkening over products
+        ====================================================== */
+
+        .latest-edge {
+
+          position: absolute;
+
+          top: 0;
+
+          bottom: 58px;
+
+          width: 1px;
+
+          z-index: 25;
+
+          pointer-events: none;
+
+          opacity: 0.7;
+        }
+
+
+        .latest-edge-left {
+
+          left: 0;
+
+          background:
+            linear-gradient(
+              180deg,
+              transparent 0%,
+              rgba(
+                255,
+                255,
+                255,
+                0.16
+              ) 18%,
+              rgba(
+                255,
+                255,
+                255,
+                0.08
+              ) 50%,
+              rgba(
+                255,
+                255,
+                255,
+                0.16
+              ) 82%,
+              transparent 100%
+            );
+
+          box-shadow:
+            0 0 18px
+            rgba(
+              255,
+              255,
+              255,
+              0.04
+            );
+        }
+
+
+        .latest-edge-right {
+
+          right: 0;
+
+          background:
+            linear-gradient(
+              180deg,
+              transparent 0%,
+              rgba(
+                255,
+                255,
+                255,
+                0.16
+              ) 18%,
+              rgba(
+                255,
+                255,
+                255,
+                0.08
+              ) 50%,
+              rgba(
+                255,
+                255,
+                255,
+                0.16
+              ) 82%,
+              transparent 100%
+            );
+
+          box-shadow:
+            0 0 18px
+            rgba(
+              255,
+              255,
+              255,
+              0.04
+            );
+        }
+
+
+        /* =====================================================
+           SMALL CORNER ACCENTS
+        ====================================================== */
+
+        .latest-edge-left::before,
+        .latest-edge-right::before {
+
+          content: "";
+
+          position: absolute;
+
+          top: 24px;
+
+          width: 7px;
+
+          height: 7px;
+
+          border-top:
+            1px solid
+            rgba(
+              255,
+              255,
+              255,
+              0.3
+            );
+
+          opacity: 0.8;
+        }
+
+
+        .latest-edge-left::before {
+
+          left: 0;
+
+          border-left:
+            1px solid
+            rgba(
+              255,
+              255,
+              255,
+              0.3
+            );
+        }
+
+
+        .latest-edge-right::before {
+
+          right: 0;
+
+          border-right:
+            1px solid
+            rgba(
+              255,
+              255,
+              255,
+              0.3
+            );
         }
 
 
@@ -591,17 +940,13 @@ export default function LatestProducts() {
 
           padding:
             0
-            40px
+            46px
             66px
-            40px;
+            46px;
 
           overflow: hidden;
         }
 
-
-        /* =====================================================
-           WRAPPER
-        ====================================================== */
 
         .latest-products-wrapper {
 
@@ -637,7 +982,8 @@ export default function LatestProducts() {
           min-width: 0;
 
           transition:
-            transform 400ms
+            transform
+            400ms
             cubic-bezier(
               .2,
               .8,
@@ -680,9 +1026,9 @@ export default function LatestProducts() {
 
           justify-content: center;
 
-          width: 44px;
+          width: 42px;
 
-          height: 44px;
+          height: 42px;
 
           padding: 0;
 
@@ -704,7 +1050,7 @@ export default function LatestProducts() {
               8,
               8,
               10,
-              0.84
+              0.88
             );
 
           backdrop-filter:
@@ -737,13 +1083,13 @@ export default function LatestProducts() {
 
         .latest-prev {
 
-          left: 16px;
+          left: 7px;
         }
 
 
         .latest-next {
 
-          right: 16px;
+          right: 7px;
         }
 
 
@@ -757,7 +1103,7 @@ export default function LatestProducts() {
 
           transform:
             translateY(-50%)
-            scale(1.04);
+            scale(1.05);
         }
 
 
@@ -772,14 +1118,6 @@ export default function LatestProducts() {
         /* =====================================================
            PAGINATION
         ====================================================== */
-
-        /*
-         * IMPORTANT:
-         *
-         * Pagination belongs to the Swiper itself.
-         * This guarantees that it stays perfectly centered
-         * underneath the carousel.
-         */
 
         .latest-products-swiper
         .swiper-pagination {
@@ -814,10 +1152,6 @@ export default function LatestProducts() {
           z-index: 40;
         }
 
-
-        /* =====================================================
-           PAGINATION DOT
-        ====================================================== */
 
         .latest-products-swiper
         .swiper-pagination-bullet {
@@ -858,16 +1192,9 @@ export default function LatestProducts() {
               .2,
               1
             ),
-
-            background 300ms ease,
-
-            opacity 300ms ease;
+            background 300ms ease;
         }
 
-
-        /* =====================================================
-           ACTIVE DOT
-        ====================================================== */
 
         .latest-products-swiper
         .swiper-pagination-bullet-active {
@@ -879,65 +1206,6 @@ export default function LatestProducts() {
           background: #fff;
 
           opacity: 1;
-        }
-
-
-        /* =====================================================
-           EDGE FADE
-        ====================================================== */
-
-        .latest-carousel-shell::before,
-        .latest-carousel-shell::after {
-
-          content: "";
-
-          position: absolute;
-
-          top: 0;
-
-          bottom: 60px;
-
-          z-index: 20;
-
-          width: 52px;
-
-          pointer-events: none;
-        }
-
-
-        .latest-carousel-shell::before {
-
-          left: 0;
-
-          background:
-            linear-gradient(
-              90deg,
-              #050507 0%,
-              rgba(
-                5,
-                5,
-                7,
-                0
-              ) 100%
-            );
-        }
-
-
-        .latest-carousel-shell::after {
-
-          right: 0;
-
-          background:
-            linear-gradient(
-              270deg,
-              #050507 0%,
-              rgba(
-                5,
-                5,
-                7,
-                0
-              ) 100%
-            );
         }
 
 
@@ -965,7 +1233,8 @@ export default function LatestProducts() {
 
           animation:
             latestPulse
-            1.6s ease-in-out
+            1.6s
+            ease-in-out
             infinite;
         }
 
@@ -988,7 +1257,8 @@ export default function LatestProducts() {
 
           animation:
             latestPulse
-            1.6s ease-in-out
+            1.6s
+            ease-in-out
             infinite;
         }
 
@@ -1013,7 +1283,8 @@ export default function LatestProducts() {
 
           animation:
             latestPulse
-            1.6s ease-in-out
+            1.6s
+            ease-in-out
             infinite;
         }
 
@@ -1036,7 +1307,8 @@ export default function LatestProducts() {
 
           animation:
             latestPulse
-            1.6s ease-in-out
+            1.6s
+            ease-in-out
             infinite;
         }
 
@@ -1050,9 +1322,11 @@ export default function LatestProducts() {
           width: 100%;
 
           padding:
-            0 40px;
+            0 46px;
 
           overflow: hidden;
+
+          box-sizing: border-box;
         }
 
 
@@ -1063,7 +1337,10 @@ export default function LatestProducts() {
           grid-template-columns:
             repeat(
               6,
-              minmax(0, 1fr)
+              minmax(
+                0,
+                1fr
+              )
             );
 
           gap: 20px;
@@ -1113,7 +1390,8 @@ export default function LatestProducts() {
 
           animation:
             latestPulse
-            1.6s ease-in-out
+            1.6s
+            ease-in-out
             infinite;
         }
 
@@ -1142,7 +1420,8 @@ export default function LatestProducts() {
 
           animation:
             latestPulse
-            1.6s ease-in-out
+            1.6s
+            ease-in-out
             infinite;
         }
 
@@ -1167,7 +1446,8 @@ export default function LatestProducts() {
 
           animation:
             latestPulse
-            1.6s ease-in-out
+            1.6s
+            ease-in-out
             infinite;
         }
 
@@ -1192,7 +1472,8 @@ export default function LatestProducts() {
 
           animation:
             latestPulse
-            1.6s ease-in-out
+            1.6s
+            ease-in-out
             infinite;
         }
 
@@ -1235,6 +1516,14 @@ export default function LatestProducts() {
           }
 
 
+          .latest-carousel-container {
+
+            padding-left: 24px;
+
+            padding-right: 24px;
+          }
+
+
           .latest-section-header {
 
             margin-bottom: 32px;
@@ -1249,9 +1538,9 @@ export default function LatestProducts() {
 
           .latest-products-swiper {
 
-            padding-left: 24px;
+            padding-left: 38px;
 
-            padding-right: 24px;
+            padding-right: 38px;
           }
 
 
@@ -1265,13 +1554,21 @@ export default function LatestProducts() {
 
           .latest-prev {
 
-            left: 10px;
+            left: 5px;
           }
 
 
           .latest-next {
 
-            right: 10px;
+            right: 5px;
+          }
+
+
+          .latest-skeleton-wrapper {
+
+            padding-left: 38px;
+
+            padding-right: 38px;
           }
 
 
@@ -1280,7 +1577,10 @@ export default function LatestProducts() {
             grid-template-columns:
               repeat(
                 4,
-                minmax(0,1fr)
+                minmax(
+                  0,
+                  1fr
+                )
               );
           }
 
@@ -1304,6 +1604,14 @@ export default function LatestProducts() {
 
 
           .latest-container {
+
+            padding-left: 16px;
+
+            padding-right: 16px;
+          }
+
+
+          .latest-carousel-container {
 
             padding-left: 16px;
 
@@ -1386,11 +1694,12 @@ export default function LatestProducts() {
 
             padding:
               0
-              16px
+              0
               54px
-              16px;
+              0;
 
-            overflow: hidden !important;
+            overflow:
+              hidden !important;
           }
 
 
@@ -1402,10 +1711,9 @@ export default function LatestProducts() {
           }
 
 
-          /* Remove edge fade */
+          /* Remove edge rails */
 
-          .latest-carousel-shell::before,
-          .latest-carousel-shell::after {
+          .latest-edge {
 
             display: none;
           }
@@ -1416,7 +1724,8 @@ export default function LatestProducts() {
           .latest-products-swiper
           .swiper-pagination {
 
-            bottom: 10px !important;
+            bottom:
+              10px !important;
           }
 
 
@@ -1424,8 +1733,7 @@ export default function LatestProducts() {
 
           .latest-skeleton-wrapper {
 
-            padding:
-              0 16px;
+            padding: 0;
           }
 
 
@@ -1434,7 +1742,10 @@ export default function LatestProducts() {
             grid-template-columns:
               repeat(
                 2,
-                minmax(0,1fr)
+                minmax(
+                  0,
+                  1fr
+                )
               );
 
             gap: 10px;
@@ -1450,6 +1761,22 @@ export default function LatestProducts() {
         @media (
           max-width: 389px
         ) {
+
+          .latest-container {
+
+            padding-left: 12px;
+
+            padding-right: 12px;
+          }
+
+
+          .latest-carousel-container {
+
+            padding-left: 12px;
+
+            padding-right: 12px;
+          }
+
 
           .latest-title {
 
@@ -1470,14 +1797,6 @@ export default function LatestProducts() {
             padding: 0;
           }
 
-
-          .latest-products-swiper {
-
-            padding-left: 12px;
-
-            padding-right: 12px;
-          }
-
         }
 
 
@@ -1495,7 +1814,8 @@ export default function LatestProducts() {
           .latest-products-swiper
           .swiper-pagination-bullet {
 
-            transition: none !important;
+            transition:
+              none !important;
           }
 
 
@@ -1508,12 +1828,14 @@ export default function LatestProducts() {
           .latest-skeleton-rating,
           .latest-skeleton-price {
 
-            animation: none !important;
+            animation:
+              none !important;
           }
 
         }
 
       `}</style>
+
     </section>
   );
 }

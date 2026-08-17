@@ -59,9 +59,9 @@ export default function AboutPage() {
             About G-Culture
           </h1>
           <p className="text-base text-gray-400 max-w-2xl mx-auto leading-relaxed">
-            Born from the streets of India, G-Culture is more than just a fashion
-            brand — it's a statement. We blend raw street energy with premium
-            quality to create pieces that define a generation.
+            Born from the streets of India, G-Culture is more than just a
+            fashion brand — it's a statement. We blend raw street energy with
+            premium quality to create pieces that define a generation.
           </p>
         </motion.div>
 
@@ -83,14 +83,15 @@ export default function AboutPage() {
                 <p className="text-sm text-gray-400 leading-relaxed mb-4">
                   G-Culture started with a simple belief — fashion should be
                   fearless. Founded by a group of young creatives from India, we
-                  set out to build a brand that represents the hustle, the grind,
-                  and the unapologetic confidence of street culture.
+                  set out to build a brand that represents the hustle, the
+                  grind, and the unapologetic confidence of street culture.
                 </p>
                 <p className="text-sm text-gray-400 leading-relaxed">
-                  Every hoodie, every tee, every cap carries a story. Our designs
-                  are inspired by late-night studio sessions, city streets, hip-hop
-                  beats, and the relentless pursuit of something bigger. We don't
-                  just make clothes — we make armor for the ambitious.
+                  Every hoodie, every tee, every cap carries a story. Our
+                  designs are inspired by late-night studio sessions, city
+                  streets, hip-hop beats, and the relentless pursuit of
+                  something bigger. We don't just make clothes — we make armor
+                  for the ambitious.
                 </p>
               </div>
               <div className="relative">
@@ -98,7 +99,10 @@ export default function AboutPage() {
                   <img
                     src="/images/gculture.png"
                     alt="G-Culture"
-                    className="w-48 h-48 opacity-80"
+                    className="w-48 h-48 opacity-80 rounded-full
+                      bg-white/[0.4]
+                      border
+                      border-white/[0.4] pb-2 pl-0.5"
                   />
                 </div>
               </div>
@@ -183,7 +187,8 @@ export default function AboutPage() {
               Ready to Join the Culture?
             </h2>
             <p className="text-sm text-gray-400 mb-6 max-w-md mx-auto">
-              Explore our latest collections and find pieces that match your energy.
+              Explore our latest collections and find pieces that match your
+              energy.
             </p>
             <Link
               to="/shop"

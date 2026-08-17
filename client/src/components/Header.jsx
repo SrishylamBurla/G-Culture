@@ -1159,13 +1159,17 @@ export default function Header({ menuOpen, setMenuOpen }) {
             <div className="hidden md:flex items-center space-x-8">
               {/* LOGO */}
 
+              <div className="rounded-full
+                      bg-white/[0.4]
+                      border
+                      border-white/[0.08]">
               <Link to="/" className="shrink-0">
                 <img
                   src="/images/gculture.png"
                   alt="G-Culture"
-                  className="w-10 h-10 object-contain"
+                  className="w-10 h-10 pb-0.5 object-contain"
                 />
-              </Link>
+              </Link></div>
 
               {/* NAVIGATION */}
 
