@@ -265,7 +265,7 @@ export default function HomePage() {
                 rounded-full
                 bg-white
                 px-6
-                text-[10px]
+                text-[12px]
                 font-semibold
                 uppercase
                 tracking-[0.18em]
@@ -300,7 +300,7 @@ export default function HomePage() {
                 border-white/20
                 bg-white/[0.04]
                 px-6
-                text-[10px]
+                text-[12px]
                 font-medium
                 uppercase
                 tracking-[0.18em]
@@ -533,7 +533,7 @@ export default function HomePage() {
 
                 <span
                   className="
-              text-[10px]
+              text-[12px]
               font-medium
               uppercase
               tracking-[0.32em]
@@ -567,7 +567,7 @@ export default function HomePage() {
             <p
               className="
           max-w-sm
-          text-sm
+          text-md
           leading-6
           text-white/40
           md:pb-1
@@ -707,7 +707,7 @@ export default function HomePage() {
 
                     <span
                       className="
-                  text-[10px]
+                  text-[12px]
                   font-medium
                   uppercase
                   tracking-[0.22em]
@@ -774,7 +774,7 @@ export default function HomePage() {
                     <p
                       className="
                   mb-2
-                  text-[9px]
+                  text-[11px]
                   font-medium
                   uppercase
                   tracking-[0.25em]
@@ -808,7 +808,7 @@ export default function HomePage() {
                       className="
                   mt-3
                   max-w-[240px]
-                  text-xs
+                  text-md
                   leading-5
                   text-white/50
                   transition-colors
@@ -827,7 +827,7 @@ export default function HomePage() {
                   flex
                   items-center
                   gap-2
-                  text-[9px]
+                  text-[11px]
                   font-medium
                   uppercase
                   tracking-[0.2em]
