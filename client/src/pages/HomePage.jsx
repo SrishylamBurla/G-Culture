@@ -1025,17 +1025,11 @@ export default function HomePage() {
                 gap-3
               "
               >
-                <span
-                  className="
-                  h-px
-                  w-7
-                  bg-white/25
-                "
-                />
+                
 
                 <p
                   className="
-                  text-[10px]
+                  text-[12px]
                   uppercase
                   tracking-[0.32em]
                   text-white/35
@@ -1060,7 +1054,7 @@ export default function HomePage() {
             <p
               className="
               max-w-sm
-              text-sm
+              text-md
               leading-6
               text-white/35
             "
@@ -1161,9 +1155,9 @@ export default function HomePage() {
           <p
             className="
             mb-5
-            text-[10px]
+            text-[12px]
             uppercase
-            tracking-[0.35em]
+            tracking-[0.30em]
             text-white/30
           "
           >
@@ -1190,7 +1184,7 @@ export default function HomePage() {
             mx-auto
             mt-6
             max-w-xl
-            text-sm
+            text-smd
             leading-6
             text-white/35
             md:text-base
@@ -1241,7 +1235,6 @@ export default function HomePage() {
           className="
           pointer-events-none
           absolute
-          bottom-[5px]
           left-1/2
           -translate-x-1/2
           whitespace-nowrap
@@ -1249,7 +1242,7 @@ export default function HomePage() {
           font-semibold
           leading-none
           tracking-[-0.08em]
-          text-white/[0.028]
+          text-white/[0.038]
           select-none
         "
         >
@@ -1303,7 +1296,7 @@ function PromoCard({ number, title, subtitle }) {
         <span
           className="
           font-mono
-          text-[10px]
+          text-[12px]
           tracking-[0.15em]
           text-white/25
         "
@@ -1351,7 +1344,7 @@ function PromoCard({ number, title, subtitle }) {
           className="
           mt-3
           max-w-sm
-          text-sm
+          text-md
           leading-6
           text-white/35
         "
@@ -1366,11 +1359,11 @@ function PromoCard({ number, title, subtitle }) {
             inline-flex
             items-center
             gap-2
-            text-[9px]
+            text-[11px]
             font-medium
             uppercase
             tracking-[0.2em]
-            text-white/45
+            text-white/65
             transition-colors
             duration-300
             hover:text-white
