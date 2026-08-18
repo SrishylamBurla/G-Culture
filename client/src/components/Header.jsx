@@ -35,10 +35,8 @@ export default function Header({ menuOpen, setMenuOpen }) {
   const [collectionsOpen, setCollectionsOpen] = useState(false);
   const [activeCollection, setActiveCollection] = useState(null);
 
-  const [mobileCollectionsOpen, setMobileCollectionsOpen] =
-    useState(false);
-  const [mobileActiveCategory, setMobileActiveCategory] =
-    useState(null);
+  const [mobileCollectionsOpen, setMobileCollectionsOpen] = useState(false);
+  const [mobileActiveCategory, setMobileActiveCategory] = useState(null);
 
   const [scrollDir, setScrollDir] = useState("up");
 
@@ -176,22 +174,16 @@ export default function Header({ menuOpen, setMenuOpen }) {
 
   const headerOpacity = scrollDir === "down" ? 0 : 1;
   const headerTranslate = scrollDir === "down" ? -40 : 0;
-  const headerBlur =
-    scrollDir === "down" ? "blur(18px)" : "blur(10px)";
+  const headerBlur = scrollDir === "down" ? "blur(18px)" : "blur(10px)";
 
   const headerBackdrop =
-    scrollDir === "down"
-      ? "rgba(10,10,10,0.2)"
-      : "rgba(10,10,10,0.85)";
+    scrollDir === "down" ? "rgba(10,10,10,0.2)" : "rgba(10,10,10,0.85)";
 
   /* ---------------- OUTSIDE SEARCH CLICK ---------------- */
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (
-        searchRef.current &&
-        !searchRef.current.contains(event.target)
-      ) {
+      if (searchRef.current && !searchRef.current.contains(event.target)) {
         setShowSearch(false);
       }
     };
@@ -199,10 +191,7 @@ export default function Header({ menuOpen, setMenuOpen }) {
     document.addEventListener("mousedown", handleClickOutside);
 
     return () => {
-      document.removeEventListener(
-        "mousedown",
-        handleClickOutside
-      );
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
 
@@ -247,7 +236,7 @@ export default function Header({ menuOpen, setMenuOpen }) {
         const { data } = await axios.get(
           `${
             import.meta.env.VITE_API_URL
-          }/api/products/search?query=${encodeURIComponent(query)}`
+          }/api/products/search?query=${encodeURIComponent(query)}`,
         );
 
         setSearchResults(data);
@@ -309,7 +298,7 @@ export default function Header({ menuOpen, setMenuOpen }) {
 
   const toggleMobileCategory = (category) => {
     setMobileActiveCategory((current) =>
-      current === category ? null : category
+      current === category ? null : category,
     );
   };
 
@@ -440,7 +429,6 @@ export default function Header({ menuOpen, setMenuOpen }) {
                     "
                   >
                     Collections
-
                     <ChevronDown
                       size={14}
                       className={`transition-transform ${
@@ -494,9 +482,7 @@ export default function Header({ menuOpen, setMenuOpen }) {
                       {collectionLinks.map((item) => (
                         <div
                           key={item.name}
-                          onMouseEnter={() =>
-                            setActiveCollection(item.name)
-                          }
+                          onMouseEnter={() => setActiveCollection(item.name)}
                           className={
                             activeCollection === item.name
                               ? "bg-[#d4af37]/5"
@@ -581,7 +567,7 @@ export default function Header({ menuOpen, setMenuOpen }) {
                                 </Link>
                               ))}
                             </div>
-                          )
+                          ),
                       )}
 
                       {!activeCollection && (
@@ -635,11 +621,7 @@ export default function Header({ menuOpen, setMenuOpen }) {
             <div className="flex items-center gap-3 md:hidden">
               <button
                 type="button"
-                aria-label={
-                  menuOpen
-                    ? "Close navigation"
-                    : "Open navigation"
-                }
+                aria-label={menuOpen ? "Close navigation" : "Open navigation"}
                 aria-expanded={menuOpen}
                 onClick={toggleMobileMenu}
                 className="
@@ -663,11 +645,7 @@ export default function Header({ menuOpen, setMenuOpen }) {
                       bg-white
                       transition-all
                       duration-300
-                      ${
-                        menuOpen
-                          ? "top-[7px] rotate-45"
-                          : ""
-                      }
+                      ${menuOpen ? "top-[7px] rotate-45" : ""}
                     `}
                   />
 
@@ -695,11 +673,7 @@ export default function Header({ menuOpen, setMenuOpen }) {
                       bg-white
                       transition-all
                       duration-300
-                      ${
-                        menuOpen
-                          ? "top-[7px] -rotate-45"
-                          : ""
-                      }
+                      ${menuOpen ? "top-[7px] -rotate-45" : ""}
                     `}
                   />
                 </span>
@@ -762,9 +736,7 @@ export default function Header({ menuOpen, setMenuOpen }) {
                     placeholder:text-gray-500
                   "
                   value={searchTerm}
-                  onChange={(e) =>
-                    setSearchTerm(e.target.value)
-                  }
+                  onChange={(e) => setSearchTerm(e.target.value)}
                   onKeyDown={(e) => {
                     if (e.key === "Enter") {
                       handleSearch();
@@ -805,10 +777,7 @@ export default function Header({ menuOpen, setMenuOpen }) {
                   "
                   aria-label="Search"
                 >
-                  <Search
-                    size={20}
-                    strokeWidth={1.5}
-                  />
+                  <Search size={20} strokeWidth={1.5} />
                 </button>
               )}
 
@@ -966,19 +935,14 @@ export default function Header({ menuOpen, setMenuOpen }) {
                       focus-within:border-[#d4af37]/30
                     "
                   >
-                    <Search
-                      size={16}
-                      className="mr-2 text-white/30"
-                    />
+                    <Search size={16} className="mr-2 text-white/30" />
 
                     <input
                       type="text"
                       placeholder="Search products..."
                       autoFocus
                       value={searchTerm}
-                      onChange={(e) =>
-                        setSearchTerm(e.target.value)
-                      }
+                      onChange={(e) => setSearchTerm(e.target.value)}
                       onKeyDown={(e) => {
                         if (e.key === "Enter") {
                           handleSearch();
@@ -996,15 +960,10 @@ export default function Header({ menuOpen, setMenuOpen }) {
 
                     <button
                       type="button"
-                      onClick={() =>
-                        setShowSearch(false)
-                      }
+                      onClick={() => setShowSearch(false)}
                       aria-label="Close search"
                     >
-                      <X
-                        size={16}
-                        className="text-gray-500"
-                      />
+                      <X size={16} className="text-gray-500" />
                     </button>
                   </div>
 
@@ -1019,17 +978,15 @@ export default function Header({ menuOpen, setMenuOpen }) {
                         bg-[#0d0d10]
                       "
                     >
-                      {searchResults
-                        .slice(0, 5)
-                        .map((product) => (
-                          <Link
-                            key={product._id}
-                            to={`/product/${product._id}`}
-                            onClick={() => {
-                              setShowSearch(false);
-                              setSearchTerm("");
-                            }}
-                            className="
+                      {searchResults.slice(0, 5).map((product) => (
+                        <Link
+                          key={product._id}
+                          to={`/product/${product._id}`}
+                          onClick={() => {
+                            setShowSearch(false);
+                            setSearchTerm("");
+                          }}
+                          className="
                               flex
                               items-center
                               gap-3
@@ -1039,34 +996,32 @@ export default function Header({ menuOpen, setMenuOpen }) {
                               py-2.5
                               last:border-b-0
                             "
-                          >
-                            <img
-                              src={product.images?.[0]}
-                              alt={product.name}
-                              className="
+                        >
+                          <img
+                            src={product.images?.[0]}
+                            alt={product.name}
+                            className="
                                 h-10
                                 w-10
                                 rounded-lg
                                 object-cover
                               "
-                            />
+                          />
 
-                            <div className="min-w-0">
-                              <p className="truncate text-[12px] text-white">
-                                {product.name}
-                              </p>
+                          <div className="min-w-0">
+                            <p className="truncate text-[12px] text-white">
+                              {product.name}
+                            </p>
 
-                              <p className="mt-0.5 text-[11px] text-white/30">
-                                ₹
-                                {Number(
-                                  product.offerPrice ||
-                                    product.price ||
-                                    0
-                                ).toLocaleString("en-IN")}
-                              </p>
-                            </div>
-                          </Link>
-                        ))}
+                            <p className="mt-0.5 text-[11px] text-white/30">
+                              ₹
+                              {Number(
+                                product.offerPrice || product.price || 0,
+                              ).toLocaleString("en-IN")}
+                            </p>
+                          </div>
+                        </Link>
+                      ))}
                     </div>
                   )}
                 </div>
@@ -1122,10 +1077,8 @@ export default function Header({ menuOpen, setMenuOpen }) {
                 md:hidden
               "
               style={{
-                paddingTop:
-                  "env(safe-area-inset-top)",
-                paddingBottom:
-                  "env(safe-area-inset-bottom)",
+                paddingTop: "env(safe-area-inset-top)",
+                paddingBottom: "env(safe-area-inset-bottom)",
               }}
             >
               {/* DRAWER HEADER */}
@@ -1271,10 +1224,7 @@ export default function Header({ menuOpen, setMenuOpen }) {
                       bg-[#d4af37]/10
                     "
                   >
-                    <User
-                      size={18}
-                      className="text-[#d4af37]"
-                    />
+                    <User size={18} className="text-[#d4af37]" />
                   </div>
 
                   <div className="min-w-0 flex-1">
@@ -1286,22 +1236,15 @@ export default function Header({ menuOpen, setMenuOpen }) {
                         text-white/30
                       "
                     >
-                      {userInfo
-                        ? "Welcome back"
-                        : "Your account"}
+                      {userInfo ? "Welcome back" : "Your account"}
                     </p>
 
                     <p className="mt-1 truncate text-[13px] font-medium text-white">
-                      {userInfo
-                        ? "My Profile"
-                        : "Login / Register"}
+                      {userInfo ? "My Profile" : "Login / Register"}
                     </p>
                   </div>
 
-                  <ChevronRight
-                    size={16}
-                    className="text-white/20"
-                  />
+                  <ChevronRight size={16} className="text-white/20" />
                 </Link>
 
                 {/* EXPLORE */}
@@ -1322,9 +1265,7 @@ export default function Header({ menuOpen, setMenuOpen }) {
                     <button
                       type="button"
                       onClick={() =>
-                        setMobileCollectionsOpen(
-                          (value) => !value
-                        )
+                        setMobileCollectionsOpen((value) => !value)
                       }
                       className="
                         flex
@@ -1348,10 +1289,7 @@ export default function Header({ menuOpen, setMenuOpen }) {
                             bg-white/[0.035]
                           "
                         >
-                          <LayoutGrid
-                            size={16}
-                            className="text-white/50"
-                          />
+                          <LayoutGrid size={16} className="text-white/50" />
                         </div>
 
                         <span className="text-[13px] font-medium text-white/75">
@@ -1392,18 +1330,13 @@ export default function Header({ menuOpen, setMenuOpen }) {
                           className="overflow-hidden"
                         >
                           <div className="mb-3 ml-3 border-l border-[#d4af37]/15 pl-4">
-                            {collectionLinks.map(
-                              (category) => (
-                                <div
-                                  key={category.name}
-                                >
-                                  <div className="flex items-center justify-between gap-3 py-2.5">
-                                    <Link
-                                      to={category.path}
-                                      onClick={
-                                        closeMobileMenu
-                                      }
-                                      className="
+                            {collectionLinks.map((category) => (
+                              <div key={category.name}>
+                                <div className="flex items-center justify-between gap-3 py-2.5">
+                                  <Link
+                                    to={category.path}
+                                    onClick={closeMobileMenu}
+                                    className="
                                         flex-1
                                         text-[13px]
                                         font-medium
@@ -1411,18 +1344,16 @@ export default function Header({ menuOpen, setMenuOpen }) {
                                         transition-colors
                                         active:text-white
                                       "
-                                    >
-                                      {category.name}
-                                    </Link>
+                                  >
+                                    {category.name}
+                                  </Link>
 
-                                    <button
-                                      type="button"
-                                      onClick={() =>
-                                        toggleMobileCategory(
-                                          category.name
-                                        )
-                                      }
-                                      className="
+                                  <button
+                                    type="button"
+                                    onClick={() =>
+                                      toggleMobileCategory(category.name)
+                                    }
+                                    className="
                                         flex
                                         h-8
                                         w-8
@@ -1433,10 +1364,10 @@ export default function Header({ menuOpen, setMenuOpen }) {
                                         border-white/[0.04]
                                         bg-white/[0.035]
                                       "
-                                    >
-                                      <ChevronDown
-                                        size={13}
-                                        className={`
+                                  >
+                                    <ChevronDown
+                                      size={13}
+                                      className={`
                                           text-white/30
                                           transition-transform
                                           ${
@@ -1446,40 +1377,34 @@ export default function Header({ menuOpen, setMenuOpen }) {
                                               : ""
                                           }
                                         `}
-                                      />
-                                    </button>
-                                  </div>
+                                    />
+                                  </button>
+                                </div>
 
-                                  <AnimatePresence initial={false}>
-                                    {mobileActiveCategory ===
-                                      category.name && (
-                                      <motion.div
-                                        initial={{
-                                          height: 0,
-                                          opacity: 0,
-                                        }}
-                                        animate={{
-                                          height: "auto",
-                                          opacity: 1,
-                                        }}
-                                        exit={{
-                                          height: 0,
-                                          opacity: 0,
-                                        }}
-                                        className="overflow-hidden"
-                                      >
-                                        <div className="pb-2">
-                                          {category.types.map(
-                                            (type) => (
-                                              <Link
-                                                key={
-                                                  type.name
-                                                }
-                                                to={type.path}
-                                                onClick={
-                                                  closeMobileMenu
-                                                }
-                                                className="
+                                <AnimatePresence initial={false}>
+                                  {mobileActiveCategory === category.name && (
+                                    <motion.div
+                                      initial={{
+                                        height: 0,
+                                        opacity: 0,
+                                      }}
+                                      animate={{
+                                        height: "auto",
+                                        opacity: 1,
+                                      }}
+                                      exit={{
+                                        height: 0,
+                                        opacity: 0,
+                                      }}
+                                      className="overflow-hidden"
+                                    >
+                                      <div className="pb-2">
+                                        {category.types.map((type) => (
+                                          <Link
+                                            key={type.name}
+                                            to={type.path}
+                                            onClick={closeMobileMenu}
+                                            className="
                                                   flex
                                                   items-center
                                                   gap-2
@@ -1490,19 +1415,17 @@ export default function Header({ menuOpen, setMenuOpen }) {
                                                   transition-colors
                                                   active:text-[#d4af37]
                                                 "
-                                              >
-                                                <span className="h-1 w-1 rounded-full bg-white/20" />
-                                                {type.name}
-                                              </Link>
-                                            )
-                                          )}
-                                        </div>
-                                      </motion.div>
-                                    )}
-                                  </AnimatePresence>
-                                </div>
-                              )
-                            )}
+                                          >
+                                            <span className="h-1 w-1 rounded-full bg-white/20" />
+                                            {type.name}
+                                          </Link>
+                                        ))}
+                                      </div>
+                                    </motion.div>
+                                  )}
+                                </AnimatePresence>
+                              </div>
+                            ))}
                           </div>
                         </motion.div>
                       )}
@@ -1548,11 +1471,7 @@ export default function Header({ menuOpen, setMenuOpen }) {
                     to="/wishlist"
                     icon={BookHeart}
                     label="Wishlist"
-                    badge={
-                      wishlist.length > 0
-                        ? wishlist.length
-                        : null
-                    }
+                    badge={wishlist.length > 0 ? wishlist.length : null}
                     onClick={closeMobileMenu}
                   />
 
@@ -1560,11 +1479,7 @@ export default function Header({ menuOpen, setMenuOpen }) {
                     to="/cart"
                     icon={ShoppingBag}
                     label="Cart"
-                    badge={
-                      cartItems.length > 0
-                        ? cartItems.length
-                        : null
-                    }
+                    badge={cartItems.length > 0 ? cartItems.length : null}
                     onClick={closeMobileMenu}
                   />
                 </section>
@@ -1591,10 +1506,7 @@ export default function Header({ menuOpen, setMenuOpen }) {
                   <div className="absolute left-1/2 top-0 h-px w-20 -translate-x-1/2 bg-gradient-to-r from-transparent via-[#d4af37]/25 to-transparent" />
 
                   <div className="mb-2 flex items-center justify-center gap-2">
-                    <Sparkles
-                      size={11}
-                      className="text-[#d4af37]/40"
-                    />
+                    <Sparkles size={11} className="text-[#d4af37]/40" />
 
                     <p
                       className="
@@ -1607,10 +1519,7 @@ export default function Header({ menuOpen, setMenuOpen }) {
                       G-Culture
                     </p>
 
-                    <Sparkles
-                      size={11}
-                      className="text-[#d4af37]/40"
-                    />
+                    <Sparkles size={11} className="text-[#d4af37]/40" />
                   </div>
 
                   <p className="text-[11px] text-white/25">
