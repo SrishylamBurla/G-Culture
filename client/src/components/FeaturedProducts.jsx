@@ -17,12 +17,9 @@ import { Link } from "react-router-dom";
 import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 
 export default function FeaturedProducts() {
-  const { data, isLoading, isError } =
-    useGetFeaturedProductsQuery();
+  const { data, isLoading, isError } = useGetFeaturedProductsQuery();
 
-  const featuredProducts = Array.isArray(data)
-    ? data
-    : [];
+  const featuredProducts = Array.isArray(data) ? data : [];
 
   /*
    * =========================================================
@@ -34,7 +31,6 @@ export default function FeaturedProducts() {
     return (
       <section className="featured-section">
         <div className="featured-container">
-
           <div className="featured-section-header">
             <div>
               <div className="featured-loading-eyebrow" />
@@ -46,44 +42,32 @@ export default function FeaturedProducts() {
 
             <div className="featured-loading-button" />
           </div>
-
         </div>
 
         {/* Skeleton */}
 
         <div className="featured-carousel-container">
           <div className="featured-skeleton-wrapper">
-
             <div className="featured-skeleton-track">
+              {Array.from({ length: 6 }).map((_, index) => (
+                <div key={index} className="featured-skeleton-card">
+                  <div className="featured-skeleton-image" />
 
-              {Array.from({ length: 6 }).map(
-                (_, index) => (
-                  <div
-                    key={index}
-                    className="featured-skeleton-card"
-                  >
-                    <div className="featured-skeleton-image" />
+                  <div className="featured-skeleton-info">
+                    <div className="featured-skeleton-name" />
 
-                    <div className="featured-skeleton-info">
-                      <div className="featured-skeleton-name" />
+                    <div className="featured-skeleton-rating" />
 
-                      <div className="featured-skeleton-rating" />
-
-                      <div className="featured-skeleton-price" />
-                    </div>
+                    <div className="featured-skeleton-price" />
                   </div>
-                )
-              )}
-
+                </div>
+              ))}
             </div>
-
           </div>
         </div>
-
       </section>
     );
   }
-
 
   /*
    * =========================================================
@@ -91,13 +75,9 @@ export default function FeaturedProducts() {
    * =========================================================
    */
 
-  if (
-    isError ||
-    featuredProducts.length === 0
-  ) {
+  if (isError || featuredProducts.length === 0) {
     return null;
   }
-
 
   /*
    * =========================================================
@@ -105,57 +85,36 @@ export default function FeaturedProducts() {
    * =========================================================
    */
 
-  const enableLoop =
-    featuredProducts.length >= 7;
-
+  const enableLoop = featuredProducts.length >= 7;
 
   return (
     <section className="featured-section">
-
       {/* =====================================================
           HEADER
       ====================================================== */}
 
       <div className="featured-container">
-
         <div className="featured-section-header">
-
           {/* LEFT */}
 
           <div className="featured-heading">
-
             <div className="featured-eyebrow-wrapper">
-
               {/* <span className="featured-eyebrow-line" /> */}
 
-              <span className="featured-eyebrow">
-                Curated
-              </span>
-
+              <span className="featured-eyebrow">Curated</span>
             </div>
 
-
-            <h2 className="featured-title">
-              Featured Products
-            </h2>
-
+            <h2 className="featured-title">Featured Products</h2>
 
             <p className="featured-subtitle">
               Selected pieces worth adding to your rotation.
             </p>
-
           </div>
-
 
           {/* RIGHT */}
 
-          <Link
-            to="/shop"
-            className="featured-see-all group"
-          >
-            <span>
-              See All
-            </span>
+          <Link to="/shop" className="featured-see-all group">
+            <span>See All</span>
 
             <ArrowRight
               size={16}
@@ -167,77 +126,49 @@ export default function FeaturedProducts() {
               "
             />
           </Link>
-
         </div>
-
       </div>
-
 
       {/* =====================================================
           CAROUSEL
       ====================================================== */}
 
       <div className="featured-carousel-container">
-
         <div className="featured-carousel-shell">
-
           <Swiper
-            modules={[
-              Navigation,
-              Pagination,
-              Autoplay,
-              Keyboard,
-              A11y,
-            ]}
+            modules={[Navigation, Pagination, Autoplay, Keyboard, A11y]}
             className="featured-products-swiper"
             wrapperClass="featured-products-wrapper"
-
             slidesPerView={6}
             spaceBetween={20}
-
             navigation={{
               prevEl: ".featured-prev",
               nextEl: ".featured-next",
             }}
-
             pagination={{
               clickable: true,
               dynamicBullets: false,
             }}
-
             autoplay={{
               delay: 4200,
               disableOnInteraction: true,
               pauseOnMouseEnter: true,
             }}
-
             keyboard={{
               enabled: true,
               onlyInViewport: true,
             }}
-
             loop={enableLoop}
-
             grabCursor
-
             watchOverflow
-
             speed={650}
-
             resistance
-
             resistanceRatio={0.72}
-
             threshold={8}
-
             touchRatio={1}
-
             touchAngle={30}
-
             allowTouchMove
-
             breakpoints={{
-
               /* ===============================================
                  MOBILE
               =============================================== */
@@ -257,7 +188,6 @@ export default function FeaturedProducts() {
                 spaceBetween: 12,
               },
 
-
               /* ===============================================
                  SMALL TABLET
               =============================================== */
@@ -267,7 +197,6 @@ export default function FeaturedProducts() {
                 spaceBetween: 14,
               },
 
-
               /* ===============================================
                  TABLET
               =============================================== */
@@ -276,7 +205,6 @@ export default function FeaturedProducts() {
                 slidesPerView: 4,
                 spaceBetween: 16,
               },
-
 
               /* ===============================================
                  DESKTOP
@@ -301,31 +229,16 @@ export default function FeaturedProducts() {
                 slidesPerView: 6,
                 spaceBetween: 20,
               },
-
             }}
           >
-
-            {featuredProducts.map(
-              (product) => (
-
-                <SwiperSlide
-                  key={product._id}
-                  className="featured-product-slide"
-                >
-
-                  <div className="featured-card-wrapper">
-                    <FeaturedProductCard
-                      product={product}
-                    />
-                  </div>
-
-                </SwiperSlide>
-
-              )
-            )}
-
+            {featuredProducts.map((product) => (
+              <SwiperSlide key={product._id} className="featured-product-slide">
+                <div className="featured-card-wrapper">
+                  <FeaturedProductCard product={product} />
+                </div>
+              </SwiperSlide>
+            ))}
           </Swiper>
-
 
           {/* =================================================
               PREVIOUS
@@ -339,12 +252,8 @@ export default function FeaturedProducts() {
               featured-prev
             "
           >
-            <ChevronLeft
-              size={19}
-              strokeWidth={1.7}
-            />
+            <ChevronLeft size={19} strokeWidth={1.7} />
           </button>
-
 
           {/* =================================================
               NEXT
@@ -358,16 +267,10 @@ export default function FeaturedProducts() {
               featured-next
             "
           >
-            <ChevronRight
-              size={19}
-              strokeWidth={1.7}
-            />
+            <ChevronRight size={19} strokeWidth={1.7} />
           </button>
-
         </div>
-
       </div>
-
 
       {/* =====================================================
           STYLES
@@ -400,22 +303,57 @@ export default function FeaturedProducts() {
            HEADER CONTAINER
         ====================================================== */
 
-        .featured-container {
+.featured-container {
+  position: relative;
+  width: 100%;
+  max-width: 1380px;
+  margin: 0 auto;
+  padding-left: 40px;
+  padding-right: 40px;
+  box-sizing: border-box;
+}
 
-          width: 100%;
+.featured-container::before {
+  content: "";
+  position: absolute;
+  left: 16px;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: rgba(225, 225, 225, 0.45);
+  paddingRight: 5px
+}
 
-          max-width: 1380px;
+/* Tablet */
+@media (max-width: 1023px) {
+  .featured-container::before {
+    left: 12px;
+  }
+}
 
-          margin: 0 auto;
+/* Mobile */
+@media (max-width: 767px) {
+  .featured-container {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
 
-          padding-left: 40px;
+  .featured-container::before {
+    left: 6px;
+  }
+}
 
-          padding-right: 40px;
+/* Small phones */
+@media (max-width: 389px) {
+  .featured-container {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
 
-          box-sizing: border-box;
-        }
-
-
+  .featured-container::before {
+    left: 4px;
+  }
+}
         /* =====================================================
            HEADER
         ====================================================== */
@@ -1624,7 +1562,6 @@ export default function FeaturedProducts() {
         }
 
       `}</style>
-
     </section>
   );
 }

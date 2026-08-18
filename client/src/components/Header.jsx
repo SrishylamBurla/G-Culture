@@ -385,7 +385,7 @@ export default function Header({ menuOpen, setMenuOpen }) {
                 <img
                   src="/images/gculture.png"
                   alt="G-Culture"
-                  className="h-10 w-10 object-contain"
+                  className="h-10 w-10 object-contain shadow-sm shadow-white/35 rounded-full"
                 />
               </Link>
 

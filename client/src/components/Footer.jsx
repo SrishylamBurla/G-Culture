@@ -165,7 +165,7 @@ export default function Footer() {
               <img
                 src="/images/gculture.png"
                 alt="G-Culture"
-                className="h-full w-full rounded-full object-contain"
+                className="h-full w-full rounded-full pb-0.5 pl-0.3 object-contain shadow-sm shadow-white/35"
               />
             </Link>
 
@@ -262,69 +262,345 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Navigation */}
+       {/* =====================================================
+    NAVIGATION
+====================================================== */}
 
-        <div className="grid grid-cols-2 gap-x-8 gap-y-12 py-14 sm:grid-cols-4 lg:py-16">
-          {navSections.map((section) => (
-            <div key={section.title}>
-              <h4 className="mb-5 text-[10px] font-semibold uppercase tracking-[0.2em] text-[#ddb637]">
-                {section.title}
-              </h4>
+<div className="grid grid-cols-2 gap-x-8 gap-y-12 border-b border-white/[0.08] py-14 sm:grid-cols-4 lg:py-16">
+  {navSections.map((section) => (
+    <div key={section.title}>
+      <h4 className="mb-6 text-[10px] font-semibold uppercase tracking-[0.2em] text-[#ddb637]">
+        {section.title}
+      </h4>
 
-              <ul className="space-y-3.5">
-                {section.links.map(([label, path]) => (
-                  <li key={`${section.title}-${label}`}>
-                    <Link
-                      to={path}
-                      onClick={handleNavigation}
-                      className="group relative inline-block text-sm text-white/40 transition-all duration-300 hover:translate-x-1 hover:text-white"
-                    >
-                      {label}
+      <ul className="space-y-4">
+        {section.links.map(([label, path]) => (
+          <li key={`${section.title}-${label}`}>
+            <Link
+              to={path}
+              onClick={handleNavigation}
+              className="
+                footer-link
+                group
+                relative
+                flex
+                w-fit
+                items-center
+                py-0.5
+                pl-3
+                text-sm
+                font-normal
+                text-white/40
+                transition-all
+                duration-300
+                hover:translate-x-1
+                hover:text-white
+              "
+            >
+              {/* Animated vertical line */}
+              <span
+                className="
+                  pointer-events-none
+                  absolute
+                  left-0
+                  top-1/2
+                  h-0
+                  w-px
+                  -translate-y-1/2
+                  bg-[#ddb637]
+                  opacity-0
+                  transition-all
+                  duration-300
+                  ease-out
+                  group-hover:h-full
+                  group-hover:opacity-100
+                "
+              />
 
-                      <span className="absolute -bottom-1 left-0 h-px w-0 bg-white transition-all duration-300 group-hover:w-full" />
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-          
-          <div>
-            <h4 className="mb-5 text-[10px] font-semibold uppercase tracking-[0.2em] text-[#ddb637]">
-              Support
-            </h4>
+              {/* Subtle secondary glow */}
+              <span
+                className="
+                  pointer-events-none
+                  absolute
+                  left-0
+                  top-1/2
+                  h-0
+                  w-[3px]
+                  -translate-y-1/2
+                  bg-[#ddb637]/20
+                  opacity-0
+                  blur-[2px]
+                  transition-all
+                  duration-500
+                  group-hover:h-full
+                  group-hover:opacity-100
+                "
+              />
 
-            <ul className="space-y-3.5">
-              <li>
-                <a
-                  href="mailto:customersupport@gculture.in"
-                  className="group relative inline-block text-sm text-white/40 transition-all duration-300 hover:translate-x-1 hover:text-white"
-                >
-                  Contact Support
-                </a>
-              </li>
+              {label}
 
-              <li>
-                <a
-                  href="mailto:customersupport@gculture.in?subject=G-Culture%20Support"
-                  className="group relative inline-block text-sm text-white/40 transition-all duration-300 hover:translate-x-1 hover:text-white"
-                >
-                  Customer Care
-                </a>
-              </li>
+              {/* Arrow appears on hover */}
+              <ArrowUpRight
+                size={13}
+                strokeWidth={1.5}
+                className="
+                  ml-2
+                  -translate-x-2
+                  opacity-0
+                  transition-all
+                  duration-300
+                  group-hover:translate-x-0
+                  group-hover:opacity-60
+                "
+              />
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </div>
+  ))}
 
-              <li>
-                <Link
-                  to="/terms"
-                  onClick={handleNavigation}
-                  className="group relative inline-block text-sm text-white/40 transition-all duration-300 hover:translate-x-1 hover:text-white"
-                >
-                  Terms & Conditions
-                </Link>
-              </li>
-            </ul>
-          </div>
-        </div>
+  {/* =================================================
+      SUPPORT
+  ================================================== */}
+
+  <div>
+    <h4 className="mb-6 text-[10px] font-semibold uppercase tracking-[0.2em] text-[#ddb637]">
+      Support
+    </h4>
+
+    <ul className="space-y-4">
+      <li>
+        <a
+          href="mailto:customersupport@gculture.in"
+          className="
+            footer-link
+            group
+            relative
+            flex
+            w-fit
+            items-center
+            py-0.5
+            pl-3
+            text-sm
+            text-white/40
+            transition-all
+            duration-300
+            hover:translate-x-1
+            hover:text-white
+          "
+        >
+          <span
+            className="
+              pointer-events-none
+              absolute
+              left-0
+              top-1/2
+              h-0
+              w-px
+              -translate-y-1/2
+              bg-[#ddb637]
+              opacity-0
+              transition-all
+              duration-300
+              ease-out
+              group-hover:h-full
+              group-hover:opacity-100
+            "
+          />
+
+          <span
+            className="
+              pointer-events-none
+              absolute
+              left-0
+              top-1/2
+              h-0
+              w-[3px]
+              -translate-y-1/2
+              bg-[#ddb637]/20
+              opacity-0
+              blur-[2px]
+              transition-all
+              duration-500
+              group-hover:h-full
+              group-hover:opacity-100
+            "
+          />
+
+          Contact Support
+
+          <ArrowUpRight
+            size={13}
+            strokeWidth={1.5}
+            className="
+              ml-2
+              -translate-x-2
+              opacity-0
+              transition-all
+              duration-300
+              group-hover:translate-x-0
+              group-hover:opacity-60
+            "
+          />
+        </a>
+      </li>
+
+      <li>
+        <a
+          href="mailto:customersupport@gculture.in?subject=G-Culture%20Support"
+          className="
+            footer-link
+            group
+            relative
+            flex
+            w-fit
+            items-center
+            py-0.5
+            pl-3
+            text-sm
+            text-white/40
+            transition-all
+            duration-300
+            hover:translate-x-1
+            hover:text-white
+          "
+        >
+          <span
+            className="
+              pointer-events-none
+              absolute
+              left-0
+              top-1/2
+              h-0
+              w-px
+              -translate-y-1/2
+              bg-[#ddb637]
+              opacity-0
+              transition-all
+              duration-300
+              ease-out
+              group-hover:h-full
+              group-hover:opacity-100
+            "
+          />
+
+          <span
+            className="
+              pointer-events-none
+              absolute
+              left-0
+              top-1/2
+              h-0
+              w-[3px]
+              -translate-y-1/2
+              bg-[#ddb637]/20
+              opacity-0
+              blur-[2px]
+              transition-all
+              duration-500
+              group-hover:h-full
+              group-hover:opacity-100
+            "
+          />
+
+          Customer Care
+
+          <ArrowUpRight
+            size={13}
+            strokeWidth={1.5}
+            className="
+              ml-2
+              -translate-x-2
+              opacity-0
+              transition-all
+              duration-300
+              group-hover:translate-x-0
+              group-hover:opacity-60
+            "
+          />
+        </a>
+      </li>
+
+      <li>
+        <Link
+          to="/terms"
+          onClick={handleNavigation}
+          className="
+            footer-link
+            group
+            relative
+            flex
+            w-fit
+            items-center
+            py-0.5
+            pl-3
+            text-sm
+            text-white/40
+            transition-all
+            duration-300
+            hover:translate-x-1
+            hover:text-white
+          "
+        >
+          <span
+            className="
+              pointer-events-none
+              absolute
+              left-0
+              top-1/2
+              h-0
+              w-px
+              -translate-y-1/2
+              bg-[#ddb637]
+              opacity-0
+              transition-all
+              duration-300
+              ease-out
+              group-hover:h-full
+              group-hover:opacity-100
+            "
+          />
+
+          <span
+            className="
+              pointer-events-none
+              absolute
+              left-0
+              top-1/2
+              h-0
+              w-[3px]
+              -translate-y-1/2
+              bg-[#ddb637]/20
+              opacity-0
+              blur-[2px]
+              transition-all
+              duration-500
+              group-hover:h-full
+              group-hover:opacity-100
+            "
+          />
+
+          Terms & Conditions
+
+          <ArrowUpRight
+            size={13}
+            strokeWidth={1.5}
+            className="
+              ml-2
+              -translate-x-2
+              opacity-0
+              transition-all
+              duration-300
+              group-hover:translate-x-0
+              group-hover:opacity-60
+            "
+          />
+        </Link>
+      </li>
+    </ul>
+  </div>
+</div>
 
         {/* Bottom */}
 

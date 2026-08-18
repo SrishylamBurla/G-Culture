@@ -70,8 +70,8 @@ export default function LatestDropsPage() {
     <section className="w-full min-h-screen bg-[#050507] text-white pt-28 md:pt-32">
       <div className="max-w-[1600px] mx-auto">
         {/* Hero Banner */}
-        <div className="px-6 mb-12">
-          <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#d4af37]/10 via-[#050507] to-[#d4af37]/5 border border-[#d4af37]/10 p-8 md:p-12">
+        <div className="px-4 mb-12">
+          <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#d4af37]/10 via-[#050507] to-[#d4af37]/5 border border-[#d4af37]/10 p-5 md:p-10">
             <div className="absolute top-0 right-0 w-64 h-64 bg-[#d4af37]/[0.03] rounded-full blur-[80px]" />
             <div className="relative z-10">
               <div className="flex items-center gap-3 mb-4">

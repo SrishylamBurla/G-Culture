@@ -12,33 +12,16 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 
 import { Link } from "react-router-dom";
-import {
-  ArrowRight,
-  ChevronLeft,
-  ChevronRight,
-} from "lucide-react";
+import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 
-import {
-  useGetLatestProductsQuery,
-} from "../features/products/productApi";
+import { useGetLatestProductsQuery } from "../features/products/productApi";
 
 import LatestProductCard from "./LatestProductCard";
 
-
 export default function LatestProducts() {
+  const { data, isLoading, isError } = useGetLatestProductsQuery();
 
-  const {
-    data,
-    isLoading,
-    isError,
-  } = useGetLatestProductsQuery();
-
-
-  const latestProducts =
-    Array.isArray(data)
-      ? data
-      : [];
-
+  const latestProducts = Array.isArray(data) ? data : [];
 
   /*
    * =========================================================
@@ -47,77 +30,50 @@ export default function LatestProducts() {
    */
 
   if (isLoading) {
-
     return (
       <section className="latest-section">
-
         {/* HEADER */}
 
         <div className="latest-container">
-
           <div className="latest-section-header">
-
             <div>
-
               <div className="latest-loading-eyebrow" />
 
               <div className="latest-loading-title" />
 
               <div className="latest-loading-subtitle" />
-
             </div>
 
-
             <div className="latest-loading-button" />
-
           </div>
-
         </div>
-
 
         {/* SKELETON */}
 
         <div className="latest-carousel-container">
-
           <div className="latest-skeleton-wrapper">
-
             <div className="latest-skeleton-track">
-
               {Array.from({
                 length: 6,
               }).map((_, index) => (
-
-                <div
-                  key={index}
-                  className="latest-skeleton-card"
-                >
-
+                <div key={index} className="latest-skeleton-card">
                   <div className="latest-skeleton-image" />
 
                   <div className="latest-skeleton-info">
-
                     <div className="latest-skeleton-name" />
 
                     <div className="latest-skeleton-rating" />
 
                     <div className="latest-skeleton-price" />
-
                   </div>
-
                 </div>
-
               ))}
-
             </div>
-
           </div>
-
         </div>
-
       </section>
     );
   }
-
 
   /*
    * =========================================================
@@ -125,13 +81,9 @@ export default function LatestProducts() {
    * =========================================================
    */
 
-  if (
-    isError ||
-    latestProducts.length === 0
-  ) {
+  if (isError || latestProducts.length === 0) {
     return null;
   }
-
 
   /*
    * =========================================================
@@ -139,59 +91,36 @@ export default function LatestProducts() {
    * =========================================================
    */
 
-  const enableLoop =
-    latestProducts.length >= 7;
-
+  const enableLoop = latestProducts.length >= 7;
 
   return (
-
     <section className="latest-section">
-
       {/* =====================================================
           HEADER
       ====================================================== */}
 
       <div className="latest-container">
-
         <div className="latest-section-header">
-
           {/* LEFT */}
 
           <div className="latest-heading">
-
             <div className="latest-eyebrow-wrapper">
-
               {/* <span className="latest-eyebrow-line" /> */}
 
-              <span className="latest-eyebrow">
-                New Arrivals
-              </span>
-
+              <span className="latest-eyebrow">New Arrivals</span>
             </div>
 
-
-            <h2 className="latest-title">
-              Latest Products
-            </h2>
-
+            <h2 className="latest-title">Latest Products</h2>
 
             <p className="latest-subtitle">
               Fresh pieces just added to the collection.
             </p>
-
           </div>
-
 
           {/* RIGHT */}
 
-          <Link
-            to="/shop"
-            className="latest-see-all group"
-          >
-
-            <span>
-              See All
-            </span>
+          <Link to="/shop" className="latest-see-all group">
+            <span>See All</span>
 
             <ArrowRight
               size={16}
@@ -202,55 +131,32 @@ export default function LatestProducts() {
                 group-hover:translate-x-1
               "
             />
-
           </Link>
-
         </div>
-
       </div>
-
 
       {/* =====================================================
           CAROUSEL
       ====================================================== */}
 
       <div className="latest-carousel-container">
-
         <div className="latest-carousel-shell">
-
           {/* PREMIUM EDGE RAIL */}
 
-          <div
-            className="latest-edge latest-edge-left"
-            aria-hidden="true"
-          />
+          <div className="latest-edge latest-edge-left" aria-hidden="true" />
 
-          <div
-            className="latest-edge latest-edge-right"
-            aria-hidden="true"
-          />
-
+          <div className="latest-edge latest-edge-right" aria-hidden="true" />
 
           <Swiper
-            modules={[
-              Navigation,
-              Pagination,
-              Autoplay,
-              Keyboard,
-              A11y,
-            ]}
+            modules={[Navigation, Pagination, Autoplay, Keyboard, A11y]}
             className="latest-products-swiper"
             wrapperClass="latest-products-wrapper"
-
-
             /* =================================================
                DESKTOP
             ================================================== */
 
             slidesPerView={5}
             spaceBetween={20}
-
-
             /* =================================================
                NAVIGATION
             ================================================== */
@@ -259,8 +165,6 @@ export default function LatestProducts() {
               prevEl: ".latest-prev",
               nextEl: ".latest-next",
             }}
-
-
             /* =================================================
                PAGINATION
             ================================================== */
@@ -269,8 +173,6 @@ export default function LatestProducts() {
               clickable: true,
               dynamicBullets: false,
             }}
-
-
             /* =================================================
                AUTOPLAY
             ================================================== */
@@ -280,8 +182,6 @@ export default function LatestProducts() {
               disableOnInteraction: true,
               pauseOnMouseEnter: true,
             }}
-
-
             /* =================================================
                KEYBOARD
             ================================================== */
@@ -290,46 +190,31 @@ export default function LatestProducts() {
               enabled: true,
               onlyInViewport: true,
             }}
-
-
             /* =================================================
                BEHAVIOR
             ================================================== */
 
             loop={enableLoop}
-
             grabCursor
-
             watchOverflow
-
             speed={650}
-
             resistance
-
             resistanceRatio={0.72}
-
             threshold={8}
-
             touchRatio={1}
-
             touchAngle={30}
-
             allowTouchMove
-
-
             /* =================================================
                RESPONSIVE
             ================================================== */
 
             breakpoints={{
-
               /* PHONE */
 
               0: {
                 slidesPerView: 2.05,
                 spaceBetween: 10,
               },
-
 
               /* LARGE PHONE */
 
@@ -338,14 +223,12 @@ export default function LatestProducts() {
                 spaceBetween: 11,
               },
 
-
               /* SMALL TABLET */
 
               480: {
                 slidesPerView: 2.45,
                 spaceBetween: 12,
               },
-
 
               /* TABLET */
 
@@ -354,12 +237,10 @@ export default function LatestProducts() {
                 spaceBetween: 14,
               },
 
-
               768: {
                 slidesPerView: 4,
                 spaceBetween: 16,
               },
-
 
               /* DESKTOP */
 
@@ -368,7 +249,6 @@ export default function LatestProducts() {
                 spaceBetween: 17,
               },
 
-
               /* LARGE DESKTOP */
 
               1280: {
@@ -376,45 +256,25 @@ export default function LatestProducts() {
                 spaceBetween: 18,
               },
 
-
               1440: {
                 slidesPerView: 5.7,
                 spaceBetween: 18,
               },
 
-
               1600: {
                 slidesPerView: 6,
                 spaceBetween: 20,
               },
-
             }}
-
           >
-
-            {latestProducts.map(
-              (product) => (
-
-                <SwiperSlide
-                  key={product._id}
-                  className="latest-product-slide"
-                >
-
-                  <div className="latest-card-wrapper">
-
-                    <LatestProductCard
-                      product={product}
-                    />
-
-                  </div>
-
-                </SwiperSlide>
-
-              )
-            )}
-
+            {latestProducts.map((product) => (
+              <SwiperSlide key={product._id} className="latest-product-slide">
+                <div className="latest-card-wrapper">
+                  <LatestProductCard product={product} />
+                </div>
+              </SwiperSlide>
+            ))}
           </Swiper>
-
 
           {/* =================================================
               PREVIOUS
@@ -428,14 +288,8 @@ export default function LatestProducts() {
               latest-prev
             "
           >
-
-            <ChevronLeft
-              size={19}
-              strokeWidth={1.7}
-            />
-
+            <ChevronLeft size={19} strokeWidth={1.7} />
           </button>
-
 
           {/* =================================================
               NEXT
@@ -449,18 +303,10 @@ export default function LatestProducts() {
               latest-next
             "
           >
-
-            <ChevronRight
-              size={19}
-              strokeWidth={1.7}
-            />
-
+            <ChevronRight size={19} strokeWidth={1.7} />
           </button>
-
         </div>
-
       </div>
-
 
       {/* =====================================================
           STYLES
@@ -494,20 +340,57 @@ export default function LatestProducts() {
            MAIN CONTAINER
         ====================================================== */
 
-        .latest-container {
+         .latest-container {
+  position: relative;
+  width: 100%;
+  max-width: 1380px;
+  margin: 0 auto;
+  padding-left: 40px;
+  padding-right: 40px;
+  box-sizing: border-box;
+}
 
-          width: 100%;
+.latest-container::before {
+  content: "";
+  position: absolute;
+  left: 16px;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: rgba(225, 225, 225, 0.45);
+  paddingRight: 5px
+}
 
-          max-width: 1380px;
+/* Tablet */
+@media (max-width: 1023px) {
+  .latest-container::before {
+    left: 12px;
+  }
+}
 
-          margin: 0 auto;
+/* Mobile */
+@media (max-width: 767px) {
+  .latest-container {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
 
-          padding-left: 40px;
+  .latest-container::before {
+    left: 6px;
+  }
+}
 
-          padding-right: 40px;
+/* Small phones */
+@media (max-width: 389px) {
+  .latest-container {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
 
-          box-sizing: border-box;
-        }
+  .latest-container::before {
+    left: 4px;
+  }
+}
 
 
         /* =====================================================
@@ -535,6 +418,7 @@ export default function LatestProducts() {
         .latest-heading {
 
           min-width: 0;
+          
         }
 
 
@@ -1835,7 +1719,6 @@ export default function LatestProducts() {
         }
 
       `}</style>
-
     </section>
   );
 }
