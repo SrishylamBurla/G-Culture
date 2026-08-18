@@ -277,7 +277,7 @@ export default function ProductCard({ product }) {
                 bg-white
                 px-2.5
                 py-1
-                text-[9px]
+                text-[10px]
                 font-bold
                 uppercase
                 tracking-[0.08em]
@@ -441,11 +441,11 @@ export default function ProductCard({ product }) {
               className="
                 mb-1.5
                 truncate
-                text-[8px]
+                text-[10px]
                 font-medium
                 uppercase
                 tracking-[0.22em]
-                text-white/35
+                text-white/45
               "
             >
               {product.category}
@@ -459,14 +459,14 @@ export default function ProductCard({ product }) {
             title={product.name}
             className="
               truncate
-              text-[13px]
+              text-[14px]
               font-medium
               tracking-[-0.01em]
               text-white/85
               transition-colors
               duration-300
               group-hover:text-white
-              sm:text-sm
+              sm:text-md
             "
           >
             {product.name}
@@ -498,7 +498,7 @@ export default function ProductCard({ product }) {
                   (_, index) => (
                     <Star
                       key={index}
-                      size={10}
+                      size={12}
                       strokeWidth={1.5}
                       className={
                         index <
@@ -513,8 +513,8 @@ export default function ProductCard({ product }) {
 
               <span
                 className="
-                  text-[9px]
-                  text-white/30
+                  text-[10px]
+                  text-white/50
                 "
               >
                 {rating.toFixed(1)}
@@ -522,8 +522,8 @@ export default function ProductCard({ product }) {
 
               <span
                 className="
-                  text-[9px]
-                  text-white/20
+                  text-[10px]
+                  text-white/50
                 "
               >
                 ({reviewCount})
@@ -554,7 +554,7 @@ export default function ProductCard({ product }) {
                     font-semibold
                     tracking-[-0.02em]
                     text-white
-                    sm:text-base
+                    sm:text-sm
                   "
                 >
                   ₹
@@ -645,7 +645,7 @@ export default function ProductCard({ product }) {
               gap-1.5
               rounded-full
               px-2
-              text-[9px]
+              text-[10px]
               font-semibold
               uppercase
               tracking-[0.08em]
@@ -705,7 +705,7 @@ export default function ProductCard({ product }) {
               gap-1
               rounded-full
               px-2
-              text-[9px]
+              text-[10px]
               font-semibold
               uppercase
               tracking-[0.08em]

@@ -910,7 +910,7 @@ export default function HomePage() {
           >
             <span
               className="
-          text-[9px]
+          text-[10px]
           uppercase
           tracking-[0.28em]
           text-white/30
@@ -921,7 +921,7 @@ export default function HomePage() {
 
             <span
               className="
-          text-[9px]
+          text-[10px]
           uppercase
           tracking-[0.2em]
           text-white/25

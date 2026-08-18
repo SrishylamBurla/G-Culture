@@ -162,7 +162,7 @@ export default function ShopPage() {
               ) : filteredProducts.length > 0 ? (
                 <motion.div
                   key="grid"
-                  className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4"
+                  className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 md:gap-4"
                   variants={containerVariants}
                   initial="hidden"
                   animate="show"

@@ -161,7 +161,7 @@ export default function LatestProducts() {
 
             <div className="latest-eyebrow-wrapper">
 
-              <span className="latest-eyebrow-line" />
+              {/* <span className="latest-eyebrow-line" /> */}
 
               <span className="latest-eyebrow">
                 New Arrivals
@@ -633,7 +633,7 @@ export default function LatestProducts() {
               0.36
             );
 
-          font-size: 13px;
+          font-size: 14px;
 
           line-height: 1.5;
 

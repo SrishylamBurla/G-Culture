@@ -173,7 +173,7 @@ export default function LatestProductCard({ product }) {
               overflow-hidden
               text-ellipsis
               whitespace-nowrap
-              text-[13px]
+              text-[14px]
               font-medium
               tracking-[-0.01em]
               text-white/85
@@ -200,7 +200,7 @@ export default function LatestProductCard({ product }) {
                 return (
                   <Star
                     key={index}
-                    size={10}
+                    size={12}
                     strokeWidth={1.5}
                     className={
                       filled
@@ -213,7 +213,7 @@ export default function LatestProductCard({ product }) {
 
             </div>
 
-            <span className="text-[10px] text-white/35">
+            <span className="text-[12px] text-white/35">
               {reviews > 0
                 ? `(${reviews})`
                 : "(0)"}

@@ -126,7 +126,7 @@ export default function FeaturedProducts() {
 
             <div className="featured-eyebrow-wrapper">
 
-              <span className="featured-eyebrow-line" />
+              {/* <span className="featured-eyebrow-line" /> */}
 
               <span className="featured-eyebrow">
                 Curated
@@ -538,7 +538,7 @@ export default function FeaturedProducts() {
               0.36
             );
 
-          font-size: 13px;
+          font-size: 14px;
 
           line-height: 1.5;
 
