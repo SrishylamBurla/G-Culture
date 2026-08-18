@@ -164,11 +164,9 @@ export default function HomePage() {
               gap-3
             "
           >
-            <span className="h-px w-7 bg-white/30" />
-
             <span
               className="
-              text-[9px]
+              text-[12px]
               font-medium
               uppercase
               tracking-[0.38em]
@@ -177,8 +175,6 @@ export default function HomePage() {
             >
               Redefining Indian Streetwear
             </span>
-
-            <span className="h-px w-7 bg-white/30" />
           </motion.div>
 
           <motion.h1
@@ -225,10 +221,10 @@ export default function HomePage() {
               mx-auto
               mt-8
               max-w-xl
-              text-sm
+              text-md
               leading-6
               text-white/55
-              sm:text-base
+              sm:text-sm
             "
           >
             For men who carry <span className="text-white">confidence</span>{" "}
@@ -533,13 +529,7 @@ export default function HomePage() {
             gap-3
           "
               >
-                <span
-                  className="
-              h-px
-              w-7
-              bg-white/30
-            "
-                />
+              
 
                 <span
                   className="
