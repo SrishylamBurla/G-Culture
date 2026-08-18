@@ -910,7 +910,7 @@ export default function Header({ menuOpen, setMenuOpen }) {
                     border-[#d4af37]/20
                     px-3
                     py-1.5
-                    text-[11px]
+                    text-[12px]
                     font-medium
                     uppercase
                     tracking-wider
@@ -1184,7 +1184,7 @@ export default function Header({ menuOpen, setMenuOpen }) {
                     <p
                       className="
                         mt-0.5
-                        text-[10px]
+                        text-[12px]
                         uppercase
                         tracking-[0.2em]
                         text-white/30
@@ -1280,7 +1280,7 @@ export default function Header({ menuOpen, setMenuOpen }) {
                   <div className="min-w-0 flex-1">
                     <p
                       className="
-                        text-[11px]
+                        text-[12px]
                         uppercase
                         tracking-[0.16em]
                         text-white/30
@@ -1485,7 +1485,7 @@ export default function Header({ menuOpen, setMenuOpen }) {
                                                   gap-2
                                                   py-2
                                                   pl-2
-                                                  text-[11px]
+                                                  text-[12px]
                                                   text-white/40
                                                   transition-colors
                                                   active:text-[#d4af37]
@@ -1711,7 +1711,7 @@ function MobileNavLink({
         <span
           className={`
             truncate
-            text-[13px]
+            text-[14px]
             font-medium
             ${
               highlight

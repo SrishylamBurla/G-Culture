@@ -41,8 +41,8 @@ export default function ContactPage() {
     {
       icon: Mail,
       label: "Email",
-      value: "support@gculture.in",
-      href: "mailto:support@gculture.in",
+      value: "customersupport@gculture.in",
+      href: "mailto:customersupport@gculture.in",
     },
     {
       icon: Phone,
@@ -53,7 +53,7 @@ export default function ContactPage() {
     {
       icon: MapPin,
       label: "Location",
-      value: "Mumbai, India",
+      value: "Hyderabad, India",
       href: null,
     },
   ];
